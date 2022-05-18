@@ -2,14 +2,19 @@ import java.awt.*;
 import javax.swing.*;
 
 public class Game {
+    public static Graphics2D graphics;
+
     public Game() {
         JFrame frame = new JFrame("Iradia");
-        frame.setLayout(new FlowLayout());
-        frame.setSize(1000, 650);
+        frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
-        frame.getContentPane().add(new Menu(frame));
-        frame.setVisible(true);
         frame.setLocationRelativeTo(null);
+        Dimension dim = new Dimension(new Dimension(1000, 650 + (frame.getHeight() - frame.getContentPane().getHeight())));
+        frame.add(new Menu());
+        frame.pack();
+        frame.setPreferredSize(dim);
+        frame.setMaximumSize(dim);
+        frame.setMinimumSize(dim);
     }
 }
