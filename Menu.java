@@ -1,14 +1,16 @@
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 
-public class Menu extends JPanel{
+public class Menu extends JPanel implements MouseListener {
     Image menu;
 
     public Menu() {
             menu = ImageReader.reader("res/menu.png");
+
+            addMouseListener(this);
     }
 
     @Override
@@ -17,4 +19,15 @@ public class Menu extends JPanel{
 
         Game.graphics.drawImage(menu, 0, 0, null);
     }
+
+    public void mousePressed(MouseEvent e) {
+        if(e.getX() >= 193 && e.getX() <= 453 && e.getY() >= 180 && e.getY() <= 261) {
+            System.out.println("Play game :D");
+        }
+    }
+
+    public void mouseClicked(MouseEvent e) {}
+    public void mouseReleased(MouseEvent e) {}
+    public void mouseEntered(MouseEvent e) {}
+    public void mouseExited(MouseEvent e) {}
 }
