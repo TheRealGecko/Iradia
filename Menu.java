@@ -6,6 +6,7 @@ import java.awt.event.MouseListener;
 
 public class Menu extends JPanel implements MouseListener {
     Image menu;
+    double alpha = 1;
 
     public Menu() {
             menu = ImageReader.reader("res/menu.png");
