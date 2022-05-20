@@ -6,7 +6,6 @@ import java.awt.event.MouseListener;
 
 public class Menu extends JPanel implements MouseListener {
     Image menu;
-    double alpha = 1;
 
     public Menu() {
             menu = ImageReader.reader("res/menu.png");
@@ -23,7 +22,7 @@ public class Menu extends JPanel implements MouseListener {
 
     public void mousePressed(MouseEvent e) {
         if(e.getX() >= 193 && e.getX() <= 453 && e.getY() >= 180 && e.getY() <= 261) {
-            System.out.println("Play game :D");
+            Game.scene = 1;
         }
     }
 
