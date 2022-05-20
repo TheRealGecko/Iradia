@@ -2,13 +2,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
-public class LogoSplash extends JPanel {
+public class Splash extends JPanel {
     Image logo;
     double alpha;
     int fadeStage;
 
-    public LogoSplash() {
-        logo = ImageReader.reader("res/logoSplash.png");
+    public Splash(String path) {
+        logo = ImageReader.reader(path);
         alpha = 0;
         fadeStage = 0;
     }
@@ -20,9 +20,9 @@ public class LogoSplash extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         if(fadeStage == 0)
-            alpha += 0.05;
+            alpha += 0.01;
         else {
-            alpha -= 0.05;
+            alpha -= 0.01;
         }
 
         if(alpha > 1) {
@@ -41,7 +41,7 @@ public class LogoSplash extends JPanel {
     }
 
     public void run() {
-        Timer time = new Timer(100, this::actionPerformed);
+        Timer time = new Timer(30, this::actionPerformed);
         time.start();
         while (fadeStage < 2)
             Thread.onSpinWait();

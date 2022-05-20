@@ -18,7 +18,12 @@ public class Game {
     }
 
     public void run() {
-        LogoSplash splash = new LogoSplash();
+        Splash splash = new Splash("res/logoSplash.png");
+        frame.add(splash);
+        frame.pack();
+        splash.run();
+        frame.remove(splash);
+        splash = new Splash("res/warningSplash.png");
         frame.add(splash);
         frame.pack();
         splash.run();
