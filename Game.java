@@ -1,5 +1,6 @@
 import java.awt.*;
 import javax.swing.*;
+import java.awt.event.*;
 
 public class Game {
     public static Graphics2D graphics;
@@ -16,6 +17,15 @@ public class Game {
         frame.setMaximumSize(dim);
         frame.setMinimumSize(dim);
         scene = 0;
+  
+     KeyStroke escapeKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, false);
+    Action escapeAction = new AbstractAction() {
+         public void actionPerformed(ActionEvent e) {
+            frame.dispose();
+         }
+    };
+frame.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(escapeKeyStroke, "ESCAPE");
+frame.getRootPane().getActionMap().put("ESCAPE", escapeAction); 
     }
 
     public void run() {
