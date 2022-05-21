@@ -15,9 +15,10 @@ import java.io.File;
 import java.io.IOException;
 
 public class ImageReader {
-  /**
+    /**
      * Reads an image using ImageIO.read();
      * @param path      The path of the image
+     * @return An Image if no error is thrown, otherwise return null
      */
     public static Image reader(String path) {
         Image img;
