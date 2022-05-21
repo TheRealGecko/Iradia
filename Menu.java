@@ -31,7 +31,7 @@ public class Menu extends JPanel implements MouseListener {
             addMouseListener(this);
     }
 
-         /**
+    /**
       * Displays the graphics necessary for the menu.
       * @param g     Used to draw graphics.
       */
@@ -42,7 +42,7 @@ public class Menu extends JPanel implements MouseListener {
         Game.graphics.drawImage(menu, 0, 0, null);
     }
 
-         /**
+    /**
       * Clicking/releasing the mouse on the play button
       * @param e     A click while the Iradia menu is 
       *              onscreen
@@ -53,7 +53,7 @@ public class Menu extends JPanel implements MouseListener {
         }
     }
 
-      /**
+    /**
       * Clicking mouse (method not used but is necessary 
         to implement MouseListener)
       * @param e     A click while the Iradia menu is 
@@ -61,7 +61,7 @@ public class Menu extends JPanel implements MouseListener {
       */
     public void mouseClicked(MouseEvent e) {}
 
-     /**
+    /**
       * Releasing mouse (method not used but is necessary 
         to implement MouseListener)
       * @param e     A release while the Iradia menu is 
@@ -69,7 +69,7 @@ public class Menu extends JPanel implements MouseListener {
       */
     public void mouseReleased(MouseEvent e) {}
 
-       /**
+    /**
       * Mouse entering the bounds of a component (method 
         not used but is necessary to implement 
         MouseListener)
@@ -77,7 +77,7 @@ public class Menu extends JPanel implements MouseListener {
       */
     public void mouseEntered(MouseEvent e) {}
 
-       /**
+    /**
       * Mouse exiting the bounds of a component (method 
         not used but is necessary to implement 
         MouseListener)

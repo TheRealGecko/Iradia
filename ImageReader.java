@@ -15,7 +15,7 @@ import java.io.IOException;
 public class ImageReader {
   /**
      * Reads an image using ImageIO.read();
-     * @param String path The path of the image 
+     * @param path      The path of the image
      */
     public static Image reader(String path) {
         Image img;
