@@ -36,6 +36,7 @@ public class Splash extends JPanel {
 
     /**
      * Repaints the image on the screen.
+     * @ param event  An action performed by the user defined in the JFrame
      */
     private void actionPerformed(ActionEvent event) {
         repaint();
