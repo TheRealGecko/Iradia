@@ -11,7 +11,7 @@
  * </ul>
  * <p>
  * Version date: 05/20/2022
- * @author Alexandra Mitnik, Bethany Lum, Fatma Jadoon
+ * @author Fatma Jadoon
  * @version 1.0.0
  */
 

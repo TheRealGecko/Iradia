@@ -7,7 +7,7 @@
  * </ul>
  * <p>
  * Version date: 05/20/2022
- * @author Alexandra Mitnik, Bethany Lum, Fatma Jadoon
+ * @author Alexandra Mitnik, Fatma Jadoon
  * @version 1.0.0
  * <p>
  * External Code Sources:
@@ -24,7 +24,7 @@ public class Game {
     private JFrame frame;
 
     /**
-     * Game class's constructor. Creates a JFrame and sets its values.
+     * Game class's constructor. Creates a JFrame, sets its values, and assigns a keystroke (esc) to close it.
      */
     public Game() {
         frame = new JFrame("Iradia");
