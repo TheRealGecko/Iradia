@@ -1,3 +1,20 @@
+/**
+ * This is the first draft of the Game class. Current features include:
+ * <ul>
+ *     <li>Setting up and creating the JFrame
+ *     <li>Allowing the user to quit at any point by hitting 'esc'
+ *     <li>Running the scenes of the game in the desired sequence (logo splashscreen, warning splashscreen, main menu, stage 1)
+ * </ul>
+ * <p>
+ * Time spent: idk yet lul
+ * Version date: 05/20/2022
+ * @author Alexandra Mitnik, Bethany Lum, Fatma Jadoon
+ * @version 1.0.0
+ * <p>
+ * External Code Sources:
+ * (1) https://stackoverflow.com/questions/10822787/binding-key-combination-to-jframe
+ */
+
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
@@ -7,6 +24,9 @@ public class Game {
     public static int scene;
     private JFrame frame;
 
+    /**
+     * Game class's constructor. Creates a JFrame and sets its values.
+     */
     public Game() {
         frame = new JFrame("Iradia");
         frame.setVisible(true);
@@ -28,6 +48,9 @@ frame.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(escapeKey
 frame.getRootPane().getActionMap().put("ESCAPE", escapeAction); 
     }
 
+    /**
+     * The run() method. Runs the game and controls the sequence of scenes.
+     */
     public void run() {
         Splash splash = new Splash("res/logoSplash.png");
         frame.add(splash);
