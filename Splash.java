@@ -1,3 +1,22 @@
+/**
+ * This is the first draft of the Splash class. Current features include:
+ * <ul>
+ *     <li>Fading in/out an image
+ * </ul>
+ * <p>
+ * Currently, it is used for the following screens:
+ * <ul>
+ *     <li>Logo splashscreen
+ *     <li>Warning splashscreen
+ * </ul>
+ * <p>
+ * Time spent: idk yet lul
+ * Version date: 05/20/2022
+ * @author Alexandra Mitnik, Bethany Lum, Fatma Jadoon
+ * @version 1.0.0
+ * <p>
+ */
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -7,16 +26,27 @@ public class Splash extends JPanel {
     double alpha;
     int fadeStage;
 
+    /**
+     * The Splash class's constructor. Initialize values needed for the splash screen to run.
+     * @param path      The path of the image that will be fading in/out in the splash screen.
+     */
     public Splash(String path) {
         logo = ImageReader.reader(path);
         alpha = 0;
         fadeStage = 0;
     }
 
+    /**
+     * Repaints the image on the screen.
+     */
     private void actionPerformed(ActionEvent event) {
         repaint();
     }
 
+    /**
+     * Draws the fading image on the screen.
+     * @param g     Used to draw graphics.
+     */
     @Override
     public void paintComponent(Graphics g) {
         if(fadeStage == 0)
@@ -40,6 +70,9 @@ public class Splash extends JPanel {
         Game.graphics.drawImage(logo, 0, 0, null);
     }
 
+    /**
+     * Runs the timer for how long the fading image lasts, and stops once the fading is complete.
+     */
     public void run() {
         Timer time = new Timer(30, this::actionPerformed);
         time.start();
