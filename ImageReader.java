@@ -1,5 +1,5 @@
 /**
- * This is the first draft of the Image reader class.
+ * This is the first draft of the ImageReader class.
  * It reads images.
  * <p>
  * Version date: 05/20/2022
