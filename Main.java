@@ -33,7 +33,14 @@
  *      </ul>
  * </ul>
  */ 
-
+/**
+ This is the first draft of the Main class.
+ * It creates an instance of and runs the game. 
+ * Version date: 05/20/2022
+ * @author Fatma Jadoon
+ * version: 1.0.0
+ * </p>
+ */
 public class Main {
     public static void main(String[] args) {
         Game game = new Game();

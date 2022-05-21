@@ -2,8 +2,21 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
-
+/**
+ * This is the first draft of the Image reader class.
+ * It reads images. 
+ * <p>
+ * Version date: 05/20/2022
+ * @author Alexandra Mitnik, Fatma Jadoon
+ * @version 1.0.0
+ * <p>
+ * External Code Sources:
+ */
 public class ImageReader {
+  /**
+     * Reads an image using ImageIO.read();
+     * @param String path The path of the image 
+     */
     public static Image reader(String path) {
         Image img;
         try {

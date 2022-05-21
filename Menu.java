@@ -1,17 +1,17 @@
 /**
-This is the first draft of the Menu class. Current features include:
-* <ul>
-*    <li>Setting up the mouse input
-*    <li>Painting the background for the menu
-     <li>Painting the options for the menu
-     <li>Creating an operational play button
-* </ul>
-* <p>
-* Version date: 05/20/2022
-* @author Fatma Jadoon
-* version: 1.0.0
-* </p>
-*/
+ This is the first draft of the Menu class. Current features include:
+ * <ul>
+ *    <li> Setting up the mouse input
+ *    <li> Painting the background for the menu
+ *    <li> Painting the options for the menu
+ *    <li> Creating an operational play button
+ * </ul>
+ * <p>
+ * Version date: 05/20/2022
+ * @author Fatma Jadoon
+ * version: 1.0.0
+ * </p>
+ */
 
 import javax.swing.*;
 import java.awt.*;
@@ -43,7 +43,7 @@ public class Menu extends JPanel implements MouseListener {
     }
 
          /**
-      * Clicking the play button
+      * Clicking/releasing the mouse on the play button
       * @param e     A click while the Iradia menu is 
       *              onscreen
       */
@@ -53,8 +53,35 @@ public class Menu extends JPanel implements MouseListener {
         }
     }
 
+      /**
+      * Clicking mouse (method not used but is necessary 
+        to implement MouseListener)
+      * @param e     A click while the Iradia menu is 
+      *              onscreen
+      */
     public void mouseClicked(MouseEvent e) {}
+
+     /**
+      * Releasing mouse (method not used but is necessary 
+        to implement MouseListener)
+      * @param e     A release while the Iradia menu is 
+      *              onscreen
+      */
     public void mouseReleased(MouseEvent e) {}
+
+       /**
+      * Mouse entering the bounds of a component (method 
+        not used but is necessary to implement 
+        MouseListener)
+      * @param e     Entering the bounds of a component
+      */
     public void mouseEntered(MouseEvent e) {}
+
+       /**
+      * Mouse exiting the bounds of a component (method 
+        not used but is necessary to implement 
+        MouseListener)
+      * @param e     Exiting the bounds of a component
+      */
     public void mouseExited(MouseEvent e) {}
 }
