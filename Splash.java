@@ -10,11 +10,9 @@
  *     <li>Warning splashscreen
  * </ul>
  * <p>
- * Time spent: idk yet lul
  * Version date: 05/20/2022
  * @author Alexandra Mitnik, Bethany Lum, Fatma Jadoon
  * @version 1.0.0
- * <p>
  */
 
 import javax.swing.*;

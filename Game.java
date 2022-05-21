@@ -6,7 +6,6 @@
  *     <li>Running the scenes of the game in the desired sequence (logo splashscreen, warning splashscreen, main menu, stage 1)
  * </ul>
  * <p>
- * Time spent: idk yet lul
  * Version date: 05/20/2022
  * @author Alexandra Mitnik, Bethany Lum, Fatma Jadoon
  * @version 1.0.0
