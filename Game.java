@@ -37,20 +37,21 @@ public class Game {
         frame.setMinimumSize(dim);
         scene = 0;
   
-     KeyStroke escapeKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, false);
-    Action escapeAction = new AbstractAction() {
+        KeyStroke escapeKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, false);
+        Action escapeAction = new AbstractAction() {
          public void actionPerformed(ActionEvent e) {
             frame.dispose();
          }
     };
-frame.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(escapeKeyStroke, "ESCAPE");
-frame.getRootPane().getActionMap().put("ESCAPE", escapeAction); 
+        frame.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(escapeKeyStroke, "ESCAPE");
+        frame.getRootPane().getActionMap().put("ESCAPE", escapeAction);
     }
 
     /**
      * The run() method. Runs the game and controls the sequence of scenes.
      */
     public void run() {
+        /*
         Splash splash = new Splash("res/logoSplash.png");
         frame.add(splash);
         frame.pack();
@@ -61,6 +62,7 @@ frame.getRootPane().getActionMap().put("ESCAPE", escapeAction);
         frame.pack();
         splash.run();
         frame.remove(splash);
+        */
         Menu menu = new Menu();
         frame.add(menu);
         frame.pack();

@@ -30,4 +30,16 @@ public class ImageReader {
         }
         return null;
     }
+
+    public static Image[] storeDir(String dirPath) {
+        File dir = new File(dirPath);
+        String[] paths = dir.list();
+        Image[] images = new Image[(int) paths.length];
+
+        for(int i = 0; i < images.length; i++) {
+            images[i] = ImageReader.reader(dirPath + paths[i]);
+        }
+
+        return images;
+    }
 }
