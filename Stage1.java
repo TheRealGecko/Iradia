@@ -58,7 +58,14 @@ public class Stage1 extends JPanel implements KeyListener {
         Game.graphics.drawImage(dialogue[pos], 40, 50, null);
         this.requestFocus();
         if(pos == 9) {
-            pause = true;
+        //pause = true;
+
+        }
+        if (pos == 15)
+        {
+            Stage2 stage2 = new Stage2 ();
+            Game.frame.add(stage2);
+            Game.frame.pack();
         }
     }
 

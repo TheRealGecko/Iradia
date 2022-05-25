@@ -21,7 +21,7 @@ import java.awt.event.*;
 public class Game {
     public static Graphics2D graphics;
     public static int scene;
-    private JFrame frame;
+    public static JFrame frame;
 
     /**
      * Game class's constructor. Creates a JFrame, sets its values, and assigns a keystroke (esc) to close it.
@@ -75,7 +75,6 @@ public class Game {
                 frame.pack();
                 break;
             case 2:
-                break;
             case 3:
                 break;
         }
