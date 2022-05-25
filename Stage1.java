@@ -28,6 +28,9 @@ public class Stage1 extends JPanel implements KeyListener {
     Image[] dialogue = ImageReader.storeDir("res/stage1/text/");
     int pos;
     boolean pause = false;
+    boolean done1 = false;
+    boolean done2 = false;
+    boolean done3 = false;
 
     /**
      * Stage1 class's constructor. Initializes the train image.
