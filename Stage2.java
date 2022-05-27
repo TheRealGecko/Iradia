@@ -19,6 +19,8 @@ public class Stage2 extends JPanel implements KeyListener
 
     Image table;
     Image buttons;
+    Image[] dialogue = ImageReader.storeDir("res/stage2/text/");
+    int pos = 0;
 
     /**
      * Stage2 class's constructor. Initializes the table image.
@@ -37,6 +39,7 @@ public class Stage2 extends JPanel implements KeyListener
         Game.graphics = (Graphics2D) g;
         Game.graphics.drawImage(table, 0, 0, null);
         Game.graphics.drawImage (buttons, 0, 0, null);
+        Game.graphics.drawImage (dialogue[pos], 180, 150, null);
     }
 
     @Override

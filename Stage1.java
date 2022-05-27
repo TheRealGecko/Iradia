@@ -56,7 +56,7 @@ public class Stage1 extends JPanel implements KeyListener, MouseListener {
     public void paintComponent(Graphics g) {
         Game.graphics = (Graphics2D) g;
         this.requestFocus();
-        if (pos == 16)
+        if (pos == 15)
         {
             Stage2 stage2 = new Stage2 ();
             Game.frame.add(stage2);
