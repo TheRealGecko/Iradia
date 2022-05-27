@@ -51,7 +51,6 @@ public class Game {
      * The run() method. Runs the game and controls the sequence of scenes.
      */
     public void run() {
-        /*
         Splash splash = new Splash("res/logoSplash.png");
         frame.add(splash);
         frame.pack();
@@ -62,7 +61,6 @@ public class Game {
         frame.pack();
         splash.run();
         frame.remove(splash);
-        */
         Menu menu = new Menu();
         frame.add(menu);
         frame.pack();
