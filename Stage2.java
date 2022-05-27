@@ -11,6 +11,8 @@ This is the first draft of the Stage2 class. Current features include:
 */
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 public class Stage2 extends JPanel implements KeyListener
   {
@@ -23,7 +25,7 @@ public class Stage2 extends JPanel implements KeyListener
      */
     public Stage2() {
         table = ImageReader.reader("res/stage2/clip_bg.png");
-      buttons = ImageReader.reader ("res/stage2/yes_no.png");
+        buttons = ImageReader.reader ("res/stage2/yes_no.png");
     }
 
      /**
@@ -37,7 +39,7 @@ public class Stage2 extends JPanel implements KeyListener
         Game.graphics.drawImage (buttons, 0, 0, null);
     }
 
-    Override
+    @Override
     public void keyTyped(KeyEvent e) {
 
     }
@@ -60,4 +62,4 @@ public class Stage2 extends JPanel implements KeyListener
     public void keyReleased(KeyEvent e) {
 
     }
-  }
+}
