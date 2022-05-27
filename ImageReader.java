@@ -1,12 +1,15 @@
 /**
- * This is the first draft of the ImageReader class.
- * It reads images.
+ * This is the second draft of the ImageReader class.
  * <p>
- * Version date: 05/20/2022
+ * Changes made:
+ * <ul>
+ *     <li>Added a method to efficiently store the dialogue assets in an array
+ * </ul>
+ * <p>
+ * Version date: 05/27/2022
  * @author Alexandra Mitnik, Fatma Jadoon
- * @version 1.0.0
+ * @version 1.2.29
  * <p>
- * External Code Sources:
  */
 
 import javax.imageio.ImageIO;
@@ -31,6 +34,11 @@ public class ImageReader {
         return null;
     }
 
+    /**
+     * Stores the dialogue assets into an array
+     * @param dirPath       The path to the dialogue directory
+     * @return      An array of the script/dialogue assets
+     */
     public static Image[] storeDir(String dirPath) {
         File dir = new File(dirPath);
         String[] paths = dir.list();

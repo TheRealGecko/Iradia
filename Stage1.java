@@ -1,25 +1,26 @@
 /**
- This is the first draft of the Stage1 class. Current features include:
+ * This is the second draft of the Stage1 class. Current features include:
+ * <p>
+ * Changes made:
  * <ul>
- *    <li>Setting up the painting code
- *    <li>Painting the background for the first screen
+ *    <li>Added dialogue
+ *    <li>Added function for users to go through the dialogue using the keyboard
+ *    <li>Added 2/3 of the interactive tutorial
+ *    <li>Added mouse interaction
  * </ul>
  * <p>
- * Version date: 05/20/2022
+ * Version date: 05/27/2022
  * @author Fatma Jadoon
- * version: 1.0.0
+ * version: 1.2.29
  * </p>
  */
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.Scanner;
-import java.io.IOException;
 
 public class Stage1 extends JPanel implements KeyListener, MouseListener {
     Image train;
@@ -42,9 +43,6 @@ public class Stage1 extends JPanel implements KeyListener, MouseListener {
         pos = 0;
         this.setFocusable(true);
         this.addKeyListener(this);
-    }
-
-    public void training() {
         addMouseListener(this);
     }
 
@@ -73,22 +71,20 @@ public class Stage1 extends JPanel implements KeyListener, MouseListener {
     }
 
     @Override
-    public void keyTyped(KeyEvent e) {
-
-    }
-
-    @Override
     public synchronized void addKeyListener(KeyListener l) {
         super.addKeyListener(l);
     }
 
+    /**
+     * Allows the user to move through the dialouge if any key is pressed. Also switches to the interactive tutorial at certain points of the dialogue.
+     * @param e     An action involving a key
+     */
     @Override
     public void keyPressed(KeyEvent e) {
         if(pos < dialogue.length - 1 && !pause) {
             if(pos == 8 || pos == 11 || pos == 14) {
                 pos = dialogue.length - 1;
                 pause = true;
-                training();
             } else {
                 pos++;
             }
@@ -96,16 +92,27 @@ public class Stage1 extends JPanel implements KeyListener, MouseListener {
         }
     }
 
+    /**
+     * Check for typing action on the keyboard (method not used but is necessary
+     to implement KeyListener)
+     * @param e     An action involving a key
+     */
     @Override
-    public void keyReleased(KeyEvent e) {
+    public void keyTyped(KeyEvent e) {}
 
-    }
-
+    /**
+     * Check for key releasing action on the keyboard (method not used but is necessary
+     to implement KeyListener)
+     * @param e     An action involving a key
+     */
     @Override
-    public void mouseClicked(MouseEvent e) {
+    public void keyReleased(KeyEvent e) {}
 
-    }
-
+    /**
+     * Checks if the user has clicked on a group of people during the interactive tutorial, and then directs them to the corresponding dialogue
+     * @param e     A click while the Iradia menu is
+     *              onscreen
+     */
     @Override
     public void mousePressed(MouseEvent e) {
         if(e.getX() >= 6 && e.getX() <= 231 && e.getY() >= 325 && e.getY() <= 609 && !done1 && pause) {
@@ -121,18 +128,39 @@ public class Stage1 extends JPanel implements KeyListener, MouseListener {
         }
     }
 
+    /**
+     * Clicking mouse (method not used but is necessary
+     to implement MouseListener)
+     * @param e     A click while the Iradia menu is
+     *              onscreen
+     */
     @Override
-    public void mouseReleased(MouseEvent e) {
+    public void mouseClicked(MouseEvent e) {}
 
-    }
-
+    /**
+     * Releasing mouse (method not used but is necessary
+     to implement MouseListener)
+     * @param e     A release while the Iradia menu is
+     *              onscreen
+     */
     @Override
-    public void mouseEntered(MouseEvent e) {
+    public void mouseReleased(MouseEvent e) {}
 
-    }
-
+    /**
+     * Mouse entering the bounds of a component (method
+     not used but is necessary to implement
+     MouseListener)
+     * @param e     Entering the bounds of a component
+     */
     @Override
-    public void mouseExited(MouseEvent e) {
+    public void mouseEntered(MouseEvent e) {}
 
-    }
+    /**
+     * Mouse exiting the bounds of a component (method
+     not used but is necessary to implement
+     MouseListener)
+     * @param e     Exiting the bounds of a component
+     */
+    @Override
+    public void mouseExited(MouseEvent e) {}
 }
