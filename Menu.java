@@ -62,7 +62,8 @@ public class Menu extends JPanel implements MouseListener {
     public void mouseClicked(MouseEvent e) {}
 
     /**
-      * Releasing mouse (method not used but is necessary 
+      * Releasing mouse (method not used but is 
+        necessary 
         to implement MouseListener)
       * @param e     A release while the Iradia menu is 
       *              onscreen
@@ -70,7 +71,8 @@ public class Menu extends JPanel implements MouseListener {
     public void mouseReleased(MouseEvent e) {}
 
     /**
-      * Mouse entering the bounds of a component (method 
+      * Mouse entering the bounds of a component 
+        (method 
         not used but is necessary to implement 
         MouseListener)
       * @param e     Entering the bounds of a component
@@ -78,8 +80,8 @@ public class Menu extends JPanel implements MouseListener {
     public void mouseEntered(MouseEvent e) {}
 
     /**
-      * Mouse exiting the bounds of a component (method 
-        not used but is necessary to implement 
+      * Mouse exiting the bounds of a component 
+        (method not used but is necessary to implement 
         MouseListener)
       * @param e     Exiting the bounds of a component
       */

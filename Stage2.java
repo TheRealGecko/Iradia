@@ -1,12 +1,15 @@
 /**
-This is the first draft of the Stage2 class. Current features include:
+This is the first draft of the Stage2 class. This class was added as of version 1.2.0. Current features include:
 * <ul>
-*    <li>
+*    <li>Setting up the painting code
+     <li>Painting the background (same for all screens in this stage)
+     <li>Adding the yes and no buttons
+     <li>Adding the dialogue/instrucitons box
 * </ul>
 * <p>
 * Version date: 05/27/2022
 * @author Alexandra Mitnik
-* version: 1.0.0
+* version: 1.2.29
 * </p>
 */
 import javax.swing.*;
@@ -19,15 +22,17 @@ public class Stage2 extends JPanel implements KeyListener
 
     Image table;
     Image buttons;
-    Image[] dialogue = ImageReader.storeDir("res/stage2/text/");
-    int pos = 0;
+    Image[] dialogue;
+    int pos;
 
     /**
-     * Stage2 class's constructor. Initializes the table image.
+     * Stage2 class's constructor. Initializes the table and button images.
      */
     public Stage2() {
         table = ImageReader.reader("res/stage2/clip_bg.png");
         buttons = ImageReader.reader ("res/stage2/yes_no.png");
+        pos = 0;
+        dialogue =  = ImageReader.storeDir("res/stage2/text/");
     }
 
      /**
@@ -42,25 +47,41 @@ public class Stage2 extends JPanel implements KeyListener
         Game.graphics.drawImage (dialogue[pos], 180, 150, null);
     }
 
+      /**
+    * KeyListener being added
+    * @param l    KeyListener
+    */
+    @Override
+    public synchronized void addKeyListener(KeyListener l) {
+        super.addKeyListener(l);
+    }
+    
+      /**
+    * Key being typed
+    * @param e     Typing a key
+    */
     @Override
     public void keyTyped(KeyEvent e) {
 
     }
 
-    @Override
-    public synchronized void addKeyListener(KeyListener l) {
-        super.addKeyListener(l);
-    }
-
+      /**
+    * Key being pressed
+    * @param e     Pressing a key
+    */
     @Override
     public void keyPressed(KeyEvent e) {
-        /*if(pos < dialogue.length - 1 && !pause) {
-            pos++;
+        /*stuff happens
             repaint();
-        }
       */
     }
 
+      /**
+    * Key being released
+    (method not used but is necessary to implement 
+    KeyListener)
+    * @param e     Releasing a key
+    */
     @Override
     public void keyReleased(KeyEvent e) {
 

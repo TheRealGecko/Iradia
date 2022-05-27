@@ -27,7 +27,7 @@ public class Stage1 extends JPanel implements KeyListener, MouseListener {
     Image group1 = ImageReader.reader("res/stage1/group1.png");
     Image group2 = ImageReader.reader("res/stage1/group2.png");
     Image group3 = ImageReader.reader("res/stage1/group3.png");
-    Image[] dialogue = ImageReader.storeDir("res/stage1/text/");
+    Image[] dialogue;
     int pos;
     boolean pause = false;
     boolean done1 = false;
@@ -35,13 +35,14 @@ public class Stage1 extends JPanel implements KeyListener, MouseListener {
     boolean done3 = false;
 
     /**
-     * Stage1 class's constructor. Initializes the train image.
+     * Stage1 class's constructor. Initializes the train image, sets pos to zero, and adds the Key Listener.
      */
     public Stage1() {
         train = ImageReader.reader("res/stage1/train.png");
         pos = 0;
         this.setFocusable(true);
         this.addKeyListener(this);
+        dialogue =  = ImageReader.storeDir("res/stage1/text/");
     }
 
     public void training() {
