@@ -16,10 +16,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.Scanner;
 import java.io.IOException;
 
-public class Stage1 extends JPanel implements KeyListener {
+public class Stage1 extends JPanel implements KeyListener, MouseListener {
     Image train;
     Image dialogueBack = ImageReader.reader("res/header_base.png");
     Image group1 = ImageReader.reader("res/stage1/group1.png");
@@ -43,7 +45,7 @@ public class Stage1 extends JPanel implements KeyListener {
     }
 
     public void training() {
-
+        addMouseListener(this);
     }
 
     /**
@@ -53,23 +55,21 @@ public class Stage1 extends JPanel implements KeyListener {
     @Override
     public void paintComponent(Graphics g) {
         Game.graphics = (Graphics2D) g;
-        Game.graphics.drawImage(train, 0, 0, null);
-        Game.graphics.drawImage(group1, 0, 0, null);
-        Game.graphics.drawImage(group2, 0, 0, null);
-        Game.graphics.drawImage(group3, 0, 0, null);
-        Game.graphics.drawImage(dialogueBack, 40, 50, null);
-        Game.graphics.drawImage(dialogue[pos], 40, 50, null);
         this.requestFocus();
-        if(pos == 9) {
-        //pause = true;
-
-        }
-        if (pos == 15)
+        if (pos == 16)
         {
             Stage2 stage2 = new Stage2 ();
             Game.frame.add(stage2);
             Game.frame.pack();
         }
+        Game.graphics.drawImage(train, 0, 0, null);
+        Game.graphics.drawImage(group1, 0, 0, null);
+        Game.graphics.drawImage(group2, 0, 0, null);
+        Game.graphics.drawImage(group3, 0, 0, null);
+        if(!pause) {
+            Game.graphics.drawImage(dialogueBack, 40, 50, null);
+        }
+        Game.graphics.drawImage(dialogue[pos], 40, 50, null);
     }
 
     @Override
@@ -85,13 +85,54 @@ public class Stage1 extends JPanel implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         if(pos < dialogue.length - 1 && !pause) {
-            pos++;
+            if(pos == 8 || pos == 11 || pos == 14) {
+                pos = dialogue.length - 1;
+                pause = true;
+                training();
+            } else {
+                pos++;
+            }
             repaint();
         }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
+
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        if(e.getX() >= 6 && e.getX() <= 231 && e.getY() >= 325 && e.getY() <= 609 && !done1 && pause) {
+            pos = 9;
+            pause = false;
+            repaint();
+            done1 = true;
+        } else if(e.getX() >= 515 && e.getX() <= 720 && e.getY() >= 366 && e.getY() <= 650 && !done2 && pause) {
+            pos = 12;
+            pause = false;
+            repaint();
+            done2 = true;
+        }
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
 
     }
 }
