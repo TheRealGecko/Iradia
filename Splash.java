@@ -1,5 +1,5 @@
 /**
- * This is the first draft of the Splash class. Current features include:
+ * This is the second draft of the Splash class. No changes were made between the first and second drafts. Current features include:
  * <ul>
  *     <li>Fading in/out an image
  * </ul>
@@ -10,9 +10,9 @@
  *     <li>Warning splashscreen
  * </ul>
  * <p>
- * Version date: 05/20/2022
+ * Version date: 05/27/2022
  * @author Fatma Jadoon
- * @version 1.0.0
+ * @version 1.2.9
  */
 
 import javax.swing.*;
