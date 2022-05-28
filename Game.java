@@ -1,14 +1,14 @@
 /**
- * This is the first draft of the Game class. Current features include:
+ * This is the Second draft of the Game class. No changes were made between the first and second drafts. Current features include:
  * <ul>
  *     <li>Setting up and creating the JFrame
  *     <li>Allowing the user to quit at any point by hitting 'esc'
  *     <li>Running the scenes of the game in the desired sequence (logo splashscreen, warning splashscreen, main menu, stage 1)
  * </ul>
  * <p>
- * Version date: 05/20/2022
+ * Version date: 05/27/2022
  * @author Alexandra Mitnik, Fatma Jadoon
- * @version 1.0.0
+ * @version 1.2.29
  * <p>
  * External Code Sources:
  * (1) https://stackoverflow.com/questions/10822787/binding-key-combination-to-jframe

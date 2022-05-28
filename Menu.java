@@ -1,5 +1,5 @@
 /**
- This is the first draft of the Menu class. Current features include:
+ This is the first draft of the Menu class. No changes were made between the first and second drafts. Current features include:
  * <ul>
  *    <li> Setting up the mouse input
  *    <li> Painting the background for the menu
@@ -7,9 +7,9 @@
  *    <li> Creating an operational play button
  * </ul>
  * <p>
- * Version date: 05/20/2022
+ * Version date: 05/27/2022
  * @author Fatma Jadoon
- * version: 1.0.0
+ * @version: 1.2.29
  * </p>
  */
 

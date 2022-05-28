@@ -3,7 +3,7 @@
  * It creates an instance of and runs the game.
  * Version date: 05/27/2022
  * @author Fatma Jadoon
- * version: 1.2.29
+ * @version: 1.2.29
  * <p>
  * Second version submission of Iradia.
  * <p>
@@ -11,7 +11,7 @@
  * <ul>
  *   <li> Alexandra Mitnik
  *      <ul>
- *          <li> Total time spent: 8 hours
+ *          <li> Total time spent: 9 hours
  *          <li> Tasks:
  *              <ul>
  *                  <li>Revamping Iradia's blog
