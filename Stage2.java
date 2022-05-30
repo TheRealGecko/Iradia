@@ -23,6 +23,7 @@ public class Stage2 extends JPanel implements KeyListener
     Image table;
     Image buttons;
     Image[] dialogue;
+    Image dialogueBack;
     int pos;
 
     /**
@@ -33,6 +34,14 @@ public class Stage2 extends JPanel implements KeyListener
         buttons = ImageReader.reader ("res/stage2/yes_no.png");
         pos = 0;
         dialogue = ImageReader.storeDir("res/stage2/text/");
+        dialogueBack = ImageReader.reader("res/header_base.png");
+        this.setFocusable(true);
+        this.addKeyListener(this);
+    }
+
+    public void tutorial() {
+        Game.graphics.drawImage(dialogueBack, 40, 50, null);
+        Game.graphics.drawImage(dialogue[pos + 1], 40, 50, null);
     }
 
      /**
@@ -42,15 +51,15 @@ public class Stage2 extends JPanel implements KeyListener
     @Override
     public void paintComponent(Graphics g) {
         Game.graphics = (Graphics2D) g;
+        this.requestFocus();
         Game.graphics.drawImage(table, 0, 0, null);
         Game.graphics.drawImage (buttons, 0, 0, null);
-        Game.graphics.drawImage (dialogue[pos], 180, 150, null);
     }
 
-      /**
-    * KeyListener being added
-    * @param l    KeyListener
-    */
+    /**
+     * KeyListener being added
+     * @param l    KeyListener
+     */
     @Override
     public synchronized void addKeyListener(KeyListener l) {
         super.addKeyListener(l);
@@ -71,9 +80,13 @@ public class Stage2 extends JPanel implements KeyListener
     */
     @Override
     public void keyPressed(KeyEvent e) {
-        /*stuff happens
-            repaint();
-      */
+        if(pos == 6) {
+            pos = 0;
+        } else {
+            pos++;
+            tutorial();
+        }
+        repaint();
     }
 
       /**
