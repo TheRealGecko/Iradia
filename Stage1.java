@@ -54,12 +54,6 @@ public class Stage1 extends JPanel implements KeyListener, MouseListener {
     public void paintComponent(Graphics g) {
         Game.graphics = (Graphics2D) g;
         this.requestFocus();
-        if (pos == 15)
-        {
-            Stage2 stage2 = new Stage2 ();
-            Game.frame.add(stage2);
-            Game.frame.pack();
-        }
         Game.graphics.drawImage(train, 0, 0, null);
         Game.graphics.drawImage(group1, 0, 0, null);
         Game.graphics.drawImage(group2, 0, 0, null);
@@ -81,10 +75,18 @@ public class Stage1 extends JPanel implements KeyListener, MouseListener {
      */
     @Override
     public void keyPressed(KeyEvent e) {
-        if(pos < dialogue.length - 1 && !pause) {
-            if(pos == 8 || pos == 11 || pos == 14) {
-                pos = dialogue.length - 1;
-                pause = true;
+        if(pos == 23) {
+            Game.frame.remove(this);
+            Game.frame.add(new Stage2());
+            Game.frame.pack();
+        } else if(!pause) {
+            if(pos == 8 || pos == 11 || pos == 14 || pos == 18) {
+                if(done1 && done2 && done3) {
+                    pos = 19;
+                } else {
+                    pos = dialogue.length - 1;
+                    pause = true;
+                }
             } else {
                 pos++;
             }
@@ -125,6 +127,11 @@ public class Stage1 extends JPanel implements KeyListener, MouseListener {
             pause = false;
             repaint();
             done2 = true;
+        } else if(e.getX() >= 756 && e.getX() <= 1000 && e.getY() >= 325 && e.getY() <= 611 && !done3 && pause) {
+            pos = 15;
+            pause = false;
+            repaint();
+            done3 = true;
         }
     }
 

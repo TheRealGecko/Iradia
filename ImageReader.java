@@ -7,7 +7,7 @@
  * </ul>
  * <p>
  * Version date: 05/27/2022
- * @author Alexandra Mitnik, Fatma Jadoon
+ * @author Fatma Jadoon
  * @version 1.2.29
  * <p>
  */
