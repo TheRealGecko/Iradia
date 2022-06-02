@@ -40,7 +40,7 @@ public class Stage1 extends JPanel implements KeyListener, MouseListener {
      */
     public Stage1() {
         train = ImageReader.reader("res/stage1/train.png");
-        pos = 0;
+        pos = 23;
         this.setFocusable(true);
         this.addKeyListener(this);
         addMouseListener(this);

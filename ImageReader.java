@@ -42,12 +42,26 @@ public class ImageReader {
     public static Image[] storeDir(String dirPath) {
         File dir = new File(dirPath);
         String[] paths = dir.list();
-        Image[] images = new Image[(int) paths.length];
+        Image[] images = new Image[paths.length];
 
         for(int i = 0; i < images.length; i++) {
             images[i] = ImageReader.reader(dirPath + paths[i]);
         }
 
         return images;
+    }
+
+    public static boolean[] isToxic(String dirPath) {
+        File dir = new File(dirPath);
+        String[] paths = dir.list();
+        boolean[] isToxic = new boolean[paths.length];
+
+        for(int i = 0; i < isToxic.length; i++) {
+            if(paths[i].contains("t")) {
+                isToxic[i] = true;
+            }
+        }
+
+        return isToxic;
     }
 }
