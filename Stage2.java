@@ -1,13 +1,16 @@
 /**
-This is the first draft of the Stage2 class. This class was added as of version 1.2.0. Current features include:
+This is the second draft of the Stage2 class. This class was added as of version 1.2.0.
+<p>
+Changes include:
 * <ul>
-*    <li>Setting up the painting code
-     <li>Painting the background (same for all screens in this stage)
-     <li>Adding the yes and no buttons
-     <li>Adding the dialogue/instrucitons box
+     <li>Adding the cases
+     <li>Allowing user input
+     <li>Evaluating the user's answer
+     <li>Incrementing the user's score for correct answers
 * </ul>
+</p>
 * <p>
-* Version date: 05/27/2022
+* Version date: 06/03/2022
 * @author Alexandra Mitnik
 * @version: 1.2.29
 * </p>
@@ -34,10 +37,11 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener
     boolean answer;
 
     /**
-     * Stage2 class's constructor. Initializes the table and button images.
+     * Stage2 class's constructor. Initializes the table, button, case, and dialogue images, correct answers, and the value 
+      used to iterate through cases. Also prepares for user input.
      */
     public Stage2() {
-      cases = new ArrayList<Image>();
+      cases = new ArrayList<Image>(); // Case images
      for (int i = 1; i <= 7; i++)
        {  
          String dir = "res/stage2/cases/Case_Files_" + i;
@@ -51,27 +55,36 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener
          }
          dir += ".png";
          
-         cases.add(ImageReader.reader(dir));
+         cases.add(ImageReader.reader(dir)); 
        }
 
-       isToxic = ImageReader.isToxic (cases);
+       isToxic = ImageReader.isToxic (cases); // Case answers
       
-        table = ImageReader.reader("res/stage2/clip_bg.png");
-        buttons = ImageReader.reader ("res/stage2/yes_no.png");
-        pos = 1;
-        dialogue = ImageReader.storeDir("res/stage2/text/");
-        dialogueBack = ImageReader.reader("res/header_base.png");
+        table = ImageReader.reader("res/stage2/clip_bg.png"); // Table image
+        buttons = ImageReader.reader ("res/stage2/yes_no.png"); // Button image
+        dialogue = ImageReader.storeDir("res/stage2/text/"); // Dialogue images
+        dialogueBack = ImageReader.reader("res/header_base.png"); // Dialogue background image
 
-        this.setFocusable(true);
+        pos = 1; // Dialogue position
+      
+        this.setFocusable(true); // Allows the class to receive user input
         this.addKeyListener(this);
         addMouseListener(this);
     }
 
+           /**
+      * Displays the graphics for the tutorial dialogue.
+      */
     public void tutorial() {
+        Game.graphics.drawImage(table, -9, 0, null);
+        Game.graphics.drawImage (buttons, -9, 0, null);
         Game.graphics.drawImage(dialogueBack, 40, 50, null);
         Game.graphics.drawImage(dialogue[pos], 40, 50, null);
     }
 
+       /**
+      * Displays the graphics for a random case the player has not yet solved.
+      */
    public void getCase() {
         Game.graphics.drawImage(table, -9, 0, null);
         Game.graphics.drawImage (buttons, -9, 0, null);
@@ -80,12 +93,17 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener
         answer = isToxic.remove(caseNum);
     }
 
+    
+     /**
+      * Displays the graphics for the prompt asking the player if the case is toxic.
+      */
     public void prompt() {
         Game.graphics.drawImage(dialogue[0], 328, 488, null);
     }
 
      /**
-      * Displays the graphics necessary for stage 2.
+      * Displays the graphics necessary for stage 2. Calls tutorial (), prompt (), or getCase() depending on which screen the 
+        player is on.
       * @param g     Used to draw graphics.
       */
     @Override
@@ -93,8 +111,6 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener
         Game.graphics = (Graphics2D) g;
         this.requestFocus();
         if(pos < 6 ) {
-            Game.graphics.drawImage(table, -9, 0, null);
-            Game.graphics.drawImage (buttons, -9, 0, null);
             tutorial();
         } else {
           if (pos % 2 == 0)
@@ -116,18 +132,9 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener
     public synchronized void addKeyListener(KeyListener l) {
         super.addKeyListener(l);
     }
-    
-      /**
-    * Key being typed
-    * @param e     Typing a key
-    */
-    @Override
-    public void keyTyped(KeyEvent e) {
-
-    }
 
       /**
-    * Key being pressed
+    * When any key is pressed, switches through dialogue in the tutorial + opens prompt for user input on cases
     * @param e     Pressing a key
     */
     @Override
@@ -137,6 +144,16 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener
         pos++;
         repaint();
         }
+    }
+    
+      /**
+    * Key being typed (method not used but is necessary to implement 
+    KeyListener)
+    * @param e     Typing a key
+    */
+    @Override
+    public void keyTyped(KeyEvent e) {
+
     }
 
       /**
@@ -151,7 +168,7 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener
     }
 
     /**
-     * 
+     * Increases the user's score if they clicked the correct answer + switches to next case file.
      * @param e     A click while stage 2 is
      *              onscreen
      */
