@@ -16,8 +16,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
-public class Stage2 extends JPanel implements KeyListener
+public class Stage2 extends JPanel implements KeyListener, MouseListener
   {
 
     Image table;
@@ -25,6 +27,13 @@ public class Stage2 extends JPanel implements KeyListener
     Image[] dialogue;
     Image dialogueBack;
     int pos;
+    boolean pause;
+
+    int caseNum;
+
+    Image[] cases;
+    boolean[] isToxic;
+    boolean[] caseComplete;
 
     /**
      * Stage2 class's constructor. Initializes the table and button images.
@@ -32,16 +41,42 @@ public class Stage2 extends JPanel implements KeyListener
     public Stage2() {
         table = ImageReader.reader("res/stage2/clip_bg.png");
         buttons = ImageReader.reader ("res/stage2/yes_no.png");
-        pos = 0;
+        pos = 1;
         dialogue = ImageReader.storeDir("res/stage2/text/");
         dialogueBack = ImageReader.reader("res/header_base.png");
+
+        pause = false;
+
+        cases = ImageReader.storeDir("res/stage2/cases/");
+        isToxic = ImageReader.isToxic("res/stage2/cases/");
+        caseComplete = new boolean[cases.length];
+
         this.setFocusable(true);
         this.addKeyListener(this);
+        addMouseListener(this);
     }
 
     public void tutorial() {
         Game.graphics.drawImage(dialogueBack, 40, 50, null);
-        Game.graphics.drawImage(dialogue[pos + 1], 40, 50, null);
+        Game.graphics.drawImage(dialogue[pos], 40, 50, null);
+    }
+
+    public void getCase() {
+        caseNum = (int) (Math.random() * 7);
+        while(caseComplete[caseNum]) {
+            caseNum = (int) (Math.random() * 7);
+        }
+        pause = true;
+        caseComplete[caseNum] = true;
+        Game.graphics.drawImage(cases[caseNum], 0, 0, null);
+    }
+
+    public void prompt() {
+        Game.graphics.drawImage(dialogue[0], 328, 488, null);
+    }
+
+    public void endScene() {
+        System.out.println("Scene end ;)");
     }
 
      /**
@@ -52,8 +87,28 @@ public class Stage2 extends JPanel implements KeyListener
     public void paintComponent(Graphics g) {
         Game.graphics = (Graphics2D) g;
         this.requestFocus();
-        Game.graphics.drawImage(table, 0, 0, null);
-        Game.graphics.drawImage (buttons, 0, 0, null);
+        Game.graphics.drawImage(table, -9, 0, null);
+        Game.graphics.drawImage (buttons, -9, 0, null);
+        if(pos != 0 && !isCasesComplete()) {
+            tutorial();
+        } else if(!isCasesComplete()) {
+            getCase();
+            prompt();
+        } else {
+            pause = false;
+            endScene();
+        }
+    }
+
+    public boolean isCasesComplete() {
+        int count = 0;
+        for(boolean complete : caseComplete) {
+            if(complete) {
+                count++;
+            }
+        }
+
+        return count == caseComplete.length;
     }
 
     /**
@@ -80,13 +135,16 @@ public class Stage2 extends JPanel implements KeyListener
     */
     @Override
     public void keyPressed(KeyEvent e) {
-        if(pos == 6) {
-            pos = 0;
-        } else {
-            pos++;
-            tutorial();
+        if (!pause) {
+            if (pos == 6) {
+                pos = 0;
+            } else if (pos != 0) {
+                pos++;
+            } else {
+                pause = true;
+            }
+            repaint();
         }
-        repaint();
     }
 
       /**
@@ -98,5 +156,43 @@ public class Stage2 extends JPanel implements KeyListener
     @Override
     public void keyReleased(KeyEvent e) {
 
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        if(pause && e.getX() >= 11 && e.getX() <= 253 && e.getY() >= 451 && e.getY() <= 616) {
+            if(isToxic[caseNum]) {
+                System.out.println("YOOOO YOU'RE RIGHT! This case is toxic because blah blah blah");
+            } else {
+                System.out.println("Skill issueeeee");
+            }
+            pause = false;
+        } else if(pause && e.getX() >= 730 && e.getX() <= 976 && e.getY() >= 451 && e.getY() <= 616) {
+            if(!isToxic[caseNum]) {
+                System.out.println("YOOOO YOU'RE RIGHT! This case is not toxic because blah blah blah");
+            } else {
+                System.out.println("Skill issueeeee");
+            }
+            pause = false;
+        }
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
     }
 }
