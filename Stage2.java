@@ -16,6 +16,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -27,29 +28,39 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener
     Image[] dialogue;
     Image dialogueBack;
     int pos;
-    boolean pause;
 
-    int caseNum;
-
-    Image[] cases;
-    boolean[] isToxic;
-    boolean[] caseComplete;
+    ArrayList<Image> cases;
+    ArrayList<Boolean> isToxic;
+    boolean answer;
 
     /**
      * Stage2 class's constructor. Initializes the table and button images.
      */
     public Stage2() {
+      cases = new ArrayList<Image>();
+     for (int i = 1; i <= 7; i++)
+       {  
+         String dir = "res/stage2/cases/Case_Files_" + i;
+         if (i == 2 || i == 3 || i == 5 || i == 6)
+         {
+           dir += "t";
+         }
+         else
+         {
+           dir += "f";
+         }
+         dir += ".png";
+         
+         cases.add(ImageReader.reader(dir));
+       }
+
+       isToxic = ImageReader.isToxic (cases);
+      
         table = ImageReader.reader("res/stage2/clip_bg.png");
         buttons = ImageReader.reader ("res/stage2/yes_no.png");
         pos = 1;
         dialogue = ImageReader.storeDir("res/stage2/text/");
         dialogueBack = ImageReader.reader("res/header_base.png");
-
-        pause = false;
-
-        cases = ImageReader.storeDir("res/stage2/cases/");
-        isToxic = ImageReader.isToxic("res/stage2/cases/");
-        caseComplete = new boolean[cases.length];
 
         this.setFocusable(true);
         this.addKeyListener(this);
@@ -61,22 +72,16 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener
         Game.graphics.drawImage(dialogue[pos], 40, 50, null);
     }
 
-    public void getCase() {
-        caseNum = (int) (Math.random() * 7);
-        while(caseComplete[caseNum]) {
-            caseNum = (int) (Math.random() * 7);
-        }
-        pause = true;
-        caseComplete[caseNum] = true;
-        Game.graphics.drawImage(cases[caseNum], 0, 0, null);
+   public void getCase() {
+        Game.graphics.drawImage(table, -9, 0, null);
+        Game.graphics.drawImage (buttons, -9, 0, null);
+        int caseNum = (int) (Math.random() * cases.size());
+        Game.graphics.drawImage(cases.remove(caseNum), 0, 0, null);
+        answer = isToxic.remove(caseNum);
     }
 
     public void prompt() {
         Game.graphics.drawImage(dialogue[0], 328, 488, null);
-    }
-
-    public void endScene() {
-        System.out.println("Scene end ;)");
     }
 
      /**
@@ -87,28 +92,20 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener
     public void paintComponent(Graphics g) {
         Game.graphics = (Graphics2D) g;
         this.requestFocus();
-        Game.graphics.drawImage(table, -9, 0, null);
-        Game.graphics.drawImage (buttons, -9, 0, null);
-        if(pos != 0 && !isCasesComplete()) {
+        if(pos < 6 ) {
+            Game.graphics.drawImage(table, -9, 0, null);
+            Game.graphics.drawImage (buttons, -9, 0, null);
             tutorial();
-        } else if(!isCasesComplete()) {
-            getCase();
-            prompt();
         } else {
-            pause = false;
-            endScene();
+          if (pos % 2 == 0)
+          {
+           prompt(); 
+          }
+          else
+          {
+           getCase();    
+          }
         }
-    }
-
-    public boolean isCasesComplete() {
-        int count = 0;
-        for(boolean complete : caseComplete) {
-            if(complete) {
-                count++;
-            }
-        }
-
-        return count == caseComplete.length;
     }
 
     /**
@@ -135,15 +132,10 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener
     */
     @Override
     public void keyPressed(KeyEvent e) {
-        if (!pause) {
-            if (pos == 6) {
-                pos = 0;
-            } else if (pos != 0) {
-                pos++;
-            } else {
-                pause = true;
-            }
-            repaint();
+        if(pos < 6 || (pos !=6 && pos % 2 == 1))
+        {
+        pos++;
+        repaint();
         }
     }
 
@@ -158,41 +150,62 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener
 
     }
 
-    @Override
-    public void mouseClicked(MouseEvent e) {
-
-    }
-
+    /**
+     * 
+     * @param e     A click while stage 2 is
+     *              onscreen
+     */
     @Override
     public void mousePressed(MouseEvent e) {
-        if(pause && e.getX() >= 11 && e.getX() <= 253 && e.getY() >= 451 && e.getY() <= 616) {
-            if(isToxic[caseNum]) {
-                System.out.println("YOOOO YOU'RE RIGHT! This case is toxic because blah blah blah");
-            } else {
-                System.out.println("Skill issueeeee");
-            }
-            pause = false;
-        } else if(pause && e.getX() >= 730 && e.getX() <= 976 && e.getY() >= 451 && e.getY() <= 616) {
-            if(!isToxic[caseNum]) {
-                System.out.println("YOOOO YOU'RE RIGHT! This case is not toxic because blah blah blah");
-            } else {
-                System.out.println("Skill issueeeee");
-            }
-            pause = false;
-        }
+    if (pos >= 6 && pos % 2 == 0)
+    {
+      if ((e.getX() <= 500 && answer == true) || (e.getX() > 500 && answer == false))
+        Game.increaseScore();
+      if (cases.size() == 0)
+      {
+      System.out.println ("Done stage 2! Score is: " + Game.getPlayerScore());
+      }
+      else
+      {
+      pos++; 
+      repaint(); 
+      }
     }
+}
 
+    /**
+     * Clicking mouse (method not used but is necessary
+     to implement MouseListener)
+     * @param e     A click while the Iradia menu is
+     *              onscreen
+     */
     @Override
-    public void mouseReleased(MouseEvent e) {
+    public void mouseClicked(MouseEvent e) {}
 
-    }
-
+    /**
+     * Releasing mouse (method not used but is necessary
+     to implement MouseListener)
+     * @param e     A release while the Iradia menu is
+     *              onscreen
+     */
     @Override
-    public void mouseEntered(MouseEvent e) {
+    public void mouseReleased(MouseEvent e) {}
 
-    }
-
+    /**
+     * Mouse entering the bounds of a component (method
+     not used but is necessary to implement
+     MouseListener)
+     * @param e     Entering the bounds of a component
+     */
     @Override
-    public void mouseExited(MouseEvent e) {
-    }
+    public void mouseEntered(MouseEvent e) {}
+
+    /**
+     * Mouse exiting the bounds of a component (method
+     not used but is necessary to implement
+     MouseListener)
+     * @param e     Exiting the bounds of a component
+     */
+    @Override
+    public void mouseExited(MouseEvent e) {}
 }
