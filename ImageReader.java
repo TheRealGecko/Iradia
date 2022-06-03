@@ -1,13 +1,13 @@
 /**
- * This is the second draft of the ImageReader class.
+ * This is the third draft of the ImageReader class.
  * <p>
  * Changes made:
  * <ul>
- *     <li>Added a method to efficiently store the dialogue assets in an array
+ *     <li>Added a method to store the answer (toxic/not-toxic) of cases in an ArrayList
  * </ul>
  * <p>
- * Version date: 05/27/2022
- * @author Fatma Jadoon
+ * Version date: 06/03/2022
+ * @author Fatma Jadoon, Alexandra Mitnik
  * @version 1.2.29
  * <p>
  */
@@ -52,6 +52,11 @@ public class ImageReader {
         return images;
     }
 
+      /**
+     * Stores the correct answer for a seris of cases in an array
+     * @param imgs       The ArrayList of cases to store the answers for
+     * @return      Returns an ArrayList of the answers for the cases
+     */
     public static ArrayList<Boolean> isToxic(ArrayList<Image> imgs) {
         ArrayList<Boolean> isToxic = new ArrayList<Boolean>();
         for (int i = 0; i < imgs.size(); i++)
