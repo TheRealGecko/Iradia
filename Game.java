@@ -21,6 +21,8 @@ import java.awt.event.*;
 public class Game {
     public static Graphics2D graphics;
     public static int scene;
+    private static String playerName;
+    private static int playerScore;
     public static JFrame frame;
 
     /**
@@ -45,13 +47,15 @@ public class Game {
     };
         frame.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(escapeKeyStroke, "ESCAPE");
         frame.getRootPane().getActionMap().put("ESCAPE", escapeAction);
+
+      playerScore = 0;
     }
 
     /**
      * The run() method. Runs the game and controls the sequence of scenes.
      */
     public void run() {
-        /*Splash splash = new Splash("res/logoSplash.png");
+        Splash splash = new Splash("res/logoSplash.png");
         frame.add(splash);
         frame.pack();
         splash.run();
@@ -60,7 +64,7 @@ public class Game {
         frame.add(splash);
         frame.pack();
         splash.run();
-        frame.remove(splash);*/
+        frame.remove(splash);
         Menu menu = new Menu();
         frame.add(menu);
         frame.pack();
@@ -77,4 +81,20 @@ public class Game {
                 break;
         }
     }
+
+  public static int getPlayerScore()
+  {
+    return playerScore;
+  }
+  
+  public static void increaseScore ()
+  {
+    playerScore ++;
+  }
+
+  public static void setPlayerName()
+  {
+   /*playerName = JOptionPane.showInputDialog ("What is your name?", "Player Name", JOptionPane.INFORMATION_MESSAGE);
+   JOptionPane.showMessageDialog (null, "OK. Your name is " + playerName, "Player Name");*/
+  }
 }
