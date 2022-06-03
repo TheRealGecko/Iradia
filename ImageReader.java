@@ -16,6 +16,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class ImageReader {
     /**
@@ -51,17 +52,15 @@ public class ImageReader {
         return images;
     }
 
-    public static boolean[] isToxic(String dirPath) {
-        File dir = new File(dirPath);
-        String[] paths = dir.list();
-        boolean[] isToxic = new boolean[paths.length];
-
-        for(int i = 0; i < isToxic.length; i++) {
-            if(paths[i].contains("t")) {
-                isToxic[i] = true;
-            }
-        }
-
+    public static ArrayList<Boolean> isToxic(ArrayList<Image> imgs) {
+        ArrayList<Boolean> isToxic = new ArrayList<Boolean>();
+        for (int i = 0; i < imgs.size(); i++)
+          {
+            if (i == 1 || i == 2 || i == 4 || i == 5)
+              isToxic.add(true);
+            else
+              isToxic.add(false);           
+          }
         return isToxic;
     }
 }
