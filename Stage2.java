@@ -1,5 +1,5 @@
 /**
-This is the second draft of the Stage2 class. This class was added as of version 1.2.0.
+This is the third draft of the Stage2 class. This class was added as of version 1.2.0.
 <p>
 Changes include:
 * <ul>
@@ -12,7 +12,7 @@ Changes include:
 * <p>
 * Version date: 06/03/2022
 * @author Alexandra Mitnik
-* @version: 1.2.29
+* @version: 1.3.63
 * </p>
 */
 import javax.swing.*;
