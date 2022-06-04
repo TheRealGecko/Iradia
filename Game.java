@@ -26,7 +26,7 @@ public class Game {
     public static JFrame frame;
 
     /**
-     * Game class's constructor. Creates a JFrame, sets its values, and assigns a keystroke (esc) to close it.
+     * Game class's constructor. Creates a JFrame, sets its values, initializes the scene and play's score, and assigns a keystroke (esc) to close it.
      */
     public Game() {
         frame = new JFrame("Iradia");
