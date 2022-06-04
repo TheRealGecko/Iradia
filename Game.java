@@ -1,14 +1,14 @@
 /**
- * This is the Second draft of the Game class. No changes were made between the first and second drafts. Current features include:
+ * This is the third draft of the Game class. No changes were made between the first and third drafts. Current features include:
  * <ul>
  *     <li>Setting up and creating the JFrame
  *     <li>Allowing the user to quit at any point by hitting 'esc'
  *     <li>Running the scenes of the game in the desired sequence (logo splashscreen, warning splashscreen, main menu, stage 1)
  * </ul>
  * <p>
- * Version date: 05/27/2022
+ * Version date: 06/03/2022
  * @author Alexandra Mitnik, Fatma Jadoon
- * @version 1.2.29
+ * @version 1.3.63
  * <p>
  * External Code Sources:
  * (1) https://stackoverflow.com/questions/10822787/binding-key-combination-to-jframe
@@ -82,19 +82,29 @@ public class Game {
         }
     }
 
-  public static int getPlayerScore()
+    /**
+     * Returns player score
+     * @return player score
+     */
+    public static int getPlayerScore()
   {
     return playerScore;
   }
-  
-  public static void increaseScore ()
+
+    /**
+     * Increases player score by one
+     */
+    public static void increaseScore ()
   {
     playerScore ++;
   }
 
-  public static void setPlayerName()
-  {
-   /*playerName = JOptionPane.showInputDialog ("What is your name?", "Player Name", JOptionPane.INFORMATION_MESSAGE);
-   JOptionPane.showMessageDialog (null, "OK. Your name is " + playerName, "Player Name");*/
-  }
+    /**
+     * Allows the player to set their name
+     */
+    public static void setPlayerName()
+    {
+     /*playerName = JOptionPane.showInputDialog ("What is your name?", "Player Name", JOptionPane.INFORMATION_MESSAGE);
+     JOptionPane.showMessageDialog (null, "OK. Your name is " + playerName, "Player Name");*/
+    }
 }

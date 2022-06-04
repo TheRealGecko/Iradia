@@ -23,10 +23,11 @@
  *      </ul>
  *   <li> Bethany Lum
  *      <ul>
- *          <li> Total time spent: 2 hours
+ *          <li> Total time spent: 7 hours
  *          <li> Tasks:
  *              <ul>
- *                  <li>Writing script for stage 2's cases
+ *                  <li>Writing case files for stage 2
+ *                  <li>Illustrating characters for stage 2
  *                  <li>Writing a blog post for Iradia
  *              </ul>
  *      </ul>
