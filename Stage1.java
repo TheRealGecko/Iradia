@@ -1,17 +1,16 @@
 /**
- * This is the second draft of the Stage1 class. Current features include:
+ * This is the third draft of the Stage1 class.
  * <p>
  * Changes made:
  * <ul>
  *    <li>Added dialogue
- *    <li>Added function for users to go through the dialogue using the keyboard
- *    <li>Added 2/3 of the interactive tutorial
- *    <li>Added mouse interaction
+ *    <li>Completed interactive tutorial
+ *    <li>Added transition into stage 2
  * </ul>
  * <p>
- * Version date: 05/27/2022
+ * Version date: 06/03/2022
  * @author Fatma Jadoon
- * @version: 1.2.29
+ * @version: 1.3.63
  * </p>
  */
 
@@ -40,7 +39,7 @@ public class Stage1 extends JPanel implements KeyListener, MouseListener {
      */
     public Stage1() {
         train = ImageReader.reader("res/stage1/train.png");
-        pos = 23;
+        pos = 0;
         this.setFocusable(true);
         this.addKeyListener(this);
         addMouseListener(this);
