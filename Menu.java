@@ -48,9 +48,8 @@ public class Menu extends JPanel implements MouseListener {
       *              onscreen
       */
     public void mousePressed(MouseEvent e) {
-        if(e.getX() >= 193 && e.getX() <= 453 && e.getY() >= 180 && e.getY() <= 261) {
+        if(e.getX() >= 193 && e.getX() <= 453 && e.getY() >= 180 && e.getY() <= 261)
             Game.scene = 1;
-        }
     }
 
     /**
@@ -77,7 +76,12 @@ public class Menu extends JPanel implements MouseListener {
         MouseListener)
       * @param e     Entering the bounds of a component
       */
-    public void mouseEntered(MouseEvent e) {}
+    public void mouseEntered(MouseEvent e) {
+       if(e.getX() >= 193 && e.getX() <= 453 && e.getY() >= 180 && e.getY() <= 261)
+       {
+         
+       }
+    }
 
     /**
       * Mouse exiting the bounds of a component 

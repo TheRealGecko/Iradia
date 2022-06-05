@@ -1,18 +1,15 @@
 /*
-External code source: https://stackoverflow.com/questions/13731710/allowing-the-enter-key-to-press-the-submit-button-as-opposed-to-only-using-mo -used for enter key 
+External code sources: 
+(1) https://stackoverflow.com/questions/13731710/allowing-the-enter-key-to-press-the-submit-button-as-opposed-to-only-using-mo - used for enter key 
+(2) https://stackoverflow.com/questions/8197882/error-mousemotionlistener-mouselistener - used for mouse adapter
 */
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
 import java.util.ArrayList;
-import java.awt.Font;
-import java.io.InputStream;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
-public class NameScreen extends JPanel implements KeyListener, MouseListener
+public class NameScreen extends JPanel implements KeyListener, MouseListener, MouseMotionListener
   {
   Image background;
   Image text;
@@ -22,6 +19,8 @@ public class NameScreen extends JPanel implements KeyListener, MouseListener
   Font consolas;
   Font consolas2;
   boolean verify;
+  Color noColor;
+  Color yesColor;
     
   public NameScreen()
     {
@@ -30,10 +29,12 @@ public class NameScreen extends JPanel implements KeyListener, MouseListener
       text = ImageReader.reader ("res/Name_Screen_Background_2.png");
       consolas = new Font ("res/Consolas.ttf", Font.PLAIN, 36);
       consolas2 = new Font ("res/Consolas.ttf", Font.PLAIN, 24);
+      noColor = new Color (237, 107, 97);
+      yesColor = new Color (102, 116, 112);
       this.setFocusable(true);
       this.addKeyListener(this);
-      addMouseListener(this);
-
+      addMouseListener (this);
+      addMouseMotionListener(this);
     }
 
     private void selectedKeyCoords ()
@@ -67,12 +68,12 @@ public class NameScreen extends JPanel implements KeyListener, MouseListener
         int width = g.getFontMetrics().stringWidth(Game.getPlayerName());
         Game.graphics.drawString(Game.getPlayerName(), 500 - width/2, 180);
         if (verify == true)
-        { // og is 310. l is 576 ogl is 300
+        { 
           Game.graphics.setColor (new Color (243, 230, 223));
           Game.graphics.fillRect (212, 350, 576, 200);
-          Game.graphics.setColor (new Color (251, 141, 118));
+          Game.graphics.setColor (noColor);
           Game.graphics.fillRect (225, 495, 80, 40);
-          Game.graphics.setColor (new Color (102, 116, 112));
+          Game.graphics.setColor (yesColor);
           Game.graphics.fillRect (693, 495, 80, 40);
           Game.graphics.setColor (Color.BLACK);
           Game.graphics.setFont (consolas2);
@@ -197,7 +198,9 @@ public class NameScreen extends JPanel implements KeyListener, MouseListener
      * @param e     Entering the bounds of a component
      */
     @Override
-    public void mouseEntered(MouseEvent e) {}
+    public void mouseEntered(MouseEvent e) {
+
+    }
 
     /**
      * Mouse exiting the bounds of a component (method
@@ -208,4 +211,34 @@ public class NameScreen extends JPanel implements KeyListener, MouseListener
     @Override
     public void mouseExited(MouseEvent e) {}
 
+        /**
+     * Moving mouse changes the colours of the buttons it hovers over
+     * @param e     Mouse movement while Iradia is onscreen
+     */
+    @Override
+        public void mouseMoved (MouseEvent e)
+        {
+           if (e.getX() >= 693 && e.getX() <= 773 && e.getY() >= 495 && e.getY() <= 535)
+           {
+              yesColor = new Color (127, 209, 174);
+           }
+          else
+           {
+              yesColor = new Color (102, 116, 112);
+              if (e.getX() >= 225 && e.getX() <= 305 && e.getY() >= 495 && e.getY() <= 535)
+                noColor = new Color (251, 141, 118);
+             else
+                noColor = new Color (237, 107, 97);
+           }
+          repaint ();
+        }
+
+      /**
+     * Dragging mosue (method not used but is necessary
+     to implement MouseMotionListener)
+     * @param e     A drag while the Iradia menu is
+     *              onscreen
+     */
+    @Override
+    public void mouseDragged (MouseEvent e) {}
   }

@@ -16,12 +16,9 @@
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 
-public class Stage1 extends JPanel implements KeyListener, MouseListener {
+public class Stage1 extends JPanel implements KeyListener, MouseListener, MouseMotionListener {
     Image train;
     Image dialogueBack = ImageReader.reader("res/header_base.png");
     Image group1 = ImageReader.reader("res/stage1/group1.png");
@@ -33,6 +30,7 @@ public class Stage1 extends JPanel implements KeyListener, MouseListener {
     boolean done1 = false;
     boolean done2 = false;
     boolean done3 = false;
+    int traingroup;
 
     /**
      * Stage1 class's constructor. Initializes the train image.
@@ -40,9 +38,11 @@ public class Stage1 extends JPanel implements KeyListener, MouseListener {
     public Stage1() {
         train = ImageReader.reader("res/stage1/train.png");
         pos = 0;
+        traingroup = 0;
         this.setFocusable(true);
         this.addKeyListener(this);
-        addMouseListener(this);
+        addMouseListener (this);
+        addMouseMotionListener(this);
     }
 
     /**
@@ -57,6 +57,14 @@ public class Stage1 extends JPanel implements KeyListener, MouseListener {
         Game.graphics.drawImage(group1, 0, 0, null);
         Game.graphics.drawImage(group2, 0, 0, null);
         Game.graphics.drawImage(group3, 0, 0, null);
+        if (traingroup != 0)
+        {
+          String img = "res/stage1/group" + traingroup + "_highlighted.png";
+    /*Image group1h = ImageReader.reader ("res/stage1/group1_highlighted.png");
+    Image group2h = ImageReader.reader ("res/stage1/group2_highlighted.png");
+    Image group3h = ImageReader.reader ("res/stage1/group3_highlighted.png");*/
+        Game.graphics.drawImage (ImageReader.reader(img), 0, 0, null);
+        }
         if(!pause) {
             Game.graphics.drawImage(dialogueBack, 40, 50, null);
         }
@@ -169,4 +177,37 @@ public class Stage1 extends JPanel implements KeyListener, MouseListener {
      */
     @Override
     public void mouseExited(MouseEvent e) {}
+
+    /**
+     * Moving mouse changes the colours of the buttons it hovers over
+     * @param e     Mouse movement while Iradia is onscreen
+     */
+    @Override
+        public void mouseMoved (MouseEvent e)
+        {
+          if(e.getX() >= 6 && e.getX() <= 231 && e.getY() >= 325 && e.getY() <= 609 && !done1 && pause)
+          {
+            traingroup = 1;
+          }
+          else if(e.getX() >= 515 && e.getX() <= 720 && e.getY() >= 366 && e.getY() <= 650 && !done2 && pause) {
+            traingroup = 2;
+          }
+          else if(e.getX() >= 756 && e.getX() <= 1000 && e.getY() >= 325 && e.getY() <= 611 && !done3 && pause) {
+            traingroup = 3;
+          }
+          else 
+          {
+            traingroup = 0;
+          }
+          repaint ();
+        }
+
+      /**
+     * Dragging mosue (method not used but is necessary
+     to implement MouseMotionListener)
+     * @param e     A drag while the Iradia menu is
+     *              onscreen
+     */
+    @Override
+    public void mouseDragged (MouseEvent e) {}
 }
