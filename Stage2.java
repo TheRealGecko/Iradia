@@ -75,9 +75,8 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener
            /**
       * Displays the graphics for the tutorial dialogue.
       */
-    public void tutorial() {
+    private void tutorial() {
         Game.graphics.drawImage(table, -9, 0, null);
-        Game.graphics.drawImage (buttons, -9, 0, null);
         Game.graphics.drawImage(dialogueBack, 40, 50, null);
         Game.graphics.drawImage(dialogue[pos], 40, 50, null);
     }
@@ -85,9 +84,8 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener
        /**
       * Displays the graphics for a random case the player has not yet solved.
       */
-   public void getCase() {
+   private void getCase() {
         Game.graphics.drawImage(table, -9, 0, null);
-        Game.graphics.drawImage (buttons, -9, 0, null);
         int caseNum = (int) (Math.random() * cases.size());
         Game.graphics.drawImage(cases.remove(caseNum), 0, 0, null);
         answer = isToxic.remove(caseNum);
@@ -97,7 +95,8 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener
      /**
       * Displays the graphics for the prompt asking the player if the case is toxic.
       */
-    public void prompt() {
+    private void prompt() {
+        Game.graphics.drawImage (buttons, -9, 0, null);
         Game.graphics.drawImage(dialogue[0], 328, 488, null);
     }
 

@@ -49,6 +49,7 @@ public class Game {
         frame.getRootPane().getActionMap().put("ESCAPE", escapeAction);
 
       playerScore = 0;
+      playerName = "";
     }
 
     /**
@@ -72,11 +73,12 @@ public class Game {
         frame.remove(menu);
         switch(scene){
             case 1:
-                Stage1 stage1 = new Stage1();
-                frame.add(stage1);
-                frame.pack();
+        NameScreen n = new NameScreen();
+        frame.add (n);
+        frame.pack ();
                 break;
             case 2:
+                break;
             case 3:
                 break;
         }
@@ -102,9 +104,18 @@ public class Game {
     /**
      * Allows the player to set their name
      */
-    public static void setPlayerName()
+    public static void addNameLetter(char letter)
     {
-     /*playerName = JOptionPane.showInputDialog ("What is your name?", "Player Name", JOptionPane.INFORMATION_MESSAGE);
-     JOptionPane.showMessageDialog (null, "OK. Your name is " + playerName, "Player Name");*/
+     playerName += letter;
     }
+
+   public static void deleteNameLetter ()
+  {
+     playerName = playerName.substring (0, playerName.length() -1);
+  }
+
+  public static String getPlayerName()
+  {
+    return playerName;
+  }
 }
