@@ -28,6 +28,7 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener
     Image[] dialogue;
     Image dialogueBack;
     int pos;
+    Game game;
 
     ArrayList<Image> cases;
     ArrayList<Boolean> isToxic;
@@ -37,7 +38,8 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener
      * Stage2 class's constructor. Initializes the table, button, case, and dialogue images, correct answers, and the value 
       used to iterate through cases. Also prepares for user input.
      */
-    public Stage2() {
+    public Stage2(Game g) {
+      game = g;
       cases = new ArrayList<Image>(); // Case images
      for (int i = 1; i <= 7; i++)
        {  
@@ -173,10 +175,10 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener
     if (pos >= 6 && pos % 2 == 0)
     {
       if ((e.getX() <= 500 && answer == true) || (e.getX() > 500 && answer == false))
-        Game.increaseScore();
+        game.increasePlayerScore();
       if (cases.size() == 0)
       {
-      System.out.println ("Done stage 2! Score is: " + Game.getPlayerScore());
+      System.out.println ("Done stage 2! Score is: " + game.getPlayerScore());
       }
       else
       {

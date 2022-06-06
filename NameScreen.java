@@ -21,8 +21,9 @@ public class NameScreen extends JPanel implements KeyListener, MouseListener, Mo
   boolean verify;
   Color noColor;
   Color yesColor;
+  Game game;
     
-  public NameScreen()
+  public NameScreen(Game g)
     {
       key = 'A';
       background = ImageReader.reader ("res/Name_Screen_Background_1.png");
@@ -31,6 +32,7 @@ public class NameScreen extends JPanel implements KeyListener, MouseListener, Mo
       consolas2 = new Font ("res/Consolas.ttf", Font.PLAIN, 24);
       noColor = new Color (237, 107, 97);
       yesColor = new Color (102, 116, 112);
+      game = g;
       this.setFocusable(true);
       this.addKeyListener(this);
       addMouseListener (this);
@@ -65,8 +67,8 @@ public class NameScreen extends JPanel implements KeyListener, MouseListener, Mo
         Game.graphics.drawImage (text, 0, 0, null);
         Game.graphics.setColor (Color.BLACK);
         Game.graphics.setFont (consolas);
-        int width = g.getFontMetrics().stringWidth(Game.getPlayerName());
-        Game.graphics.drawString(Game.getPlayerName(), 500 - width/2, 180);
+        int width = g.getFontMetrics().stringWidth(game.getPlayerName());
+        Game.graphics.drawString(game.getPlayerName(), 500 - width/2, 180);
         if (verify == true)
         { 
           Game.graphics.setColor (new Color (243, 230, 223));
@@ -81,7 +83,7 @@ public class NameScreen extends JPanel implements KeyListener, MouseListener, Mo
           Game.graphics.drawString ("No", 250, 522);
           Game.graphics.drawString ("Yes", 711, 522);
           Game.graphics.setFont (consolas);
-          Game.graphics.drawString(Game.getPlayerName(), 500 - width/2, 455);
+          Game.graphics.drawString(game.getPlayerName(), 500 - width/2, 455);
         }
     }
 
@@ -120,11 +122,11 @@ public class NameScreen extends JPanel implements KeyListener, MouseListener, Mo
       {
         if (key >= 65 && key <= 90)
         {
-          Game.addNameLetter (key);
+          game.addNameLetter (key);
         }
         else if (key == 91)
         {
-          Game.deleteNameLetter();
+          game.deleteNameLetter();
         }
         else if (key == 92)
         {
@@ -162,7 +164,7 @@ public class NameScreen extends JPanel implements KeyListener, MouseListener, Mo
          if (e.getX() >= 693 && e.getX() <= 773 && e.getY() >= 495 && e.getY() <= 535)
          {
           Game.frame.remove(this);
-          Game.frame.add(new Stage1());
+          Game.frame.add(new Stage1(game));
           Game.frame.pack();
          }
          else if (e.getX() >= 225 && e.getX() <= 305 && e.getY() >= 495 && e.getY() <= 535)

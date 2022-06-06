@@ -21,8 +21,8 @@ import java.awt.event.*;
 public class Game {
     public static Graphics2D graphics;
     public static int scene;
-    private static String playerName;
-    private static int playerScore;
+    private String playerName;
+    private int playerScore;
     public static JFrame frame;
 
     /**
@@ -73,7 +73,7 @@ public class Game {
         frame.remove(menu);
         switch(scene){
             case 1:
-        NameScreen n = new NameScreen();
+        NameScreen n = new NameScreen(this);
         frame.add (n);
         frame.pack ();
                 break;
@@ -88,7 +88,7 @@ public class Game {
      * Returns player score
      * @return player score
      */
-    public static int getPlayerScore()
+    public int getPlayerScore()
   {
     return playerScore;
   }
@@ -96,7 +96,7 @@ public class Game {
     /**
      * Increases player score by one
      */
-    public static void increaseScore ()
+    public void increasePlayerScore ()
   {
     playerScore ++;
   }
@@ -104,17 +104,17 @@ public class Game {
     /**
      * Allows the player to set their name
      */
-    public static void addNameLetter(char letter)
+    public void addNameLetter(char letter)
     {
      playerName += letter;
     }
 
-   public static void deleteNameLetter ()
+   public void deleteNameLetter ()
   {
      playerName = playerName.substring (0, playerName.length() -1);
   }
 
-  public static String getPlayerName()
+  public String getPlayerName()
   {
     return playerName;
   }

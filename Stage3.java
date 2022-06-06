@@ -3,7 +3,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class Stage3 extends JPanel implements KeyListener
+public class Stage3 extends JPanel implements KeyListener, MouseListener
   {
 
     public Stage3 ()
@@ -50,4 +50,50 @@ public class Stage3 extends JPanel implements KeyListener
     public void keyReleased(KeyEvent e) {
 
     }
+
+     /**
+     * Desc.
+     * @param e     A click while stage 2 is
+     *              onscreen
+     */
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    /**
+     * Clicking mouse (method not used but is necessary
+     to implement MouseListener)
+     * @param e     A click while the Iradia menu is
+     *              onscreen
+     */
+    @Override
+    public void mouseClicked(MouseEvent e) {}
+
+    /**
+     * Releasing mouse (method not used but is necessary
+     to implement MouseListener)
+     * @param e     A release while the Iradia menu is
+     *              onscreen
+     */
+    @Override
+    public void mouseReleased(MouseEvent e) {}
+
+    /**
+     * Mouse entering the bounds of a component (method
+     not used but is necessary to implement
+     MouseListener)
+     * @param e     Entering the bounds of a component
+     */
+    @Override
+    public void mouseEntered(MouseEvent e) {}
+
+    /**
+     * Mouse exiting the bounds of a component (method
+     not used but is necessary to implement
+     MouseListener)
+     * @param e     Exiting the bounds of a component
+     */
+    @Override
+    public void mouseExited(MouseEvent e) {}
   }

@@ -31,11 +31,13 @@ public class Stage1 extends JPanel implements KeyListener, MouseListener, MouseM
     boolean done2 = false;
     boolean done3 = false;
     int traingroup;
+    Game game;
 
     /**
      * Stage1 class's constructor. Initializes the train image.
      */
-    public Stage1() {
+    public Stage1(Game g) {
+        game = g;
         train = ImageReader.reader("res/stage1/train.png");
         pos = 0;
         traingroup = 0;
@@ -84,7 +86,7 @@ public class Stage1 extends JPanel implements KeyListener, MouseListener, MouseM
     public void keyPressed(KeyEvent e) {
         if(pos == 23) {
             Game.frame.remove(this);
-            Game.frame.add(new Stage2());
+            Game.frame.add(new Stage2(game));
             Game.frame.pack();
         } else if(!pause) {
             if(pos == 8 || pos == 11 || pos == 14 || pos == 18) {
