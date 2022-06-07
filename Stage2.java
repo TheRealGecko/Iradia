@@ -178,7 +178,9 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener
         game.increasePlayerScore();
       if (cases.size() == 0)
       {
-      System.out.println ("Done stage 2! Score is: " + game.getPlayerScore());
+            Game.frame.remove(this);
+            Game.frame.add(new Stage3(game));
+            Game.frame.pack();
       }
       else
       {

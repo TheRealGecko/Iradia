@@ -1,15 +1,30 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
 
 public class Stage3 extends JPanel implements KeyListener, MouseListener
   {
 
-    public Stage3 ()
+    Game game;
+    Image background;
+    
+    public Stage3 (Game g)
     {
+        game = g;
+        background = ImageReader.reader ("res/Name_Screen_Background_1.png");
         this.setFocusable(true); // Allows the class to receive user input
         this.addKeyListener(this);
+    }
+
+     /**
+      * Displays the graphics necessary for stage 3.
+      * @param g     Used to draw graphics.
+      */
+    @Override
+    public void paintComponent(Graphics g) {
+        Game.graphics = (Graphics2D) g;
+        this.requestFocus();
+        
     }
     
     /**
@@ -96,4 +111,12 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener
      */
     @Override
     public void mouseExited(MouseEvent e) {}
+
+    Image[] test;
+    private class Sprite
+      {
+        private Sprite()
+        {
+        }
+      }
   }

@@ -21,6 +21,7 @@ public class NameScreen extends JPanel implements KeyListener, MouseListener, Mo
   boolean verify;
   Color noColor;
   Color yesColor;
+  boolean nameTooLong; // should i make these private?
   Game game;
     
   public NameScreen(Game g)
@@ -32,6 +33,7 @@ public class NameScreen extends JPanel implements KeyListener, MouseListener, Mo
       consolas2 = new Font ("res/Consolas.ttf", Font.PLAIN, 24);
       noColor = new Color (237, 107, 97);
       yesColor = new Color (102, 116, 112);
+      nameTooLong = false;
       game = g;
       this.setFocusable(true);
       this.addKeyListener(this);
@@ -69,21 +71,45 @@ public class NameScreen extends JPanel implements KeyListener, MouseListener, Mo
         Game.graphics.setFont (consolas);
         int width = g.getFontMetrics().stringWidth(game.getPlayerName());
         Game.graphics.drawString(game.getPlayerName(), 500 - width/2, 180);
-        if (verify == true)
+        if (verify == true || nameTooLong == true)
         { 
           Game.graphics.setColor (new Color (243, 230, 223));
           Game.graphics.fillRect (212, 350, 576, 200);
+          Game.graphics.setFont (consolas2);
+          if (verify == true)
+          {
+            if (game.getPlayerName().length() > 0)
+            {
           Game.graphics.setColor (noColor);
           Game.graphics.fillRect (225, 495, 80, 40);
           Game.graphics.setColor (yesColor);
           Game.graphics.fillRect (693, 495, 80, 40);
           Game.graphics.setColor (Color.BLACK);
-          Game.graphics.setFont (consolas2);
           Game.graphics.drawString("Is this name correct?", 365, 395);
           Game.graphics.drawString ("No", 250, 522);
           Game.graphics.drawString ("Yes", 711, 522);
           Game.graphics.setFont (consolas);
-          Game.graphics.drawString(game.getPlayerName(), 500 - width/2, 455);
+              
+            }
+
+            else
+          {
+            Game.graphics.setColor (yesColor);
+            Game.graphics.fillRect (225, 495, 548, 40);
+            Game.graphics.setColor (Color.BLACK);
+            Game.graphics.drawString("Names must have at least 1 character", 270, 395);
+            Game.graphics.drawString ("OK", 490, 522);
+          }
+          Game.graphics.drawString(game.getPlayerName(), 500 - width/2, 455); 
+          }
+          else
+          {
+            Game.graphics.setColor (yesColor);
+            Game.graphics.fillRect (225, 495, 548, 40);
+            Game.graphics.setColor (Color.BLACK);
+            Game.graphics.drawString("Names can't exceed 16 characters", 300, 395);
+            Game.graphics.drawString ("OK", 490, 522);
+          }
         }
     }
 
@@ -122,7 +148,10 @@ public class NameScreen extends JPanel implements KeyListener, MouseListener, Mo
       {
         if (key >= 65 && key <= 90)
         {
-          game.addNameLetter (key);
+          if (game.getPlayerName().length() < 16)
+            game.addNameLetter (key);
+          else
+            nameTooLong = true;
         }
         else if (key == 91)
         {
@@ -161,8 +190,10 @@ public class NameScreen extends JPanel implements KeyListener, MouseListener, Mo
     public void mousePressed(MouseEvent e) {
        if (verify == true)
        {
-         if (e.getX() >= 693 && e.getX() <= 773 && e.getY() >= 495 && e.getY() <= 535)
+         if (game.getPlayerName().length() > 0)
          {
+          if (e.getX() >= 693 && e.getX() <= 773 && e.getY() >= 495 && e.getY() <= 535)
+          {
           Game.frame.remove(this);
           Game.frame.add(new Stage1(game));
           Game.frame.pack();
@@ -171,8 +202,22 @@ public class NameScreen extends JPanel implements KeyListener, MouseListener, Mo
          {
          verify = false;
          repaint ();    
+         }  
          }
+        else if (e.getX() >= 225 && e.getX() <= 773 && e.getY() >= 495 && e.getY() <= 535)
+        {
+          verify = false;
+          repaint();
+        }
        }
+      if (nameTooLong == true)
+      {
+        if (e.getX() >= 225 && e.getX() <= 773 && e.getY() >= 495 && e.getY() <= 535)
+        {
+          nameTooLong = false;
+          repaint();
+        }
+      }
     }
 
     /**
@@ -220,18 +265,37 @@ public class NameScreen extends JPanel implements KeyListener, MouseListener, Mo
     @Override
         public void mouseMoved (MouseEvent e)
         {
-           if (e.getX() >= 693 && e.getX() <= 773 && e.getY() >= 495 && e.getY() <= 535)
-           {
+          if (verify == true)
+          {
+            if (game.getPlayerName().length() > 0)
+            {
+               if (e.getX() >= 693 && e.getX() <= 773 && e.getY() >= 495 && e.getY() <= 535)
+              {
               yesColor = new Color (127, 209, 174);
-           }
-          else
-           {
+              }
+                else
+              {
               yesColor = new Color (102, 116, 112);
-              if (e.getX() >= 225 && e.getX() <= 305 && e.getY() >= 495 && e.getY() <= 535)
-                noColor = new Color (251, 141, 118);
+                if (e.getX() >= 225 && e.getX() <= 305 && e.getY() >= 495 && e.getY() <= 535)
+              noColor = new Color (251, 141, 118);
              else
                 noColor = new Color (237, 107, 97);
-           }
+              }
+             }
+            else
+            {
+               if (e.getX() >= 225 && e.getX() <= 773 && e.getY() >= 495 && e.getY() <= 535)
+              yesColor = new Color (127, 209, 174);
+          else
+              yesColor = new Color (102, 116, 112);
+            }
+          }                                                                                                                                else
+          {
+            if (e.getX() >= 225 && e.getX() <= 773 && e.getY() >= 495 && e.getY() <= 535)
+              yesColor = new Color (127, 209, 174);
+          else
+              yesColor = new Color (102, 116, 112);
+          }           
           repaint ();
         }
 

@@ -111,6 +111,7 @@ public class Game {
 
    public void deleteNameLetter ()
   {
+     if (playerName.length() > 0)
      playerName = playerName.substring (0, playerName.length() -1);
   }
 
