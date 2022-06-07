@@ -25,6 +25,7 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener
 
     Image table;
     Image buttons;
+    Image tutorialCase;
     Image[] dialogue;
     Image dialogueBack;
     int pos;
@@ -63,6 +64,7 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener
         buttons = ImageReader.reader ("res/stage2/yes_no.png"); // Button image
         dialogue = ImageReader.storeDir("res/stage2/text/"); // Dialogue images
         dialogueBack = ImageReader.reader("res/header_base.png"); // Dialogue background image
+        tutorialCase = ImageReader.reader("res/stage2/cases/Tutorial_Case.png");
 
         pos = 1; // Dialogue position
       
@@ -76,8 +78,13 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener
       */
     private void tutorial() {
         Game.graphics.drawImage(table, -9, 0, null);
+            if (pos >= 5)
+        Game.graphics.drawImage (tutorialCase, 0, 0, null);
+      if (pos != 5)
+      {
         Game.graphics.drawImage(dialogueBack, 40, 50, null);
         Game.graphics.drawImage(dialogue[pos], 40, 50, null);
+      }
     }
 
        /**
@@ -108,10 +115,10 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener
     public void paintComponent(Graphics g) {
         Game.graphics = (Graphics2D) g;
         this.requestFocus();
-        if(pos < 6 ) {
+        if(pos < 7 ) {
             tutorial();
         } else {
-          if (pos % 2 == 0)
+          if (pos % 2 == 1)
           {
            prompt(); 
           }
@@ -137,7 +144,7 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener
     */
     @Override
     public void keyPressed(KeyEvent e) {
-        if(pos < 6 || (pos !=6 && pos % 2 == 1))
+        if(pos < 7 || (pos !=7 && pos % 2 == 0))
         {
         pos++;
         repaint();
@@ -172,7 +179,7 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener
      */
     @Override
     public void mousePressed(MouseEvent e) {
-    if (pos >= 6 && pos % 2 == 0)
+    if (pos >= 7 && pos % 2 == 1)
     {
       if ((e.getX() <= 500 && answer == true) || (e.getX() > 500 && answer == false))
         game.increasePlayerScore();
