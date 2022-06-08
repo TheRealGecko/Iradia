@@ -58,7 +58,7 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener
          cases.add(ImageReader.reader(dir)); 
        }
 
-       isToxic = ImageReader.isToxic (cases); // Case answers
+        isToxic = ImageReader.isToxic (cases); // Case answers
       
         table = ImageReader.reader("res/stage2/clip_bg.png"); // Table image
         buttons = ImageReader.reader ("res/stage2/yes_no.png"); // Button image
@@ -103,7 +103,7 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener
       */
     private void prompt() {
         Game.graphics.drawImage (buttons, -9, 0, null);
-        Game.graphics.drawImage(dialogue[0], 328, 488, null);
+        Game.graphics.drawImage(dialogue[7], 0, 0, null);
     }
 
      /**
@@ -115,16 +115,11 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener
     public void paintComponent(Graphics g) {
         Game.graphics = (Graphics2D) g;
         this.requestFocus();
-        if(pos < 7 ) {
+        if(pos < 7) {
             tutorial();
         } else {
-          if (pos % 2 == 1)
-          {
+           getCase();   
            prompt(); 
-          }
-          else
-          {
-           getCase();    
           }
         }
     }
