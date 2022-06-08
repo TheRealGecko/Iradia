@@ -115,12 +115,11 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener
     public void paintComponent(Graphics g) {
         Game.graphics = (Graphics2D) g;
         this.requestFocus();
-        if(pos < 7) {
+        if(pos < 8) {
             tutorial();
         } else {
            getCase();   
-           prompt(); 
-          }
+           prompt();
         }
     }
 
@@ -139,7 +138,7 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener
     */
     @Override
     public void keyPressed(KeyEvent e) {
-        if(pos < 7 || (pos !=7 && pos % 2 == 0))
+        if(pos < 8 || (pos != 8 && pos % 2 == 0))
         {
         pos++;
         repaint();
@@ -174,9 +173,9 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener
      */
     @Override
     public void mousePressed(MouseEvent e) {
-    if (pos >= 7 && pos % 2 == 1)
+    if (pos >= 8 && pos % 2 == 1)
     {
-      if ((e.getX() <= 500 && answer == true) || (e.getX() > 500 && answer == false))
+      if ((e.getX() <= 500 && answer) || (e.getX() > 500 && !answer))
         game.increasePlayerScore();
       if (cases.size() == 0)
       {
