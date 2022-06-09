@@ -30,9 +30,11 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener
     Image dialogueBack;
     int pos;
     Game game;
+    int caseNum;
 
     ArrayList<Image> cases;
     ArrayList<Boolean> isToxic;
+    ArrayList<Image> reasons;
     boolean answer;
 
     /**
@@ -57,6 +59,23 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener
          
          cases.add(ImageReader.reader(dir)); 
        }
+
+        reasons = new ArrayList<Image>();
+        for(int i = 1; i <= 7; i++) {
+            for(int j = 0; j <= 1; j++) {
+                String dir = "res/stage2/reasons/c" + i;
+
+                if(j == 0) {
+                    dir += "_right";
+                } else {
+                    dir += "_wrong";
+                }
+
+                dir += ".png";
+
+                reasons.add(ImageReader.reader(dir));
+            }
+        }
 
         isToxic = ImageReader.isToxic (cases); // Case answers
       
@@ -91,10 +110,12 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener
       * Displays the graphics for a random case the player has not yet solved.
       */
    private void getCase() {
-        Game.graphics.drawImage(table, -9, 0, null);
-        int caseNum = (int) (Math.random() * cases.size());
-        Game.graphics.drawImage(cases.remove(caseNum), 0, 0, null);
-        answer = isToxic.remove(caseNum);
+       if(pos % 2 == 0) {
+           Game.graphics.drawImage(table, -9, 0, null);
+           caseNum = (int) (Math.random() * cases.size());
+           Game.graphics.drawImage(cases.remove(caseNum), 0, 0, null);
+           answer = isToxic.remove(caseNum);
+       }
     }
 
     
@@ -102,8 +123,18 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener
       * Displays the graphics for the prompt asking the player if the case is toxic.
       */
     private void prompt() {
-        Game.graphics.drawImage (buttons, -9, 0, null);
-        Game.graphics.drawImage(dialogue[7], 0, 0, null);
+        if(pos % 2 == 0) {
+            Game.graphics.drawImage(buttons, -9, 0, null);
+            Game.graphics.drawImage(dialogue[0], 0, 0, null);
+        } else {
+            if(answer) {
+                Game.graphics.drawImage(reasons.remove(caseNum * 2), 0, 0, null);
+                reasons.remove(caseNum * 2);
+            } else {
+                Game.graphics.drawImage(reasons.remove((caseNum * 2) + 1), 0, 0, null);
+                reasons.remove(caseNum * 2);
+            }
+        }
     }
 
      /**
@@ -118,7 +149,7 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener
         if(pos < 8) {
             tutorial();
         } else {
-           getCase();   
+           getCase();
            prompt();
         }
     }
@@ -138,10 +169,17 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener
     */
     @Override
     public void keyPressed(KeyEvent e) {
-        if(pos < 8 || (pos != 8 && pos % 2 == 0))
+        if(pos < 8 || (pos != 8 && pos % 2 == 1))
         {
         pos++;
         repaint();
+        }
+
+        if (cases.size() == 0)
+        {
+            Game.frame.remove(this);
+            Game.frame.add(new Stage3(game));
+            Game.frame.pack();
         }
     }
     
@@ -173,21 +211,16 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener
      */
     @Override
     public void mousePressed(MouseEvent e) {
-    if (pos >= 8 && pos % 2 == 1)
+    if (pos >= 8 && pos % 2 == 0)
     {
-      if ((e.getX() <= 500 && answer) || (e.getX() > 500 && !answer))
-        game.increasePlayerScore();
-      if (cases.size() == 0)
-      {
-            Game.frame.remove(this);
-            Game.frame.add(new Stage3(game));
-            Game.frame.pack();
+      if ((e.getX() <= 500 && answer) || (e.getX() > 500 && !answer)) {
+          answer = true;
+          game.increasePlayerScore();
+      } else {
+          answer = false;
       }
-      else
-      {
       pos++; 
-      repaint(); 
-      }
+      repaint();
     }
 }
 
