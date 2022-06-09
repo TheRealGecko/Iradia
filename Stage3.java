@@ -9,12 +9,22 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener
     Sprite sprite;
     Thread dSprite;
     Image background;
+    boolean pause;
+    int pos;
+
+    Image[] introDialogue;
     
     public Stage3 (Game g)
     {
         game = g;
         sprite = new Sprite ();
         background = ImageReader.reader ("res/stage3/background.png");
+
+        introDialogue = ImageReader.storeDir("res/stage3/introText/");
+
+        pause = true;
+        pos = 0;
+
         this.setFocusable(true); // Allows the class to receive user input
         this.addKeyListener(this);
     }
@@ -29,9 +39,12 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener
         this.requestFocus();
         Game.graphics.drawImage (background, 0, 0, null); 
         //Game.graphics.drawImage (sprite.getSprite(), sprite.getXPos(), sprite.getYPos(), null);
-        dSprite = new Thread (new DrawSprite (Game.graphics));
-        dSprite.run ();
-      
+        if(!pause) {
+            dSprite = new Thread(new DrawSprite(Game.graphics));
+            dSprite.run();
+        } else if(pos < 10) {
+            Game.graphics.drawImage(introDialogue[pos], 0, 0, null);
+        }
     }
     
     /**
@@ -49,38 +62,40 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener
     */
     @Override
     public void keyPressed(KeyEvent e) {
-      if (e.getKeyCode()== KeyEvent.VK_LEFT  || e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_DOWN)
-      {
-             if (e.getKeyCode() == KeyEvent.VK_LEFT )
-      {
-         if(!(sprite.getXPos() == 624 && sprite.getYPos() < 118) || !(sprite.getXPos() == 50)) {
-             sprite.setXPos (-2);
-          }
-         sprite.setDir ('l');
-      }
-      else if (e.getKeyCode () == KeyEvent.VK_RIGHT)
-      {
-         if(!(sprite.getXPos() == 180 && sprite.getYPos() < 118)) {
-             sprite.setXPos (2);
-          }
-         sprite.setDir ('r');
-      }
-      else if (e.getKeyCode () == KeyEvent.VK_UP) // Add code for not going up once floor y ends + when in front of table
-      {
-         if(!(sprite.getXPos() > 180 && sprite.getXPos() < 624 && sprite.getYPos() <= 119)) {
-             sprite.setYPos (-2);
-          }
-         sprite.setDir ('b');
-      }
-      else if (e.getKeyCode () == KeyEvent.VK_DOWN)
-      {
-         //if(!(sprite.getXPos() >= 218 && sprite.getXPos() <= 654 && sprite.getYPos() <= 119)) {
-             sprite.setYPos (2);
-          //}
-         sprite.setDir ('f');
-      }
-      //sprite.incrementImgIndex();
-      repaint ();
+        if(!pause) {
+            if (e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_DOWN) {
+                if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+                    if (sprite.getXPos() >= 50 && !(sprite.getXPos() == 624 && sprite.getYPos() < 118)) {
+                        sprite.setXPos(-2);
+                    }
+                    sprite.setDir('l');
+                } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+                    if (sprite.getXPos() <= 756 && !(sprite.getXPos() == 180 && sprite.getYPos() < 118)) {
+                        sprite.setXPos(2);
+                    }
+                    sprite.setDir('r');
+                } else if (e.getKeyCode() == KeyEvent.VK_UP) // Add code for not going up once floor y ends + when in front of table
+                {
+                    if (sprite.getYPos() >= 4 && !(sprite.getXPos() > 180 && sprite.getXPos() < 624 && sprite.getYPos() <= 119)) {
+                        sprite.setYPos(-2);
+                    }
+                    sprite.setDir('b');
+                } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+                    //if(!(sprite.getXPos() >= 218 && sprite.getXPos() <= 654 && sprite.getYPos() <= 119)) {
+                    if(sprite.getYPos() <= 454) {
+                        sprite.setYPos(2);
+                    }
+                    //}
+                    sprite.setDir('f');
+                }
+                //sprite.incrementImgIndex();
+                repaint();
+            }
+        } else {
+            pos++;
+            if(pos == 10) {
+                pause = false;
+            }
         }
       }
     
