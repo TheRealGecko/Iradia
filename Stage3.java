@@ -51,6 +51,12 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener
         this.addKeyListener(this);
     }
 
+    public void checkPos() {
+        if(sprite.getXPos() <= 60 && sprite.getYPos() >= 370) {
+            System.out.println("Approaching case #" + 1 + "!");
+        }
+    }
+
      /**
       * Displays the graphics necessary for stage 3.
       * @param g     Used to draw graphics.
@@ -72,6 +78,8 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener
         } else if(pos < 10) {
             Game.graphics.drawImage(introDialogue[pos], 0, 0, null);
         }
+
+        checkPos();
     }
     
     /**
