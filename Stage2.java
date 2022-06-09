@@ -19,6 +19,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Stage2 extends JPanel implements KeyListener, MouseListener
   {
@@ -35,6 +36,7 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener
     ArrayList<Image> cases;
     ArrayList<Boolean> isToxic;
     ArrayList<Image> reasons;
+    ArrayList<Image> profiles;
     boolean answer;
 
     /**
@@ -77,6 +79,10 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener
             }
         }
 
+        profiles = new ArrayList<Image>();
+        Image[] temp = ImageReader.storeDir("res/stage2/profiles/");
+        profiles.addAll(Arrays.asList(temp).subList(0, 7));
+
         isToxic = ImageReader.isToxic (cases); // Case answers
       
         table = ImageReader.reader("res/stage2/clip_bg.png"); // Table image
@@ -114,6 +120,7 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener
            Game.graphics.drawImage(table, -9, 0, null);
            caseNum = (int) (Math.random() * cases.size());
            Game.graphics.drawImage(cases.remove(caseNum), 0, 0, null);
+           Game.graphics.drawImage(profiles.remove(caseNum), 350, 197, null);
            answer = isToxic.remove(caseNum);
        }
     }
