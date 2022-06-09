@@ -1,6 +1,8 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.Collection;
 
 public class Stage3 extends JPanel implements KeyListener, MouseListener
   {
@@ -13,7 +15,12 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener
     int pos;
 
     Image[] introDialogue;
-    
+
+    ArrayList<Image> files;
+    ArrayList<Image> options;
+    ArrayList<Integer> answers;
+    Image[] caseDialogue;
+
     public Stage3 (Game g)
     {
         game = g;
@@ -24,6 +31,21 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener
 
         pause = true;
         pos = 0;
+
+        files = new ArrayList<Image>();
+        options = new ArrayList<Image>();
+        answers = new ArrayList<Integer>();
+        for(int i = 1; i < 7; i++) {
+            files.add(ImageReader.reader("res/stage3/files/" + i + ".png"));
+            options.add(ImageReader.reader("res/stage3/files/" + i + ".png"));
+        }
+
+        answers.add(1);
+        answers.add(3);
+        answers.add(3);
+        answers.add(2);
+        answers.add(4);
+        answers.add(2);
 
         this.setFocusable(true); // Allows the class to receive user input
         this.addKeyListener(this);
@@ -39,6 +61,11 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener
         this.requestFocus();
         Game.graphics.drawImage (background, 0, 0, null); 
         //Game.graphics.drawImage (sprite.getSprite(), sprite.getXPos(), sprite.getYPos(), null);
+        if(pos >= 7) {
+            for(int i = 0; i < files.size(); i++) {
+                Game.graphics.drawImage(files.get(i), 0, 0, null);
+            }
+        }
         if(!pause) {
             dSprite = new Thread(new DrawSprite(Game.graphics));
             dSprite.run();
