@@ -208,7 +208,7 @@ public class Stage3 extends JPanel implements KeyListener
       //String dialogueDir = "res/stage3/caseDialogue/c" + a + "/";
     for (int a = 1; a < 6; a++)
       {
-        String path = diaDir + diaDir.substring (24, 26) + ".png";
+        String path = diaDir + diaDir.substring (24, 26) + "_" + a + ".png";
         File tempFile = new File(path);
         if(tempFile.exists())
         {
