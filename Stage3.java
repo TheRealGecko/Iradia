@@ -4,16 +4,18 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class Stage3 extends JPanel implements KeyboardListener
+public class Stage3 extends JPanel implements KeyListener
 {
     Game game;
     Sprite sprite;
     Thread dSprite;
     Image background;
+    Image dialogueBack;
     
     Image[] introDialogue;
     int pos;
     int paperPos;
+    int caseNum;
     ArrayList<Case> cases;
     static boolean caseOpen;
 
@@ -25,16 +27,29 @@ public class Stage3 extends JPanel implements KeyboardListener
     paperPos = 0;
     background = ImageReader.reader ("res/stage3/background.png");
     introDialogue = ImageReader.storeDir("res/stage3/introText/");
+    dialogueBack = ImageReader.reader("res/header_base.png"); // Dialogue background image
     
     cases = new ArrayList<Case>();
     
-    for (int a = 1; a < 6; a++)
+    for (int a = 1; a <= 6; a++)
     {
     String caseImgAddress = "res/stage3/files/" + a + ".png";
     String optionImgAddress = "res/stage3/options/c" + a + ".png";
+    String answerImgAddress = "res/stage3/answers/c" + a + "_answers.png";
     String dialogueDir = "res/stage3/caseDialogue/c" + a + "/";
-    cases.add (new Case (caseImgAddress, optionImgAddress, dialogueDir, a));
+    cases.add (new Case (caseImgAddress, optionImgAddress, answerImgAddress, dialogueDir, a));
     }
+
+      cases.get(0).setImgCoords(682, 1000, 0, 28);
+      cases.get(1).setImgCoords(638, 1000, 208, 269);
+      cases.get(2).setImgCoords(426, 590, 368, 650);
+      cases.get(3).setImgCoords(252, 330, 118, 122);
+      cases.get(4).setImgCoords(0, 98, 0, 52);
+      cases.get(5).setImgCoords(0, 48, 420, 650);
+     
+
+      this.setFocusable(true); // Allows the class to receive user input
+      this.addKeyListener(this);
     }
     
     /**
@@ -43,38 +58,126 @@ public class Stage3 extends JPanel implements KeyboardListener
       */
     @Override
     public void paintComponent(Graphics g) {
-    
+  
         Game.graphics = (Graphics2D) g;
         this.requestFocus();
-        System.out.println ("this method runs");
+
+       if (!caseOpen) {
         Game.graphics.drawImage (background, 0, 0, null); 
         if(pos >= 7) {
             for(int i = 0; i < cases.size(); i++) {
                 Game.graphics.drawImage(cases.get(i).getCaseImg(), 0, 0, null);
+              
+           for (int a = 0; a < cases.size(); a++)
+            {
+               if (cases.get(a).isTouched (sprite.getXPos(), sprite.getYPos()))
+               caseNum = a+1;
+               paperScreen ();
+            }
         }
         }
-        if (pos <= 10)
-          Game.graphics.drawImage(introDialogue[pos+1], 0, 0, null);
+        if (pos < 10)
+          Game.graphics.drawImage(introDialogue[pos], 0, 0, null);
         else
         {
         dSprite = new Thread(new DrawSprite(Game.graphics, sprite));
         dSprite.run();
         }
-     
-        if (!caseOpen)
+       } else {
+         try {
+              sprite.wait();
+            } catch (InterruptedException e) {}
+       } 
+       }
+
+  public static boolean getCaseOpen()
+  {
+    return caseOpen;
+  }
+
+  @Override
+    public synchronized void addKeyListener(KeyListener l) {
+        super.addKeyListener(l);
+    }
+
+     /**
+    * When any key is pressed, switches through dialogue in the tutorial + opens prompt for user input on cases
+    * @param e     Pressing a key
+    */
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if(pos < 10) {
+          pos++;
+          repaint ();
+        }
+      else
         {
-            for (int a = 0; a < cases.size(); a++)
+          if (!caseOpen)
+          {
+            
+            if (e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_DOWN)
             {
-               if (cases.get(a).isTouched (sprite.getXPos(), sprite.getYPos()))
-               paperScreen (a+1);
+                  if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+                    if (sprite.getXPos() >= 50 && !(sprite.getXPos() == 624 && sprite.getYPos() < 118)) {
+                        sprite.setXPos(-2);
+                    }
+                    sprite.setDir('l');
+                } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+                    if (sprite.getXPos() <= 756 && !(sprite.getXPos() == 180 && sprite.getYPos() < 118)) {
+                        sprite.setXPos(2);
+                    }
+                    sprite.setDir('r');
+                } else if (e.getKeyCode() == KeyEvent.VK_UP)
+                {
+                    if (sprite.getYPos() >= 4 && !(sprite.getXPos() > 180 && sprite.getXPos() < 624 && sprite.getYPos() <= 119)) {
+                        sprite.setYPos(-2);
+                    }
+                    sprite.setDir('b');
+                } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+                    if(sprite.getYPos() <= 454) {
+                        sprite.setYPos(2);
+                    }
+                    
+                    sprite.setDir('f');
+                }
+              repaint();
             }
+          } else
+          {
+            pos++;
+            paperScreen();
+          }
         }
     }
     
-    private void paperScreen (int caseNum)
+      /**
+    * Key being typed (method not used but is necessary to implement 
+    KeyListener)
+    * @param e     Typing a key
+    */
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+      /**
+    * Key being released
+    (method not used but is necessary to implement 
+    KeyListener)
+    * @param e     Releasing a key
+    */
+    @Override
+    public void keyReleased(KeyEvent e) {
+     sprite.resetImgIndex();
+     repaint();
+    }
+    
+    private void paperScreen ()
     {
+      caseOpen = true;
       Game.graphics.drawImage (ImageReader.reader("res/Name_Screen_Background_1.png"), 0, 0, null);
-      Game.graphics.drawImage (cases.get(caseNum-1).getCaseDialogue(paperPos), 0, 0, null);
+      Game.graphics.drawImage (dialogueBack, 40, 50, null);
+      Game.graphics.drawImage (cases.get(caseNum-1).getCaseDialogue(pos - 10*(6-cases.size() + 1)), 0, 0, null);
     }
     
     public void setCaseOpen(boolean open)
@@ -86,6 +189,7 @@ public class Stage3 extends JPanel implements KeyboardListener
     {
     Image caseImg;
     Image optionsImg;
+    Image answerImg;
     int answer;
     boolean open;
     
@@ -93,12 +197,14 @@ public class Stage3 extends JPanel implements KeyboardListener
     Image[] caseDialogue;
     
     
-    private Case (String cImg, String optImg, String diaDir, int num)
+    private Case (String cImg, String optImg, String ansImg, String diaDir, int num)
     {
     caseImg = ImageReader.reader (cImg);
     optionsImg = ImageReader.reader (optImg);
-    //caseDialogue = ImageReader.storeDir(diaDir);
-    answer = 0;   
+    answerImg = ImageReader.reader (ansImg);
+    caseDialogue = ImageReader.storeDir(diaDir);
+    answer = 0;
+      
     imgCoords = new int[4];
     }
     
@@ -132,9 +238,10 @@ public class Stage3 extends JPanel implements KeyboardListener
     public boolean isTouched(int spriteX, int spriteY)
     {
     if (spriteX >= imgCoords[0] && spriteX <= imgCoords[1])
-       if (spriteY >= imgCoords [2] && spriteY <= imgCoords [3])
-          return true;
-          
+    {
+             if (spriteY >= imgCoords [2] && spriteY <= imgCoords [3])
+            return true;
+    }     
     return false;
     }
     
@@ -218,16 +325,10 @@ public class Stage3 extends JPanel implements KeyboardListener
 
         public void run()
         {
-          try
-            {
+          if (!Stage3.getCaseOpen()) {
               graphics.drawImage (sprite.getSprite(), sprite.getXPos(), sprite.getYPos(), null);
               sprite.incrementImgIndex();
-              Thread.sleep (200);
             }
-            catch(Exception e)
-            {
-              
-            }
+          }
         }
-      }
 }
