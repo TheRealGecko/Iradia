@@ -72,9 +72,11 @@ public class Stage3 extends JPanel implements KeyListener
            for (int a = 0; a < cases.size(); a++)
             {
                if (cases.get(a).isTouched (sprite.getXPos(), sprite.getYPos()))
-               caseNum = a+1;
-               paperScreen ();
-            }
+               {
+                                caseNum = a+1;
+               paperScreen (); 
+               }
+            } 
         }
         }
         if (pos < 10)
@@ -84,10 +86,6 @@ public class Stage3 extends JPanel implements KeyListener
         dSprite = new Thread(new DrawSprite(Game.graphics, sprite));
         dSprite.run();
         }
-       } else {
-         try {
-              sprite.wait();
-            } catch (InterruptedException e) {}
        } 
        }
 
@@ -178,6 +176,7 @@ public class Stage3 extends JPanel implements KeyListener
       caseOpen = true;
       Game.graphics.drawImage (ImageReader.reader("res/Name_Screen_Background_1.png"), 0, 0, null);
       Game.graphics.drawImage (dialogueBack, 40, 50, null);
+      if (cases.get(caseNum).getDialogueLength() > 0)
       Game.graphics.drawImage (cases.get(caseNum).getCaseDialogue(), 0, 0, null);
     }
     
@@ -208,7 +207,8 @@ public class Stage3 extends JPanel implements KeyListener
       //String dialogueDir = "res/stage3/caseDialogue/c" + a + "/";
     for (int a = 1; a < 6; a++)
       {
-        String path = diaDir + diaDir.substring (24, 26) + "_" + a + ".png";
+        String path = diaDir + diaDir.substring (24, 26);
+        path += "_" + a + ".png";
         File tempFile = new File(path);
         if(tempFile.exists())
         {
@@ -232,6 +232,11 @@ public class Stage3 extends JPanel implements KeyListener
     {
     Game.graphics.drawImage (caseImg, 0, 0, null);
     }
+
+    public int getDialogueLength()
+      {
+        return caseDialogue.size();
+      }
     
     public Image getCaseDialogue ()
     {
