@@ -52,8 +52,18 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener
     }
 
     public void checkPos() {
-        if(sprite.getXPos() <= 60 && sprite.getYPos() >= 370) {
-            System.out.println("Approaching case #" + 1 + "!");
+        if(sprite.getXPos() >= 650 && sprite.getYPos() <= 18) {
+            System.out.println("Approaching case #1!");
+        } else if(sprite.getXPos() >= 650 && sprite.getYPos() >= 188 && sprite.getYPos() <= 308) {
+            System.out.println("Approaching case #2!");
+        } else if(sprite.getXPos() >= 422 && sprite.getXPos() <= 598 && sprite.getYPos() >= 358) {
+            System.out.println("Approaching case #3!");
+        } else if(sprite.getXPos() >= 142 && sprite.getYPos() <= 130) {
+            System.out.println("Approaching case #4!");
+        } else if(sprite.getXPos() <= 180 && sprite.getYPos() <= 64) {
+            System.out.println("Approaching case #5!");
+        } else if(sprite.getXPos() <= 60 && sprite.getYPos() >= 370) {
+            System.out.println("Approaching case #6!");
         }
     }
 
