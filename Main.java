@@ -51,8 +51,10 @@ public class Main {
      * The main method
      * @param args
      */
+    static Game game;
+
     public static void main(String[] args) {
-        Game game = new Game();
+        game = new Game();
         game.run();
     }
 }

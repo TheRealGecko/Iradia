@@ -66,21 +66,32 @@ public class Game {
         frame.pack();
         splash.run();
         frame.remove(splash);*/
-        Menu menu = new Menu();
-        frame.add(menu);
-        frame.pack();
-        while (scene == 0) Thread.onSpinWait();
-        frame.remove(menu);
-        switch(scene){
-            case 1:
-        NameScreen n = new NameScreen(this);
-        frame.add (n);
-        frame.pack ();
-                break;
-            case 2:
-                break;
-            case 3:
-                break;
+        menu();
+    }
+
+    public void menu() {
+        while (scene != 1 && scene != 2) {
+            Menu menu = new Menu();
+            frame.add(menu);
+            frame.pack();
+            while (scene == 0) Thread.onSpinWait();
+            frame.remove(menu);
+            switch (scene) {
+                case 1:
+                    NameScreen n = new NameScreen(this);
+                    frame.add(n);
+                    frame.pack();
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    Credits credit = new Credits();
+                    frame.add(credit);
+                    frame.pack();
+                    while (!credit.isPressed) Thread.onSpinWait();
+                    scene = 0;
+                    break;
+            }
         }
     }
 

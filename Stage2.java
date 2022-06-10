@@ -38,6 +38,7 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener
     ArrayList<Image> reasons;
     ArrayList<Image> profiles;
     boolean answer;
+    boolean nextStage;
 
     /**
      * Stage2 class's constructor. Initializes the table, button, case, and dialogue images, correct answers, and the value 
@@ -92,7 +93,9 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener
         tutorialCase = ImageReader.reader("res/stage2/cases/Tutorial_Case.png");
 
         pos = 1; // Dialogue position
-      
+
+        nextStage = false;
+
         this.setFocusable(true); // Allows the class to receive user input
         this.addKeyListener(this);
         addMouseListener(this);
@@ -155,9 +158,11 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener
         this.requestFocus();
         if(pos < 8) {
             tutorial();
-        } else {
+        } else if(cases.size() != 0){
            getCase();
            prompt();
+        } else {
+            Game.graphics.drawImage(ImageReader.reader("res/transition/end2.png"), 0, 0, null);
         }
     }
 
@@ -176,14 +181,15 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener
     */
     @Override
     public void keyPressed(KeyEvent e) {
-        if(pos < 8 || (pos != 8 && pos % 2 == 1))
+        if (cases.size() == 0) {
+            nextStage = true;
+        } else if(pos < 8 || (pos != 8 && pos % 2 == 1))
         {
         pos++;
         repaint();
         }
 
-        if (cases.size() == 0)
-        {
+        if(nextStage) {
             Game.frame.remove(this);
             Game.frame.add(new Stage3(game));
             Game.frame.pack();
