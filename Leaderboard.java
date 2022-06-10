@@ -82,7 +82,7 @@ public class Leaderboard extends JPanel implements KeyListener {
     }
 
     private void sort(ArrayList<String> names, ArrayList<Integer> scores) {
-        for (int j = 0; j < names.size()-1; j++) {
+        for (int j = 0; j < names.size(); j++) {
             String temp1 = names.get(j);
             Integer temp2 = scores.get(j);
             int i = j-1;
