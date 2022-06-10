@@ -4,7 +4,7 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class Stage3 extends JPanel
+public class Stage3 extends JPanel implements KeyboardListener
 {
     Game game;
     Sprite sprite;
@@ -43,17 +43,18 @@ public class Stage3 extends JPanel
       */
     @Override
     public void paintComponent(Graphics g) {
+    
         Game.graphics = (Graphics2D) g;
         this.requestFocus();
+        System.out.println ("this method runs");
         Game.graphics.drawImage (background, 0, 0, null); 
         if(pos >= 7) {
             for(int i = 0; i < cases.size(); i++) {
                 Game.graphics.drawImage(cases.get(i).getCaseImg(), 0, 0, null);
         }
-        
+        }
         if (pos <= 10)
-         // Game.graphics.drawImage(introDialogue[pos+1], 0, 0, null);
-          System.out.println ("this is fine");
+          Game.graphics.drawImage(introDialogue[pos+1], 0, 0, null);
         else
         {
         dSprite = new Thread(new DrawSprite(Game.graphics, sprite));
@@ -68,7 +69,6 @@ public class Stage3 extends JPanel
                paperScreen (a+1);
             }
         }
-    }
     }
     
     private void paperScreen (int caseNum)
