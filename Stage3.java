@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.io.*;
 
 public class Stage3 extends JPanel implements KeyListener
 {
@@ -177,7 +178,7 @@ public class Stage3 extends JPanel implements KeyListener
       caseOpen = true;
       Game.graphics.drawImage (ImageReader.reader("res/Name_Screen_Background_1.png"), 0, 0, null);
       Game.graphics.drawImage (dialogueBack, 40, 50, null);
-      Game.graphics.drawImage (cases.get(caseNum-1).getCaseDialogue(pos - 10*(6-cases.size() + 1)), 0, 0, null);
+      Game.graphics.drawImage (cases.get(caseNum).getCaseDialogue(), 0, 0, null);
     }
     
     public void setCaseOpen(boolean open)
@@ -194,7 +195,7 @@ public class Stage3 extends JPanel implements KeyListener
     boolean open;
     
     int[] imgCoords;   
-    Image[] caseDialogue;
+    ArrayList<Image> caseDialogue;
     
     
     private Case (String cImg, String optImg, String ansImg, String diaDir, int num)
@@ -202,7 +203,21 @@ public class Stage3 extends JPanel implements KeyListener
     caseImg = ImageReader.reader (cImg);
     optionsImg = ImageReader.reader (optImg);
     answerImg = ImageReader.reader (ansImg);
-    caseDialogue = ImageReader.storeDir(diaDir);
+    caseDialogue = new ArrayList<Image>();
+
+      //String dialogueDir = "res/stage3/caseDialogue/c" + a + "/";
+    for (int a = 1; a < 6; a++)
+      {
+        String path = diaDir + diaDir.substring (24, 26) + ".png";
+        File tempFile = new File(path);
+        if(tempFile.exists())
+        {
+          caseDialogue.add(ImageReader.reader(path));
+        }
+        else
+          break;
+      }
+      
     answer = 0;
       
     imgCoords = new int[4];
@@ -218,10 +233,11 @@ public class Stage3 extends JPanel implements KeyListener
     Game.graphics.drawImage (caseImg, 0, 0, null);
     }
     
-    public Image getCaseDialogue (int i)
+    public Image getCaseDialogue ()
     {
-    return caseDialogue [i];
+    return caseDialogue.remove(0);
     }
+      
     public void showOptions()
     {
     Game.graphics.drawImage (optionsImg, 0, 0, null);
