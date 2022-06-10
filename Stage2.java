@@ -20,6 +20,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.io.*;
 
 public class Stage2 extends JPanel implements KeyListener, MouseListener
   {
@@ -272,4 +273,20 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener
      */
     @Override
     public void mouseExited(MouseEvent e) {}
+
+
+    
+    //At the end of stage 3 when the user finishes the game, the current score and corresponding name is written down. Toggled by a boolean or smth? 
+    //this.recordScore();
+    public void recordScore() {
+          PrintWriter output; //declares object of the PrintWriter class
+          String fileName ="names.txt";
+          try {
+              output = new PrintWriter(new FileWriter(fileName, true));
+              output.println(game.getPlayerName());
+              output.println(game.getPlayerScore());
+              output.close();
+          } catch (IOException e) {
+          }
+      }
 }
