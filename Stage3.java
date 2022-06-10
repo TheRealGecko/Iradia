@@ -30,9 +30,9 @@ public class Stage3 extends JPanel
     
     for (int a = 1; a < 6; a++)
     {
-    String caseImgAddress = "res/stage3/files" + a;
-    String optionImgAddress = "res/stage3/options/c" + a;
-    String dialogueDir = "res/stage3/caseDialogue/c" + a;
+    String caseImgAddress = "res/stage3/files/" + a + ".png";
+    String optionImgAddress = "res/stage3/options/c" + a + ".png";
+    String dialogueDir = "res/stage3/caseDialogue/c" + a + "/";
     cases.add (new Case (caseImgAddress, optionImgAddress, dialogueDir, a));
     }
     }
@@ -52,7 +52,7 @@ public class Stage3 extends JPanel
         }
         
         if (pos <= 10)
-          Game.graphics.drawImage(introDialogue[pos+1], 0, 0, null);
+         // Game.graphics.drawImage(introDialogue[pos+1], 0, 0, null);
           System.out.println ("this is fine");
         else
         {
@@ -97,7 +97,7 @@ public class Stage3 extends JPanel
     {
     caseImg = ImageReader.reader (cImg);
     optionsImg = ImageReader.reader (optImg);
-    caseDialogue = ImageReader.storeDir(diaDir);
+    //caseDialogue = ImageReader.storeDir(diaDir);
     answer = 0;   
     imgCoords = new int[4];
     }
