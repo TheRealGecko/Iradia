@@ -49,6 +49,7 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener
 
         this.setFocusable(true); // Allows the class to receive user input
         this.addKeyListener(this);
+      addMouseListener (this);
     }
 
     public void checkPos() {
@@ -88,8 +89,39 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener
         } else if(pos < 10) {
             Game.graphics.drawImage(introDialogue[pos], 0, 0, null);
         }
+<<<<<<< HEAD
+      if (sprite.isWithin (0, 98, 0, 52))
+        paperScreen (1);
+      else if (sprite.isWithin (0, 48, 420, 650))
+        paperScreen (2);
+      else if (sprite.isWithin (426, 590, 368, 650))
+        paperScreen (3);
+      else if (sprite.isWithin (638, 1000, 208, 269))
+        paperScreen (4);
+      else if (sprite.isWithin (682, 1000, 0, 28))
+        paperScreen (5);
+      else if (sprite.isWithin (252, 330, 118, 122))
+        paperScreen (6);
+
+    }
+
+    private void paperScreen(int paperNum)
+    {
+      try
+        {
+                Thread.sleep (150);
+        }
+catch(Exception e)
+        {
+        
+        }
+       //Game.graphics.drawImage (ImageReader.reader("res/Name_Screen_Background_1.png"), 0, 0, null);
+      
+      System.out.println ("Paper " + paperNum);
+=======
 
         checkPos();
+>>>>>>> origin/main
     }
     
     /**
@@ -172,7 +204,8 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener
      */
     @Override
     public void mousePressed(MouseEvent e) {
-
+System.out.println (sprite.getXPos());
+      System.out.println (sprite.getYPos());
     }
 
     /**
@@ -270,6 +303,13 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener
     dir = s;
     }
 
+    public boolean isWithin (int minX, int maxX, int minY, int maxY)
+    {
+      if (xPos >= minX && xPos <= maxX && yPos >= minY && yPos < maxY)
+        return true;
+      return false;
+    }
+
    }
     
     private class DrawSprite implements Runnable
@@ -286,7 +326,7 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener
             {
               graphics.drawImage (sprite.getSprite(), sprite.getXPos(), sprite.getYPos(), null);
               sprite.incrementImgIndex();
-              Thread.sleep (110);
+              Thread.sleep (200);
             }
             catch(Exception e)
             {
@@ -294,4 +334,5 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener
             }
         }
       }
+    
   }
