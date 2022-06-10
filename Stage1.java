@@ -67,10 +67,15 @@ public class Stage1 extends JPanel implements KeyListener, MouseListener, MouseM
     Image group3h = ImageReader.reader ("res/stage1/group3_highlighted.png");*/
         Game.graphics.drawImage (ImageReader.reader(img), 0, 0, null);
         }
-        if(!pause) {
-            Game.graphics.drawImage(dialogueBack, 40, 50, null);
+        if(pos < dialogue.length) {
+            if(!pause) {
+                Game.graphics.drawImage(dialogueBack, 40, 50, null);
+            }
+            Game.graphics.drawImage(dialogue[pos], 40, 50, null);
         }
-        Game.graphics.drawImage(dialogue[pos], 40, 50, null);
+
+        if(pos == 24)
+            Game.graphics.drawImage(ImageReader.reader("res/transition/end1.png"), 0, 0, null);
     }
 
     @Override
@@ -84,7 +89,7 @@ public class Stage1 extends JPanel implements KeyListener, MouseListener, MouseM
      */
     @Override
     public void keyPressed(KeyEvent e) {
-        if(pos == 23) {
+        if(pos == 24) {
             Game.frame.remove(this);
             Game.frame.add(new Stage2(game));
             Game.frame.pack();

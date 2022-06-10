@@ -50,12 +50,14 @@ public class Menu extends JPanel implements MouseListener {
     public void mousePressed(MouseEvent e) {
         if(e.getX() >= 193 && e.getX() <= 453 && e.getY() >= 180 && e.getY() <= 261)
             Game.scene = 1;
+        else if(e.getX() >= 193 && e.getX() <= 453 && e.getY() >= 388 && e.getY() <= 469)
+            Game.scene = 3;
     }
 
     /**
       * Clicking mouse (method not used but is necessary 
         to implement MouseListener)
-      * @param e     A click while the Iradia menu is 
+      * @param e     A click while the Iradia menu is
       *              onscreen
       */
     public void mouseClicked(MouseEvent e) {}
