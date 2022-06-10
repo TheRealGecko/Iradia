@@ -50,6 +50,8 @@ public class Menu extends JPanel implements MouseListener {
     public void mousePressed(MouseEvent e) {
         if(e.getX() >= 193 && e.getX() <= 453 && e.getY() >= 180 && e.getY() <= 261)
             Game.scene = 1;
+        else if(e.getX() >= 193 && e.getX() <= 453 && e.getY() >= 285 && e.getY() <= 365)
+            Game.scene = 2;
         else if(e.getX() >= 193 && e.getX() <= 453 && e.getY() >= 388 && e.getY() <= 469)
             Game.scene = 3;
     }

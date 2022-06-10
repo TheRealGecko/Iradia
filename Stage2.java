@@ -41,6 +41,8 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener
     boolean answer;
     boolean nextStage;
 
+    Font consolas;
+
     /**
      * Stage2 class's constructor. Initializes the table, button, case, and dialogue images, correct answers, and the value 
       used to iterate through cases. Also prepares for user input.
@@ -96,6 +98,8 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener
         pos = 1; // Dialogue position
 
         nextStage = false;
+
+        consolas = new Font ("res/Consolas.ttf", Font.PLAIN, 86);
 
         this.setFocusable(true); // Allows the class to receive user input
         this.addKeyListener(this);
@@ -164,6 +168,9 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener
            prompt();
         } else {
             Game.graphics.drawImage(ImageReader.reader("res/transition/end2.png"), 0, 0, null);
+            Game.graphics.setFont (consolas);
+            Game.graphics.setColor (new Color(92, 23, 40));
+            Game.graphics.drawString("" + game.getPlayerScore(), 800, 310);
         }
     }
 
@@ -227,7 +234,7 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener
     public void mousePressed(MouseEvent e) {
     if (pos >= 8 && pos % 2 == 0)
     {
-      if ((e.getX() <= 500 && answer) || (e.getX() > 500 && !answer)) {
+      if ((e.getX() <= 600 && answer) || (e.getX() > 500 && !answer)) {
           answer = true;
           game.increasePlayerScore();
       } else {

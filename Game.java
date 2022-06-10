@@ -48,7 +48,7 @@ public class Game {
         frame.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(escapeKeyStroke, "ESCAPE");
         frame.getRootPane().getActionMap().put("ESCAPE", escapeAction);
 
-      playerScore = 0;
+      playerScore = -1;
       playerName = "";
     }
 
@@ -83,6 +83,11 @@ public class Game {
                     frame.pack();
                     break;
                 case 2:
+                    Leaderboard l = new Leaderboard();
+                    frame.add(l);
+                    frame.pack();
+                    while (!l.isPressed) Thread.onSpinWait();
+                    scene = 0;
                     break;
                 case 3:
                     Credits credit = new Credits();

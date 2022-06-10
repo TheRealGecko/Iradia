@@ -89,7 +89,7 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener
         } else if(pos < 10) {
             Game.graphics.drawImage(introDialogue[pos], 0, 0, null);
         }
-<<<<<<< HEAD
+
       if (sprite.isWithin (0, 98, 0, 52))
         paperScreen (1);
       else if (sprite.isWithin (0, 48, 420, 650))
@@ -118,10 +118,8 @@ catch(Exception e)
        //Game.graphics.drawImage (ImageReader.reader("res/Name_Screen_Background_1.png"), 0, 0, null);
       
       System.out.println ("Paper " + paperNum);
-=======
 
         checkPos();
->>>>>>> origin/main
     }
     
     /**
