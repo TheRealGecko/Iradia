@@ -19,9 +19,11 @@ public class Stage3 extends JPanel implements KeyListener
     int caseNum;
     ArrayList<Case> cases;
     static boolean caseOpen;
-
+    boolean isPressed;
+  
     public Stage3(Game g)
     {
+    isPressed = false;
     game = g;
     sprite = new Sprite ();
     pos = 0;
@@ -143,8 +145,9 @@ public class Stage3 extends JPanel implements KeyListener
             }
           } else
           {
-            pos++;
+            System.out.println("toggle");
             paperScreen();
+            repaint();
           }
         }
     }
@@ -165,7 +168,6 @@ public class Stage3 extends JPanel implements KeyListener
     KeyListener)
     * @param e     Releasing a key
     */
-    @Override
     public void keyReleased(KeyEvent e) {
      sprite.resetImgIndex();
      repaint();
@@ -175,9 +177,19 @@ public class Stage3 extends JPanel implements KeyListener
     {
       caseOpen = true;
       Game.graphics.drawImage (ImageReader.reader("res/Name_Screen_Background_1.png"), 0, 0, null);
+      try
+        {
+          Thread.sleep (50);
+        }
+      catch (Exception e)
+        {
+        }
+      
       Game.graphics.drawImage (dialogueBack, 40, 50, null);
-      if (cases.get(caseNum).getDialogueLength() > 0)
-      Game.graphics.drawImage (cases.get(caseNum).getCaseDialogue(), 0, 0, null);
+      if (cases.get(caseNum).getDialogueLength() > 0) {
+        Game.graphics.drawImage (cases.get(1).getCaseDialogue(), 0, 0, null);
+        //Game.graphics.drawImage (sprite.getSprite(), 0, 0, null);
+      }
     }
     
     public void setCaseOpen(boolean open)
@@ -240,7 +252,10 @@ public class Stage3 extends JPanel implements KeyListener
     
     public Image getCaseDialogue ()
     {
-    return caseDialogue.remove(0);
+      Image temp = caseDialogue.get(0);
+      caseDialogue.remove(0);
+      System.out.println(caseDialogue.size());
+    return temp;
     }
       
     public void showOptions()
@@ -347,8 +362,16 @@ public class Stage3 extends JPanel implements KeyListener
         public void run()
         {
           if (!Stage3.getCaseOpen()) {
+            try
+            {
               graphics.drawImage (sprite.getSprite(), sprite.getXPos(), sprite.getYPos(), null);
               sprite.incrementImgIndex();
+              Thread.sleep (110);
+            }
+            catch(Exception e)
+            {
+
+            }
             }
           }
         }
