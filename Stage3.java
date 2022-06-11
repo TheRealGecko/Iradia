@@ -75,6 +75,7 @@ public class Stage3 extends JPanel implements KeyListener
             if (cases.size() > 0 && !caseOpen) {
                 for(int a = 0; a < cases.size(); a++) {
                 if (cases.get(a).isTouched(sprite.getXPos(), sprite.getYPos())) {
+                  caseNum = a;
                     System.out.println ("the case is" + caseNum);
                     caseOpen = true;
                     paperScreen();
