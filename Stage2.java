@@ -198,9 +198,9 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener
         }
 
         if(nextStage) {
-            Game.frame.remove(this);
-            Game.frame.add(new Stage3(game));
-            Game.frame.pack();
+          Game.frame.add(new Stage3(game));
+          Game.frame.pack();
+          Game.frame.remove(this);
         }
     }
     

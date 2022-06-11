@@ -19,6 +19,7 @@ public class Stage3 extends JPanel implements KeyListener
     int caseNum;
     ArrayList<Case> cases;
     static boolean caseOpen;
+    boolean isTouched;
     boolean isPressed;
   
     public Stage3(Game g)
@@ -40,7 +41,7 @@ public class Stage3 extends JPanel implements KeyListener
     String optionImgAddress = "res/stage3/options/c" + a + ".png";
     String answerImgAddress = "res/stage3/answers/c" + a + "_answers.png";
     String dialogueDir = "res/stage3/caseDialogue/c" + a + "/";
-    cases.add (new Case (caseImgAddress, optionImgAddress, answerImgAddress, dialogueDir, a));
+    cases.add (new Case (caseImgAddress, optionImgAddress, answerImgAddress, dialogueDir));
     }
 
       cases.get(0).setImgCoords(682, 1000, 0, 28);
@@ -68,27 +69,32 @@ public class Stage3 extends JPanel implements KeyListener
        if (!caseOpen) {
         Game.graphics.drawImage (background, 0, 0, null); 
         if(pos >= 7) {
-            for(int i = 0; i < cases.size(); i++) {
+            for (int i = 0; i < cases.size(); i++) {
                 Game.graphics.drawImage(cases.get(i).getCaseImg(), 0, 0, null);
-              
-           for (int a = 0; a < cases.size(); a++)
-            {
-               if (cases.get(a).isTouched (sprite.getXPos(), sprite.getYPos()))
-               {
-                                caseNum = a+1;
-               paperScreen (); 
-               }
-            } 
+            }
+            if (cases.size() > 0 && !caseOpen) {
+                for(int a = 0; a < cases.size(); a++) {
+                if (cases.get(a).isTouched(sprite.getXPos(), sprite.getYPos())) {
+                    System.out.println ("the case is" + caseNum);
+                    caseOpen = true;
+                    paperScreen();
+                    break;
+                }
+                }
+            }
         }
-        }
-        if (pos < 10)
+         if (pos < 10)
           Game.graphics.drawImage(introDialogue[pos], 0, 0, null);
         else
         {
         dSprite = new Thread(new DrawSprite(Game.graphics, sprite));
         dSprite.run();
         }
-       } 
+        }
+        else
+       {
+         paperScreen();
+       }
        }
 
   public static boolean getCaseOpen()
@@ -138,28 +144,32 @@ public class Stage3 extends JPanel implements KeyListener
                     if(sprite.getYPos() <= 454) {
                         sprite.setYPos(2);
                     }
-                    
+
                     sprite.setDir('f');
                 }
               repaint();
             }
-          } else
-          {
-            System.out.println("toggle");
-            paperScreen();
-            repaint();
           }
         }
     }
     
       /**
-    * Key being typed (method not used but is necessary to implement 
-    KeyListener)
+    * Toggles stage 3 case dialogue when any key is typed.
+    * This is used instead of keyPressed() to avoid accidental key presses from attempts to move the sprite
     * @param e     Typing a key
     */
     @Override
     public void keyTyped(KeyEvent e) {
 
+      if (caseOpen)
+      {
+        if(cases.get(caseNum).getDialogueLength() == 0)
+        {
+          caseOpen = false;
+          cases.remove(caseNum);
+        }
+      }
+      repaint();
     }
 
       /**
@@ -172,24 +182,13 @@ public class Stage3 extends JPanel implements KeyListener
      sprite.resetImgIndex();
      repaint();
     }
-    
+
     private void paperScreen ()
     {
-      caseOpen = true;
-      Game.graphics.drawImage (ImageReader.reader("res/Name_Screen_Background_1.png"), 0, 0, null);
-      try
-        {
-          Thread.sleep (50);
-        }
-      catch (Exception e)
-        {
-        }
-      
-      Game.graphics.drawImage (dialogueBack, 40, 50, null);
-      if (cases.get(caseNum).getDialogueLength() > 0) {
-        Game.graphics.drawImage (cases.get(1).getCaseDialogue(), 0, 0, null);
-        //Game.graphics.drawImage (sprite.getSprite(), 0, 0, null);
-      }
+          Game.graphics.drawImage(ImageReader.reader("res/Name_Screen_Background_1.png"), 0, 0, null);
+          if (cases.get(caseNum).getDialogueLength() > 1)
+             Game.graphics.drawImage(dialogueBack, 40, 50, null);
+          Game.graphics.drawImage(cases.get(caseNum).getCaseDialogue(), 0, 0, null);
     }
     
     public void setCaseOpen(boolean open)
@@ -208,15 +207,13 @@ public class Stage3 extends JPanel implements KeyListener
     int[] imgCoords;   
     ArrayList<Image> caseDialogue;
     
-    
-    private Case (String cImg, String optImg, String ansImg, String diaDir, int num)
+    private Case (String cImg, String optImg, String ansImg, String diaDir)
     {
     caseImg = ImageReader.reader (cImg);
     optionsImg = ImageReader.reader (optImg);
     answerImg = ImageReader.reader (ansImg);
     caseDialogue = new ArrayList<Image>();
 
-      //String dialogueDir = "res/stage3/caseDialogue/c" + a + "/";
     for (int a = 1; a < 6; a++)
       {
         String path = diaDir + diaDir.substring (24, 26);
@@ -229,6 +226,7 @@ public class Stage3 extends JPanel implements KeyListener
         else
           break;
       }
+      caseDialogue.add(optionsImg);
       
     answer = 0;
       
@@ -249,13 +247,10 @@ public class Stage3 extends JPanel implements KeyListener
       {
         return caseDialogue.size();
       }
-    
+
     public Image getCaseDialogue ()
     {
-      Image temp = caseDialogue.get(0);
-      caseDialogue.remove(0);
-      System.out.println(caseDialogue.size());
-    return temp;
+        return (caseDialogue.remove(0));
     }
       
     public void showOptions()
@@ -321,6 +316,11 @@ public class Stage3 extends JPanel implements KeyListener
     public void setYPos (int num)
     {
     yPos += num;
+    }
+
+    public void resetPos() {
+        xPos = 450;
+        yPos = 150;
     }
     
     public Image getSprite()

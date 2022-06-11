@@ -1,3 +1,12 @@
+/**
+ * This is the first draft of the Leaderboard class.
+ * <p>
+ * Version date: 06/08/2022
+ * @author Fatma Jadoon, Bethany Lum
+ * @version 1.3.63
+ * <p>
+ */
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -14,7 +23,9 @@ public class Leaderboard extends JPanel implements KeyListener {
     String usilver = "";
     String ubronze ="";
     boolean isPressed;
-
+   /**
+     * Leaderboard's constructor. Initializes the background image. 
+     */
     public Leaderboard(){
         background = ImageReader.reader("res/Leaderboard-bg1.png");
         isPressed = false;
@@ -94,7 +105,7 @@ public class Leaderboard extends JPanel implements KeyListener {
             scores.set(i+1, temp2);
             names.set(i+1, temp1);
         }
-        //assign ranks lmk if there should be another method for this
+        //assign ranks
         sbronze = scores.get(scores.size()-3);
         ssilver = scores.get(scores.size()-2);
         sgold = scores.get(scores.size()-1);
@@ -102,7 +113,11 @@ public class Leaderboard extends JPanel implements KeyListener {
         usilver = names.get(names.size()-2);
         ugold = names.get(names.size()-1);
     }
-
+ /**
+     * Check for typing action on the keyboard (method not used but is necessary
+     to implement KeyListener)
+     * @param e     An action involving a key
+     */
     @Override
     public void keyTyped(KeyEvent e) {
 
@@ -112,7 +127,11 @@ public class Leaderboard extends JPanel implements KeyListener {
     public void keyPressed(KeyEvent e) {
         isPressed = true;
     }
-
+/**
+     * Check for key releasing action on the keyboard (method not used but is necessary
+     to implement KeyListener)
+     * @param e     An action involving a key
+     */
     @Override
     public void keyReleased(KeyEvent e) {
 

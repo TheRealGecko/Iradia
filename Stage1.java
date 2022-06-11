@@ -84,7 +84,7 @@ public class Stage1 extends JPanel implements KeyListener, MouseListener, MouseM
     }
 
     /**
-     * Allows the user to move through the dialouge if any key is pressed. Also switches to the interactive tutorial at certain points of the dialogue.
+     * Allows the user to move through the dialogue if any key is pressed. Also switches to the interactive tutorial at certain points of the dialogue.
      * @param e     An action involving a key
      */
     @Override

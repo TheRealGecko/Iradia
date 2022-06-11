@@ -1,3 +1,13 @@
+/**
+ This is the first draft of the credits class. It displays the credits page when the option is chosen by the user. 
+ * </ul>
+ * <p>
+ * Version date: 
+ * @author 
+ * @version 1.3.63
+ * <p>
+ */
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -11,7 +21,10 @@ public class Credits extends JPanel implements KeyListener {
         this.setFocusable(true);
         this.addKeyListener(this);
     }
-
+ /**
+     * Displays the graphics necessary for the credits page.
+     * @param g     Used to draw graphics.
+     */
     @Override
     public void paintComponent(Graphics g) {
         Game.graphics = (Graphics2D) g;
@@ -23,7 +36,11 @@ public class Credits extends JPanel implements KeyListener {
     public synchronized void addKeyListener(KeyListener l) {
         super.addKeyListener(l);
     }
-
+ /**
+     * Check for typing action on the keyboard (method not used but is necessary
+     to implement KeyListener)
+     * @param e     An action involving a key
+     */
     @Override
     public void keyTyped(KeyEvent e) {
 
@@ -34,7 +51,11 @@ public class Credits extends JPanel implements KeyListener {
         Game.frame.remove(this);
         isPressed = true;
     }
-
+/**
+     * Check for key releasing action on the keyboard (method not used but is necessary
+     to implement KeyListener)
+     * @param e     An action involving a key
+     */
     @Override
     public void keyReleased(KeyEvent e) {
 
