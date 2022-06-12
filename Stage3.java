@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.io.*;
 
-public class Stage3 extends JPanel implements KeyListener
+public class Stage3 extends JPanel implements KeyListener, MouseListener
 {
     Game game;
     Sprite sprite;
@@ -54,6 +54,7 @@ public class Stage3 extends JPanel implements KeyListener
 
       this.setFocusable(true); // Allows the class to receive user input
       this.addKeyListener(this);
+      addMouseListener(this);
     }
     
     /**
@@ -92,7 +93,7 @@ public class Stage3 extends JPanel implements KeyListener
         dSprite.run();
         }
         }
-        else
+        else if(cases.get(caseNum).getDialogueLength() > 0)
        {
          paperScreen();
        }
@@ -162,16 +163,15 @@ public class Stage3 extends JPanel implements KeyListener
     @Override
     public void keyTyped(KeyEvent e) {
 
-      if (caseOpen)
-      {
-        if(cases.get(caseNum).getDialogueLength() == 0)
+      System.out.println (caseNum);
+        if(cases.get(caseNum).getDialogueLength() < 1)
         {
+          System.out.println ("triggered");
           caseOpen = false;
           cases.remove(caseNum);
         }
+        repaint();
       }
-      repaint();
-    }
 
       /**
     * Key being released
@@ -180,16 +180,68 @@ public class Stage3 extends JPanel implements KeyListener
     * @param e     Releasing a key
     */
     public void keyReleased(KeyEvent e) {
-     sprite.resetImgIndex();
-     repaint();
+    // sprite.resetImgIndex();
+     //repaint();
+    }
+  
+    @Override
+    public void mousePressed(MouseEvent e) {
+      if(cases.get(caseNum).optionChosen(e)) {
+        if(cases.get(caseNum).getDialogueLength() == 1) {
+      System.out.println("HELLOOOO");
+        if(cases.get(caseNum).isCorrect(e)) {
+          game.increasePlayerScore();
+          System.out.println("Score increased!");
+        }
+        repaint();
+      }
+      } 
     }
 
+    /**
+     * Clicking mouse (method not used but is necessary
+     to implement MouseListener)
+     * @param e     A click while the Iradia menu is
+     *              onscreen
+     */
+    @Override
+    public void mouseClicked(MouseEvent e) {}
+
+    /**
+     * Releasing mouse (method not used but is necessary
+     to implement MouseListener)
+     * @param e     A release while the Iradia menu is
+     *              onscreen
+     */
+    @Override
+    public void mouseReleased(MouseEvent e) {}
+
+    /**
+     * Mouse entering the bounds of a component (method
+     not used but is necessary to implement
+     MouseListener)
+     * @param e     Entering the bounds of a component
+     */
+    @Override
+    public void mouseEntered(MouseEvent e) {}
+
+    /**
+     * Mouse exiting the bounds of a component (method
+     not used but is necessary to implement
+     MouseListener)
+     * @param e     Exiting the bounds of a component
+     */
+    @Override
+    public void mouseExited(MouseEvent e) {}
+  
     private void paperScreen ()
     {
           Game.graphics.drawImage(ImageReader.reader("res/Name_Screen_Background_1.png"), 0, 0, null);
-          if (cases.get(caseNum).getDialogueLength() > 1)
+          if (cases.get(caseNum).getDialogueLength() > 1) 
              Game.graphics.drawImage(dialogueBack, 40, 50, null);
           Game.graphics.drawImage(cases.get(caseNum).getCaseDialogue(), 0, 0, null);
+          
+      System.out.println(cases.get(caseNum).getDialogueLength());
     }
     
     public void setCaseOpen(boolean open)
@@ -228,6 +280,7 @@ public class Stage3 extends JPanel implements KeyListener
           break;
       }
       caseDialogue.add(optionsImg);
+      caseDialogue.add(answerImg);
       
     answer = 0;
       
@@ -258,7 +311,46 @@ public class Stage3 extends JPanel implements KeyListener
     {
     Game.graphics.drawImage (optionsImg, 0, 0, null);
     }
-    
+
+    public boolean optionChosen(MouseEvent e) {
+      if((e.getXPos() >= 35 && e.getXPos() <= 473 && e.getYPos() >= 372 && e.getYPos() <= 473) || (e.getXPos() >= 35 && e.getXPos() <= 473 && e.getYPos() >= 506 && e.getYPos() <= 607) || (e.getXPos() >= 527 && e.getXPos() <= 965 && e.getYPos() >= 372 && e.getYPos() <= 473) || (e.getXPos() >= 527 && e.getXPos() <= 965 && e.getYPos() >= 506 && e.getYPos() <= 607)) {
+        return true;
+      }
+      return false;
+    }
+      
+    public boolean isCorrect(MouseEvent e) {
+      if(e.getXPos() >= 35 && e.getXPos() <= 473 && e.getYPos() >= 372 && e.getYPos() <= 473) {
+        System.out.println("answer box  1");
+        if(answer == 1) {
+           return true;
+        } else {
+          return false;
+        }
+      } else if(e.getXPos() >= 35 && e.getXPos() <= 473 && e.getYPos() >= 506 && e.getYPos() <= 607) {
+        System.out.println("answer box  2");
+        if(answer == 2) {
+           return true;
+        } else {
+          return false;
+        }
+      } else if(e.getXPos() >= 527 && e.getXPos() <= 965 && e.getYPos() >= 372 && e.getYPos() <= 473) {
+        System.out.println("answer box  3");
+        if(answer == 3) {
+           return true;
+        } else {
+          return false;
+        }
+      } else if(e.getXPos() >= 527 && e.getXPos() <= 965 && e.getYPos() >= 506 && e.getYPos() <= 607) {
+        System.out.println("answer box  4");
+        if(answer == 4) {
+           return true;
+        } else {
+          return false;
+        }
+      }
+    }
+      
     public void setImgCoords(int xMin, int xMax, int yMin, int yMax)
     {
     imgCoords [0] = xMin;
