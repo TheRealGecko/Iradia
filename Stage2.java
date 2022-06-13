@@ -25,23 +25,24 @@ import java.io.*;
 public class Stage2 extends JPanel implements KeyListener, MouseListener
   {
 
-    Image table;
-    Image buttons;
-    Image tutorialCase;
-    Image[] dialogue;
-    Image dialogueBack;
-    int pos;
-    Game game;
-    int caseNum;
+    private Image table;
+    private Image buttons;
+    private Image tutorialCase;
+    private Image[] dialogue;
+    private Image dialogueBack;
+    private int pos;
+    private Game game;
+    private int caseNum;
+    private int s2Score;
 
-    ArrayList<Image> cases;
-    ArrayList<Boolean> isToxic;
-    ArrayList<Image> reasons;
-    ArrayList<Image> profiles;
-    boolean answer;
-    boolean nextStage;
+    private ArrayList<Image> cases;
+    private ArrayList<Boolean> isToxic;
+    private ArrayList<Image> reasons;
+    private ArrayList<Image> profiles;
+    private boolean answer;
+    private boolean nextStage;
 
-    Font consolas;
+    private Font consolas;
 
     /**
      * Stage2 class's constructor. Initializes the table, button, case, and dialogue images, correct answers, and the value 
@@ -96,6 +97,8 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener
         tutorialCase = ImageReader.reader("res/stage2/cases/Tutorial_Case.png");
 
         pos = 1; // Dialogue position
+
+        s2Score = 0;
 
         nextStage = false;
 
@@ -170,7 +173,7 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener
             Game.graphics.drawImage(ImageReader.reader("res/transition/end2.png"), 0, 0, null);
             Game.graphics.setFont (consolas);
             Game.graphics.setColor (new Color(92, 23, 40));
-            Game.graphics.drawString("" + game.getPlayerScore(), 800, 310);
+            Game.graphics.drawString("" + s2Score, 800, 310);
         }
     }
 
@@ -191,6 +194,7 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener
     public void keyPressed(KeyEvent e) {
         if (cases.size() == 0) {
             nextStage = true;
+            game.increasePlayerScore (s2Score);
         } else if(pos < 8 || (pos != 8 && pos % 2 == 1))
         {
         pos++;
@@ -236,7 +240,7 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener
     {
       if ((e.getX() <= 600 && answer) || (e.getX() > 500 && !answer)) {
           answer = true;
-          game.increasePlayerScore();
+          s2Score++;
       } else {
           answer = false;
       }

@@ -112,9 +112,9 @@ public class Game {
     /**
      * Increases player score by one
      */
-    public void increasePlayerScore ()
+    public void increasePlayerScore (int n)
   {
-    playerScore ++;
+    playerScore += n;
   }
 
     /**

@@ -7,21 +7,22 @@ import java.io.*;
 
 public class Stage3 extends JPanel implements KeyListener, MouseListener
 {
-    Game game;
-    Sprite sprite;
-    Thread dSprite;
-    Image background;
-    Image dialogueBack;
+    private Game game;
+    private Sprite sprite;
+    private Thread dSprite;
+    private Image background;
+    private Image dialogueBack;
     
-    Image[] introDialogue;
-    Image[] endDialogue;
-    int pos;
-    int paperPos;
-    int caseNum;
-    ArrayList<Case> cases;
-    static boolean caseOpen;
-    boolean isTouched;
-    boolean isPressed;
+    private Image[] introDialogue;
+    private Image[] endDialogue;
+    private int pos;
+    private int paperPos;
+    private int caseNum;
+    private int s3Score;
+    private ArrayList<Case> cases;
+    private static boolean caseOpen;
+    private boolean isTouched;
+    private boolean isPressed;
 
 Font consolas;
   
@@ -34,6 +35,7 @@ Font consolas;
     sprite = new Sprite ();
     pos = 0;
     paperPos = 0;
+    s3Score = 0;
     background = ImageReader.reader ("res/stage3/background.png");
     introDialogue = ImageReader.storeDir("res/stage3/introText/");
     endDialogue = ImageReader.storeDir("res/stage3/endDialogue/");
@@ -88,7 +90,6 @@ consolas = new Font ("res/Consolas.ttf", Font.PLAIN, 86);
                 for(int a = 0; a < cases.size(); a++) {
                 if (cases.get(a).isTouched(sprite.getXPos(), sprite.getYPos())) {
                   caseNum = a;
-                    System.out.println ("the case is" + caseNum);
                     caseOpen = true;
                     paperScreen();
                     break;
@@ -105,11 +106,10 @@ consolas = new Font ("res/Consolas.ttf", Font.PLAIN, 86);
         } else if(pos < 2 && !nextScene) {
           Game.graphics.drawImage(dialogueBack, 40, 50, null);
           Game.graphics.drawImage(endDialogue[pos], 0, 0, null);
-          System.out.println("OMG IT WORKS");
         } else if(pos >= 2 && !nextScene) { Game.graphics.drawImage(ImageReader.reader("res/transition/end3.png"), 0, 0, null);
             Game.graphics.setFont (consolas);
             Game.graphics.setColor (new Color(92, 23, 40));
-            Game.graphics.drawString("" + game.getPlayerScore(), 800, 310);
+            Game.graphics.drawString("" + s3Score, 800, 310);
                 nextScene = true;
                 pos = 0;
                 endDialogue = ImageReader.storeDir("res/transition/endDialogue/");
@@ -189,11 +189,8 @@ consolas = new Font ("res/Consolas.ttf", Font.PLAIN, 86);
     */
     @Override
     public void keyTyped(KeyEvent e) {
-
-      System.out.println (caseNum);
         if(caseNum < cases.size() && cases.get(caseNum).getDialogueLength() == 0)
         {
-          System.out.println ("triggered");
           caseOpen = false;
           cases.remove(caseNum);
           if(cases.size() == 0) {
@@ -219,18 +216,19 @@ consolas = new Font ("res/Consolas.ttf", Font.PLAIN, 86);
   
     @Override
     public void mousePressed(MouseEvent e) {
-      if(cases.get(caseNum).optionChosen(e)) {
-        if(cases.get(caseNum).getDialogueLength() == 1) {
-      System.out.println(cases.get(caseNum).answer + "is the answer");
+      if((e.getX() >= 35 && e.getX() <= 473 && e.getY() >= 372 && e.getY() <= 473) || (e.getX() >= 35 && e.getX() <= 473 && e.getY() >= 506 && e.getY() <= 607) || (e.getX() >= 527 && e.getX() <= 965 && e.getY() >= 372 && e.getY() <= 473) || (e.getX() >= 527 && e.getX() <= 965 && e.getY() >= 506 && e.getY() <= 607))
+        {
+        if(caseOpen == true && cases.get(caseNum).getDialogueLength() == 1) {
         if(cases.get(caseNum).isCorrect(e)) {
-          game.increasePlayerScore();
-          System.out.println("Score increased!");
+          s3Score++;
+          game.increasePlayerScore (1);
         }
-          cases.get(caseNum).finished();
+        cases.get(caseNum).finished();
         repaint();
       }
+        }
+
       } 
-    }
 
     /**
      * Clicking mouse (method not used but is necessary
@@ -274,8 +272,6 @@ consolas = new Font ("res/Consolas.ttf", Font.PLAIN, 86);
           if (cases.get(caseNum).getDialogueLength() > 2) 
              Game.graphics.drawImage(dialogueBack, 40, 50, null);
           Game.graphics.drawImage(cases.get(caseNum).getCaseDialogue(), 0, 0, null);
-          
-      System.out.println(cases.get(caseNum).getDialogueLength());
     }
     
     public void setCaseOpen(boolean open)
@@ -354,35 +350,27 @@ consolas = new Font ("res/Consolas.ttf", Font.PLAIN, 86);
     {
     Game.graphics.drawImage (optionsImg, 0, 0, null);
     }
-
-    public boolean optionChosen(MouseEvent e) {
-        return (e.getX() >= 35 && e.getX() <= 473 && e.getY() >= 372 && e.getY() <= 473) || (e.getX() >= 35 && e.getX() <= 473 && e.getY() >= 506 && e.getY() <= 607) || (e.getX() >= 527 && e.getX() <= 965 && e.getY() >= 372 && e.getY() <= 473) || (e.getX() >= 527 && e.getX() <= 965 && e.getY() >= 506 && e.getY() <= 607);
-    }
       
     public boolean isCorrect(MouseEvent e) {
       if(e.getX() >= 35 && e.getX() <= 473 && e.getY() >= 372 && e.getY() <= 473) {
-        System.out.println("answer box  1");
         if(answer == 1) {
            return true;
         } else {
           return false;
         }
       } else if(e.getX() >= 35 && e.getX() <= 473 && e.getY() >= 506 && e.getY() <= 607) {
-        System.out.println("answer box  2");
         if(answer == 2) {
            return true;
         } else {
           return false;
         }
       } else if(e.getX() >= 527 && e.getX() <= 965 && e.getY() >= 372 && e.getY() <= 473) {
-        System.out.println("answer box  3");
         if(answer == 3) {
            return true;
         } else {
           return false;
         }
       } else {
-        System.out.println("answer box  4");
         if(answer == 4) {
            return true;
         } else {
