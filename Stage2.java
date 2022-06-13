@@ -173,7 +173,7 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener
             Game.graphics.drawImage(ImageReader.reader("res/transition/end2.png"), 0, 0, null);
             Game.graphics.setFont (consolas);
             Game.graphics.setColor (new Color(92, 23, 40));
-            Game.graphics.drawString("" + s2Score, 800, 310);
+            Game.graphics.drawString("" + (s2Score-1), 800, 310);
         }
     }
 
