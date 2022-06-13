@@ -20,28 +20,72 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class Stage1 extends JPanel implements KeyListener, MouseListener, MouseMotionListener {
+    /**
+     * train - Stores the background image of stage 1
+     */
     Image train;
+    /**
+     * dialogueBack - Stores the purple backing image of the dialogue
+     */
     Image dialogueBack = ImageReader.reader("res/header_base.png");
+    /**
+     * group1 - Stores the image of the first group of people
+     */
     Image group1 = ImageReader.reader("res/stage1/group1.png");
+    /**
+     * group2 - Stores the image of the second group of people
+     */
     Image group2 = ImageReader.reader("res/stage1/group2.png");
+    /**
+     * group3 - Stores the image of the third group of people
+     */
     Image group3 = ImageReader.reader("res/stage1/group3.png");
+    /**
+     * dialogue - Stores stage 1's dialogue
+     */
     Image[] dialogue = ImageReader.storeDir("res/stage1/text/");
+    /**
+     * pos - Stores the position of where the dialogue is at
+     */
     int pos;
+    /**
+     * pause - Stores whether the dialogue is paused
+     */
     boolean pause = false;
+    /**
+     * done1 - Stores whether group 1 is done being investigated
+     */
     boolean done1 = false;
+    /**
+     * done2 - Stores whether group 2 is done being investigated
+     */
     boolean done2 = false;
+    /**
+     * done3 - Stores whether group 3 is done being investigated
+     */
     boolean done3 = false;
-    int traingroup;
+    /**
+     * trainGroup - Stores the current group being investigated
+     */
+    int trainGroup;
+    /**
+     * game - Stores the game
+     */
     Game game;
 
     /**
-     * Stage1 class's constructor. Initializes the train image.
+     * The Stage1 class constructor.
+     * Does the following:
+     * - Initializes the instance variables
+     * - Creates a KeyListener
+     * - Creates a MouseListener
+     * @param g     Refers to the game
      */
     public Stage1(Game g) {
         game = g;
         train = ImageReader.reader("res/stage1/train.png");
         pos = 0;
-        traingroup = 0;
+        trainGroup = 0;
         this.setFocusable(true);
         this.addKeyListener(this);
         addMouseListener(this);
@@ -49,6 +93,7 @@ public class Stage1 extends JPanel implements KeyListener, MouseListener, MouseM
     }
 
     /**
+     * The paintComponent method.
      * Displays the graphics necessary for stage 1.
      * @param g     Used to draw graphics.
      */
@@ -60,11 +105,8 @@ public class Stage1 extends JPanel implements KeyListener, MouseListener, MouseM
         Game.graphics.drawImage(group1, 0, 0, null);
         Game.graphics.drawImage(group2, 0, 0, null);
         Game.graphics.drawImage(group3, 0, 0, null);
-        if (traingroup != 0) {
-            String img = "res/stage1/group" + traingroup + "_highlighted.png";
-    /*Image group1h = ImageReader.reader ("res/stage1/group1_highlighted.png");
-    Image group2h = ImageReader.reader ("res/stage1/group2_highlighted.png");
-    Image group3h = ImageReader.reader ("res/stage1/group3_highlighted.png");*/
+        if (trainGroup != 0) {
+            String img = "res/stage1/group" + trainGroup + "_highlighted.png";
             Game.graphics.drawImage(ImageReader.reader(img), 0, 0, null);
         }
         if (pos < dialogue.length) {
@@ -84,7 +126,9 @@ public class Stage1 extends JPanel implements KeyListener, MouseListener, MouseM
     }
 
     /**
-     * Allows the user to move through the dialogue if any key is pressed. Also switches to the interactive tutorial at certain points of the dialogue.
+     * The keyPressed method.
+     * Allows the user to move through the dialogue if any key is pressed.
+     * Also switches to the interactive tutorial at certain points of the dialogue.
      * @param e     An action involving a key
      */
     @Override
@@ -111,27 +155,28 @@ public class Stage1 extends JPanel implements KeyListener, MouseListener, MouseM
     }
 
     /**
-     * Check for typing action on the keyboard (method not used but is necessary
-     to implement KeyListener)
-     * @param e     An action involving a key
+     * The keyTyped method.
+     * Check for typing action on the keyboard (method not used but is necessary to implement KeyListener).
+     * @param e     An action involving a key.
      */
     @Override
-    public void keyTyped(KeyEvent e) {
-    }
+    public void keyTyped(KeyEvent e) {}
 
     /**
-     * Check for key releasing action on the keyboard (method not used but is necessary
-     to implement KeyListener)
-     * @param e     An action involving a key
+     * The keyReleased method.
+     * Check for key releasing action on the keyboard (method not used but is necessary to implement KeyListener).
+     * @param e     An action involving a key.
      */
     @Override
     public void keyReleased(KeyEvent e) {
     }
 
     /**
-     * Checks if the user has clicked on a group of people during the interactive tutorial, and then directs them to the corresponding dialogue
+     * The mousePressed method.
+     * Checks if the user has clicked on a group of people during the interactive tutorial,
+     * and then directs them to the corresponding dialogue.
      * @param e     A click while the Iradia menu is
-     *              onscreen
+     *              onscreen.
      */
     @Override
     public void mousePressed(MouseEvent e) {
@@ -154,70 +199,67 @@ public class Stage1 extends JPanel implements KeyListener, MouseListener, MouseM
     }
 
     /**
-     * Clicking mouse (method not used but is necessary
-     to implement MouseListener)
+     * The mouseClicked method.
+     * Clicking mouse (method not used but is necessary to implement MouseListener).
      * @param e     A click while the Iradia menu is
-     *              onscreen
+     *              onscreen.
      */
     @Override
-    public void mouseClicked(MouseEvent e) {
-    }
+    public void mouseClicked(MouseEvent e) {}
 
     /**
-     * Releasing mouse (method not used but is necessary
-     to implement MouseListener)
+     * The mouseReleased method.
+     * Releasing mouse (method not used but is necessary to implement MouseListener).
      * @param e     A release while the Iradia menu is
-     *              onscreen
+     *              onscreen.
      */
     @Override
-    public void mouseReleased(MouseEvent e) {
-    }
+    public void mouseReleased(MouseEvent e) {}
 
     /**
-     * Mouse entering the bounds of a component (method
-     not used but is necessary to implement
-     MouseListener)
-     * @param e     Entering the bounds of a component
+     * The mouseEntered method.
+     * Mouse entering the bounds of a component (method not
+     * used but is necessary to implement MouseListener).
+     * @param e     Entering the bounds of a component.
      */
     @Override
-    public void mouseEntered(MouseEvent e) {
-    }
+    public void mouseEntered(MouseEvent e) {}
 
     /**
+     * The mouseExited method.
      * Mouse exiting the bounds of a component (method
-     not used but is necessary to implement
-     MouseListener)
-     * @param e     Exiting the bounds of a component
+     * not used but is necessary to implement MouseListener).
+     * @param e     Exiting the bounds of a component.
      */
     @Override
-    public void mouseExited(MouseEvent e) {
-    }
+    public void mouseExited(MouseEvent e) {}
 
     /**
-     * Moving mouse changes the colours of the buttons it hovers over
-     * @param e     Mouse movement while Iradia is onscreen
+     * The mouseMoved method.
+     * Moving mouse changes the colours of the buttons it hovers over.
+     * @param e     Mouse movement while Iradia is onscreen.
      */
     @Override
     public void mouseMoved(MouseEvent e) {
         if (e.getX() >= 6 && e.getX() <= 231 && e.getY() >= 325 && e.getY() <= 609 && !done1 && pause) {
-            traingroup = 1;
+            trainGroup = 1;
         } else if (e.getX() >= 515 && e.getX() <= 720 && e.getY() >= 366 && e.getY() <= 650 && !done2 && pause) {
-            traingroup = 2;
+            trainGroup = 2;
         } else if (e.getX() >= 756 && e.getX() <= 1000 && e.getY() >= 325 && e.getY() <= 611 && !done3 && pause) {
-            traingroup = 3;
+            trainGroup = 3;
         } else {
-            traingroup = 0;
+            trainGroup = 0;
         }
         repaint();
     }
 
     /**
-     * Dragging mosue (method not used but is necessary
-     to implement MouseMotionListener)
+     * The mouseDragged method.
+     * Dragging mouse (method not used but is necessary
+     * to implement MouseMotionListener).
      * @param e     A drag while the Iradia menu is
-     *              onscreen
+     *              onscreen.
      */
     @Override
-    public void mouseDragged(MouseEvent e) {
-    }
+    public void mouseDragged(MouseEvent e) {}
 }

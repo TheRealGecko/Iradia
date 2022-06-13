@@ -25,23 +25,69 @@ import java.util.Arrays;
 import java.io.*;
 
 public class Stage2 extends JPanel implements KeyListener, MouseListener {
+    /**
+     * table - Stores the background image of stage 2
+     */
     private Image table;
+    /**
+     * buttons - Stores the yes/no button image
+     */
     private Image buttons;
+    /**
+     * tutorialCase - Stores the tutorial case image
+     */
     private Image tutorialCase;
+    /**
+     * dialogue - Stores stage 2's dialogue
+     */
     private Image[] dialogue;
+    /**
+     * dialogueBack - Stores the purple backing image of the dialogue
+     */
     private Image dialogueBack;
+    /**
+     * pos - Stores the position of where the dialogue is at
+     */
     private int pos;
+    /**
+     * game - Stores the game
+     */
     private Game game;
+    /**
+     * caseNUm - Stores the current case number
+     */
     private int caseNum;
+    /**
+     * s2Score - Stores the player's score for stage 2 specifically
+     */
     private int s2Score;
-
+    /**
+     * cases - Stores the cases' images
+     */
     private ArrayList<Image> cases;
+    /**
+     * isToxic - Stores the cases' answers
+     */
     private ArrayList<Boolean> isToxic;
+    /**
+     * reasons - Stores the cases' explanations
+     */
     private ArrayList<Image> reasons;
+    /**
+     * profiles - Stores the cases' profile images
+     */
     private ArrayList<Image> profiles;
+    /**
+     * answer - Stores whether the answer selected was correct
+     */
     private boolean answer;
+    /**
+     * nextStage - Stores whether to proceed to the next stage
+     */
     private boolean nextStage;
-
+    /**
+     * consolas - Stores the consolas font
+     */
     private Font consolas;
 
     /**

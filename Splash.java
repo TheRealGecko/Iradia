@@ -21,12 +21,22 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 
 public class Splash extends JPanel {
+    /**
+     * logo - Stores Antlion Studios' logo image
+     */
     Image logo;
+    /**
+     * alpha - Stores the alpha/opacity value of the logo
+     */
     double alpha;
+    /**
+     * fadeStage - Stores whether the logo is in the fade-in/fade-out stage
+     */
     int fadeStage;
 
     /**
-     * The Splash class's constructor. Initialize values needed for the splash screen to run.
+     * The Splash class constructor.
+     * Initialize Splash's instance variables.
      * @param path      The path of the image that will be fading in/out in the splash screen.
      */
     public Splash(String path) {
@@ -36,14 +46,16 @@ public class Splash extends JPanel {
     }
 
     /**
+     * The actionPerformed method.
      * Repaints the image on the screen.
-     * @ param event  An action performed by the user defined in the JFrame
+     * @param event  An action performed by the user defined in the JFrame.
      */
     private void actionPerformed(ActionEvent event) {
         repaint();
     }
 
     /**
+     * The paintComponent method.
      * Draws the fading image on the screen.
      * @param g     Used to draw graphics.
      */
@@ -71,6 +83,7 @@ public class Splash extends JPanel {
     }
 
     /**
+     * The run method
      * Runs the timer for how long the fading image lasts, and stops once the fading is complete.
      */
     public void run() {
