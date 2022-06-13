@@ -7,6 +7,7 @@
  * </ul>
  * <p>
  * Version date: 06/03/2022
+ *
  * @author Alexandra Mitnik, Fatma Jadoon
  * @version 1.3.63
  * <p>
@@ -19,14 +20,34 @@ import javax.swing.*;
 import java.awt.event.*;
 
 public class Game {
+    /**
+     * graphics - Stores the graphics of the game
+     */
     public static Graphics2D graphics;
+    /**
+     * scene - Stores the current scene state
+     */
     public static int scene;
+    /**
+     * playerName - Stores the name of the player
+     */
     private String playerName;
+    /**
+     * playerScore - Stores the score of the player
+     */
     private int playerScore;
+    /**
+     * frame - Stores the JFrame of the game
+     */
     public static JFrame frame;
 
     /**
-     * Game class's constructor. Creates a JFrame, sets its values, initializes the scene and play's score, and assigns a keystroke (esc) to close it.
+     * The Game class constructor.
+     * Does the following:
+     * - Creates a JFrame and sets its values
+     * - Initializes the scene number
+     * - Initializes the player's score
+     * - Assigns a keystroke (esc) to close it.
      */
     public Game() {
         frame = new JFrame("Iradia");
@@ -38,22 +59,23 @@ public class Game {
         frame.setMaximumSize(dim);
         frame.setMinimumSize(dim);
         scene = 0;
-  
+
         KeyStroke escapeKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, false);
         Action escapeAction = new AbstractAction() {
-         public void actionPerformed(ActionEvent e) {
-            frame.dispose();
-         }
-    };
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose();
+            }
+        };
         frame.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(escapeKeyStroke, "ESCAPE");
         frame.getRootPane().getActionMap().put("ESCAPE", escapeAction);
 
-      playerScore = -1;
-      playerName = "";
+        playerScore = -1;
+        playerName = "";
     }
 
     /**
-     * The run() method. Runs the game and controls the sequence of scenes.
+     * The run method.
+     * Runs the game and controls the sequence of scenes.
      */
     public void run() {
         /*Splash splash = new Splash("res/logoSplash.png");
@@ -69,6 +91,10 @@ public class Game {
         menu();
     }
 
+    /**
+     * The menu method.
+     * Deals with actions regarding the main menu.
+     */
     public void menu() {
         while (scene != 1 && scene != 2) {
             Menu menu = new Menu();
@@ -101,38 +127,45 @@ public class Game {
     }
 
     /**
-     * Returns player score
-     * @return player score
+     * The getPlayerScore method.
+     * @return The player's score.
      */
-    public int getPlayerScore()
-  {
-    return playerScore;
-  }
-
-    /**
-     * Increases player score by one
-     */
-    public void increasePlayerScore (int n)
-  {
-    playerScore += n;
-  }
-
-    /**
-     * Allows the player to set their name
-     */
-    public void addNameLetter(char letter)
-    {
-     playerName += letter;
+    public int getPlayerScore() {
+        return playerScore;
     }
 
-   public void deleteNameLetter ()
-  {
-     if (playerName.length() > 0)
-     playerName = playerName.substring (0, playerName.length() -1);
-  }
+    /**
+     * The increasePlayerScore method.
+     * Increases player score.
+     * @param n     Indicates how much the player score should increase by.
+     */
+    public void increasePlayerScore(int n) {
+        playerScore += n;
+    }
 
-  public String getPlayerName()
-  {
-    return playerName;
-  }
+    /**
+     * The addNameLetter method.
+     * Allows the player to set their name.
+     * @param letter    The letter which the user would like to add to their name.
+     */
+    public void addNameLetter(char letter) {
+        playerName += letter;
+    }
+
+    /**
+     * The deleteNameLetter method.
+     * Deletes the most recently added letter of a user's name.
+     */
+    public void deleteNameLetter() {
+        if (playerName.length() > 0)
+            playerName = playerName.substring(0, playerName.length() - 1);
+    }
+
+    /**
+     * The getPlayerName method.
+     * @return The name of the player.
+     */
+    public String getPlayerName() {
+        return playerName;
+    }
 }

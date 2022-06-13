@@ -7,6 +7,7 @@
  * </ul>
  * <p>
  * Version date: 06/03/2022
+ *
  * @author Fatma Jadoon, Alexandra Mitnik
  * @version 1.3.63
  * <p>
@@ -21,8 +22,8 @@ import java.util.ArrayList;
 public class ImageReader {
     /**
      * Reads an image using ImageIO.read();
-     * @param path      The path of the image
-     * @return An Image if no error is thrown, otherwise return null
+     * @param path      The path of the image.
+     * @return An Image if no error is thrown, otherwise return null.
      */
     public static Image reader(String path) {
         Image img;
@@ -36,36 +37,35 @@ public class ImageReader {
     }
 
     /**
-     * Stores the dialogue assets into an array
-     * @param dirPath       The path to the dialogue directory
-     * @return      An array of the script/dialogue assets
+     * Stores a directory of assets into an array.
+     * @param dirPath       The path to the directory.
+     * @return An array of assets.
      */
     public static Image[] storeDir(String dirPath) {
         File dir = new File(dirPath);
         String[] paths = dir.list();
         Image[] images = new Image[paths.length];
 
-        for(int i = 0; i < images.length; i++) {
+        for (int i = 0; i < images.length; i++) {
             images[i] = ImageReader.reader(dirPath + paths[i]);
         }
 
         return images;
     }
 
-      /**
-     * Stores the correct answer for a seris of cases in an array
-     * @param imgs       The ArrayList of cases to store the answers for
-     * @return      Returns an ArrayList of the answers for the cases
+    /**
+     * Stores the correct answer for a series of cases in an array.
+     * @param imgs       The ArrayList of cases to store the answers for.
+     * @return Returns an ArrayList of the answers for the cases.
      */
     public static ArrayList<Boolean> isToxic(ArrayList<Image> imgs) {
         ArrayList<Boolean> isToxic = new ArrayList<Boolean>();
-        for (int i = 0; i < imgs.size(); i++)
-          {
+        for (int i = 0; i < imgs.size(); i++) {
             if (i == 1 || i == 2 || i == 4 || i == 5)
-              isToxic.add(true);
+                isToxic.add(true);
             else
-              isToxic.add(false);           
-          }
+                isToxic.add(false);
+        }
         return isToxic;
     }
 }

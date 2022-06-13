@@ -11,6 +11,7 @@
  * </ul>
  * <p>
  * Version date: 06/03/2022
+ *
  * @author Fatma Jadoon
  * @version 1.3.63
  */
@@ -48,16 +49,16 @@ public class Splash extends JPanel {
      */
     @Override
     public void paintComponent(Graphics g) {
-        if(fadeStage == 0)
+        if (fadeStage == 0)
             alpha += 0.01;
         else {
             alpha -= 0.01;
         }
 
-        if(alpha > 1) {
+        if (alpha > 1) {
             alpha = 1;
             fadeStage++;
-        } else if(alpha < 0) {
+        } else if (alpha < 0) {
             alpha = 0;
             fadeStage++;
         }
