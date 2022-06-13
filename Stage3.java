@@ -14,6 +14,7 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener
     Image dialogueBack;
     
     Image[] introDialogue;
+    Image[] endDialogue;
     int pos;
     int paperPos;
     int caseNum;
@@ -21,6 +22,10 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener
     static boolean caseOpen;
     boolean isTouched;
     boolean isPressed;
+
+Font consolas;
+  
+  boolean nextScene;
   
     public Stage3(Game g)
     {
@@ -31,17 +36,21 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener
     paperPos = 0;
     background = ImageReader.reader ("res/stage3/background.png");
     introDialogue = ImageReader.storeDir("res/stage3/introText/");
+    endDialogue = ImageReader.storeDir("res/stage3/endDialogue/");
     dialogueBack = ImageReader.reader("res/header_base.png"); // Dialogue background image
-    
+
+nextScene = false;
+      
     cases = new ArrayList<Case>();
-    
+    int[] tempAnswers = {3, 2, 3, 3, 3, 2}; 
+      
     for (int a = 1; a <= 6; a++)
     {
     String caseImgAddress = "res/stage3/files/" + a + ".png";
     String optionImgAddress = "res/stage3/options/c" + a + ".png";
     String answerImgAddress = "res/stage3/answers/c" + a + "_answers.png";
     String dialogueDir = "res/stage3/caseDialogue/c" + a + "/";
-    cases.add (new Case (caseImgAddress, optionImgAddress, answerImgAddress, dialogueDir));
+    cases.add (new Case (caseImgAddress, optionImgAddress, answerImgAddress, dialogueDir, tempAnswers[a - 1]));
     }
 
       cases.get(0).setImgCoords(682, 1000, 0, 28);
@@ -52,6 +61,8 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener
       cases.get(5).setImgCoords(0, 48, 420, 650);
      
 
+consolas = new Font ("res/Consolas.ttf", Font.PLAIN, 86);
+      
       this.setFocusable(true); // Allows the class to receive user input
       this.addKeyListener(this);
       addMouseListener(this);
@@ -66,7 +77,7 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener
   
         Game.graphics = (Graphics2D) g;
         this.requestFocus();
-
+      
        if (!caseOpen) {
         Game.graphics.drawImage (background, 0, 0, null); 
         if(pos >= 7) {
@@ -85,15 +96,29 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener
                 }
             }
         }
-         if (pos < 10)
+         if (pos < 10 && cases.size() > 0)
           Game.graphics.drawImage(introDialogue[pos], 0, 0, null);
-        else
+        else if(cases.size() > 0)
         {
         dSprite = new Thread(new DrawSprite(Game.graphics, sprite));
         dSprite.run();
+        } else if(pos < 2 && !nextScene) {
+          Game.graphics.drawImage(dialogueBack, 40, 50, null);
+          Game.graphics.drawImage(endDialogue[pos], 0, 0, null);
+          System.out.println("OMG IT WORKS");
+        } else if(pos >= 2 && !nextScene) { Game.graphics.drawImage(ImageReader.reader("res/transition/end3.png"), 0, 0, null);
+            Game.graphics.setFont (consolas);
+            Game.graphics.setColor (new Color(92, 23, 40));
+            Game.graphics.drawString("" + game.getPlayerScore(), 800, 310);
+                nextScene = true;
+                pos = 0;
+                endDialogue = ImageReader.storeDir("res/transition/endDialogue/");
+        } else if(pos < 7 && nextScene) {
+          Game.graphics.drawImage(endDialogue[pos], 0, 0, null);
+          pos++;
         }
-        }
-        else if(cases.get(caseNum).getDialogueLength() > 0)
+       }
+        else if(cases.size() > 0 && cases.get(caseNum).getDialogueLength() > 0)
        {
          paperScreen();
        }
@@ -114,14 +139,16 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener
     * @param e     Pressing a key
     */
     @Override
-    public void keyPressed(KeyEvent e) {
-        if(pos < 10) {
+    public void keyPressed(KeyEvent e) { 
+      if(nextScene) {
+        repaint();
+      } else if((pos < 10 && cases.size() > 0) || (pos < 2 && cases.size() == 0) || (pos < 6 && nextScene)) {
           pos++;
           repaint ();
         }
       else
         {
-          if (!caseOpen)
+          if (!caseOpen && cases.size() > 0)
           {
             
             if (e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_DOWN)
@@ -164,13 +191,19 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener
     public void keyTyped(KeyEvent e) {
 
       System.out.println (caseNum);
-        if(cases.get(caseNum).getDialogueLength() < 1)
+        if(caseNum < cases.size() && cases.get(caseNum).getDialogueLength() == 0)
         {
           System.out.println ("triggered");
           caseOpen = false;
           cases.remove(caseNum);
-        }
-        repaint();
+          if(cases.size() == 0) {
+            pos = 0;
+          }
+          sprite.resetImgIndex();
+          repaint();
+        } else if(caseNum < cases.size() && cases.get(caseNum).getDialogueLength() > 1) {
+          repaint();
+        }   
       }
 
       /**
@@ -188,11 +221,12 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener
     public void mousePressed(MouseEvent e) {
       if(cases.get(caseNum).optionChosen(e)) {
         if(cases.get(caseNum).getDialogueLength() == 1) {
-      System.out.println("HELLOOOO");
+      System.out.println(cases.get(caseNum).answer + "is the answer");
         if(cases.get(caseNum).isCorrect(e)) {
           game.increasePlayerScore();
           System.out.println("Score increased!");
         }
+          cases.get(caseNum).finished();
         repaint();
       }
       } 
@@ -237,7 +271,7 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener
     private void paperScreen ()
     {
           Game.graphics.drawImage(ImageReader.reader("res/Name_Screen_Background_1.png"), 0, 0, null);
-          if (cases.get(caseNum).getDialogueLength() > 1) 
+          if (cases.get(caseNum).getDialogueLength() > 2) 
              Game.graphics.drawImage(dialogueBack, 40, 50, null);
           Game.graphics.drawImage(cases.get(caseNum).getCaseDialogue(), 0, 0, null);
           
@@ -256,16 +290,19 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener
     Image answerImg;
     int answer;
     boolean open;
+    boolean finished;
     
     int[] imgCoords;   
     ArrayList<Image> caseDialogue;
     
-    private Case (String cImg, String optImg, String ansImg, String diaDir)
+    private Case (String cImg, String optImg, String ansImg, String diaDir, int ans)
     {
     caseImg = ImageReader.reader (cImg);
     optionsImg = ImageReader.reader (optImg);
     answerImg = ImageReader.reader (ansImg);
     caseDialogue = new ArrayList<Image>();
+    finished = false;
+    answer = ans;
 
     for (int a = 1; a < 6; a++)
       {
@@ -281,8 +318,6 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener
       }
       caseDialogue.add(optionsImg);
       caseDialogue.add(answerImg);
-      
-    answer = 0;
       
     imgCoords = new int[4];
     }
@@ -306,6 +341,14 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener
     {
         return (caseDialogue.remove(0));
     }
+
+    public void finished() {
+      finished = true;
+    }
+      
+    public boolean getFinished() {
+      return finished;
+    }
       
     public void showOptions()
     {
@@ -313,35 +356,32 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener
     }
 
     public boolean optionChosen(MouseEvent e) {
-      if((e.getXPos() >= 35 && e.getXPos() <= 473 && e.getYPos() >= 372 && e.getYPos() <= 473) || (e.getXPos() >= 35 && e.getXPos() <= 473 && e.getYPos() >= 506 && e.getYPos() <= 607) || (e.getXPos() >= 527 && e.getXPos() <= 965 && e.getYPos() >= 372 && e.getYPos() <= 473) || (e.getXPos() >= 527 && e.getXPos() <= 965 && e.getYPos() >= 506 && e.getYPos() <= 607)) {
-        return true;
-      }
-      return false;
+        return (e.getX() >= 35 && e.getX() <= 473 && e.getY() >= 372 && e.getY() <= 473) || (e.getX() >= 35 && e.getX() <= 473 && e.getY() >= 506 && e.getY() <= 607) || (e.getX() >= 527 && e.getX() <= 965 && e.getY() >= 372 && e.getY() <= 473) || (e.getX() >= 527 && e.getX() <= 965 && e.getY() >= 506 && e.getY() <= 607);
     }
       
     public boolean isCorrect(MouseEvent e) {
-      if(e.getXPos() >= 35 && e.getXPos() <= 473 && e.getYPos() >= 372 && e.getYPos() <= 473) {
+      if(e.getX() >= 35 && e.getX() <= 473 && e.getY() >= 372 && e.getY() <= 473) {
         System.out.println("answer box  1");
         if(answer == 1) {
            return true;
         } else {
           return false;
         }
-      } else if(e.getXPos() >= 35 && e.getXPos() <= 473 && e.getYPos() >= 506 && e.getYPos() <= 607) {
+      } else if(e.getX() >= 35 && e.getX() <= 473 && e.getY() >= 506 && e.getY() <= 607) {
         System.out.println("answer box  2");
         if(answer == 2) {
            return true;
         } else {
           return false;
         }
-      } else if(e.getXPos() >= 527 && e.getXPos() <= 965 && e.getYPos() >= 372 && e.getYPos() <= 473) {
+      } else if(e.getX() >= 527 && e.getX() <= 965 && e.getY() >= 372 && e.getY() <= 473) {
         System.out.println("answer box  3");
         if(answer == 3) {
            return true;
         } else {
           return false;
         }
-      } else if(e.getXPos() >= 527 && e.getXPos() <= 965 && e.getYPos() >= 506 && e.getYPos() <= 607) {
+      } else {
         System.out.println("answer box  4");
         if(answer == 4) {
            return true;
