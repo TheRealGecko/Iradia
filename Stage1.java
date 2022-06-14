@@ -1,17 +1,18 @@
 /**
- * This is the third draft of the Stage1 class.
+ * This is the fifth draft of the Stage1 class. No changes have been made since the previous version.
  * <p>
- * Changes made:
+ * Current features include:
  * <ul>
- *    <li>Added dialogue
- *    <li>Completed interactive tutorial
- *    <li>Added transition into stage 2
+ *    <li>Dialogue
+ *    <li>Interactive tutorial
+ *    <li>Highlighting when mouse is over hitbox
+ *    <li>Transition into stage 2
  * </ul>
+ * </p>
  * <p>
- * Version date: 06/03/2022
- *
+ * Version date: 06/14/2022
  * @author Fatma Jadoon
- * @version: 1.3.63
+ * @version: ???
  * </p>
  */
 
@@ -20,22 +21,75 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class Stage1 extends JPanel implements KeyListener, MouseListener, MouseMotionListener {
-    Image train;
-    Image dialogueBack = ImageReader.reader("res/header_base.png");
-    Image group1 = ImageReader.reader("res/stage1/group1.png");
-    Image group2 = ImageReader.reader("res/stage1/group2.png");
-    Image group3 = ImageReader.reader("res/stage1/group3.png");
-    Image[] dialogue = ImageReader.storeDir("res/stage1/text/");
-    int pos;
-    boolean pause = false;
-    boolean done1 = false;
-    boolean done2 = false;
-    boolean done3 = false;
-    int traingroup;
+
+    /**
+    * game - The game this screen will be displayed in.
+    */
     Game game;
 
     /**
-     * Stage1 class's constructor. Initializes the train image.
+    * train - The background for stage 1.
+    */
+    Image train;
+
+    /**
+    * dialogueBack - The background for dialogue.
+    */
+    Image dialogueBack = ImageReader.reader("res/header_base.png");
+
+    /**
+    * group1 - The first group on the train.
+    */
+    Image group1 = ImageReader.reader("res/stage1/group1.png");
+
+    /**
+    * group2 - The second group on the train.
+    */
+    Image group2 = ImageReader.reader("res/stage1/group2.png");
+
+    /**
+    * group3 - The third group on the train.
+    */
+    Image group3 = ImageReader.reader("res/stage1/group3.png");
+
+    /**
+    * dialogue - All of the dialogue for stage 1.
+    */
+    Image[] dialogue = ImageReader.storeDir("res/stage1/text/");
+
+    /**
+    * The current position (array index) of dialogue.
+    */
+    int pos;
+
+    /**
+    * The current train group to show dialogue about.
+    */
+    int traingroup;
+
+    /**
+    * pause - Evaluates if dialogue toggling has been paused (for the interactive tutorial).
+    */
+    boolean pause = false;
+
+    /**
+    * Evaluates if the first group has been clicked on.
+    */
+    boolean done1 = false;
+
+   /**
+    * Evaluates if the second group has been clicked on.
+    */
+    boolean done2 = false;
+
+    /**
+    * Evaluates if the third group has been clicked on.
+    */
+    boolean done3 = false;
+
+    /**
+     * Stage1 class's constructor. Initializes the instance variables and adds a MouseListener and KeyListener.
+     * @param g The game to add the scene to.
      */
     public Stage1(Game g) {
         game = g;
@@ -49,6 +103,7 @@ public class Stage1 extends JPanel implements KeyListener, MouseListener, MouseM
     }
 
     /**
+     * The paintComponent method.
      * Displays the graphics necessary for stage 1.
      * @param g     Used to draw graphics.
      */
@@ -62,9 +117,6 @@ public class Stage1 extends JPanel implements KeyListener, MouseListener, MouseM
         Game.graphics.drawImage(group3, 0, 0, null);
         if (traingroup != 0) {
             String img = "res/stage1/group" + traingroup + "_highlighted.png";
-    /*Image group1h = ImageReader.reader ("res/stage1/group1_highlighted.png");
-    Image group2h = ImageReader.reader ("res/stage1/group2_highlighted.png");
-    Image group3h = ImageReader.reader ("res/stage1/group3_highlighted.png");*/
             Game.graphics.drawImage(ImageReader.reader(img), 0, 0, null);
         }
         if (pos < dialogue.length) {
@@ -78,12 +130,18 @@ public class Stage1 extends JPanel implements KeyListener, MouseListener, MouseM
             Game.graphics.drawImage(ImageReader.reader("res/transition/end1.png"), 0, 0, null);
     }
 
+    /**
+     * The addKeyListener method.
+     * Adds KeyListener.
+     * @param l KeyListener being added.
+     */
     @Override
     public synchronized void addKeyListener(KeyListener l) {
         super.addKeyListener(l);
     }
 
     /**
+     * The keyPressed method.
      * Allows the user to move through the dialogue if any key is pressed. Also switches to the interactive tutorial at certain points of the dialogue.
      * @param e     An action involving a key
      */
@@ -111,6 +169,7 @@ public class Stage1 extends JPanel implements KeyListener, MouseListener, MouseM
     }
 
     /**
+     * The keyTyped method.
      * Check for typing action on the keyboard (method not used but is necessary
      to implement KeyListener)
      * @param e     An action involving a key
@@ -120,6 +179,7 @@ public class Stage1 extends JPanel implements KeyListener, MouseListener, MouseM
     }
 
     /**
+     * The keyReleased method.
      * Check for key releasing action on the keyboard (method not used but is necessary
      to implement KeyListener)
      * @param e     An action involving a key
@@ -129,9 +189,9 @@ public class Stage1 extends JPanel implements KeyListener, MouseListener, MouseM
     }
 
     /**
+     * The mousePressed method.
      * Checks if the user has clicked on a group of people during the interactive tutorial, and then directs them to the corresponding dialogue
-     * @param e     A click while the Iradia menu is
-     *              onscreen
+     * @param e     A press while Iradia is onscreen.
      */
     @Override
     public void mousePressed(MouseEvent e) {
@@ -154,26 +214,27 @@ public class Stage1 extends JPanel implements KeyListener, MouseListener, MouseM
     }
 
     /**
+     * The mouseClicked method.
      * Clicking mouse (method not used but is necessary
      to implement MouseListener)
-     * @param e     A click while the Iradia menu is
-     *              onscreen
+     * @param e     A click while Iradia is onscreen.
      */
     @Override
     public void mouseClicked(MouseEvent e) {
     }
 
     /**
+     * The mouseReleased method.
      * Releasing mouse (method not used but is necessary
      to implement MouseListener)
-     * @param e     A release while the Iradia menu is
-     *              onscreen
+     * @param e     A release while Iradia is onscreen.
      */
     @Override
     public void mouseReleased(MouseEvent e) {
     }
 
     /**
+     * The mouseEntered method.
      * Mouse entering the bounds of a component (method
      not used but is necessary to implement
      MouseListener)
@@ -184,6 +245,7 @@ public class Stage1 extends JPanel implements KeyListener, MouseListener, MouseM
     }
 
     /**
+     * The mouseExited method.
      * Mouse exiting the bounds of a component (method
      not used but is necessary to implement
      MouseListener)
@@ -194,6 +256,7 @@ public class Stage1 extends JPanel implements KeyListener, MouseListener, MouseM
     }
 
     /**
+     * The mouseMoved method.
      * Moving mouse changes the colours of the buttons it hovers over
      * @param e     Mouse movement while Iradia is onscreen
      */
@@ -212,10 +275,10 @@ public class Stage1 extends JPanel implements KeyListener, MouseListener, MouseM
     }
 
     /**
+     * The mouseDragged method.
      * Dragging mosue (method not used but is necessary
      to implement MouseMotionListener)
-     * @param e     A drag while the Iradia menu is
-     *              onscreen
+     * @param e     A drag while Iradia is onscreen.
      */
     @Override
     public void mouseDragged(MouseEvent e) {

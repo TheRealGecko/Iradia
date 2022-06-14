@@ -1,16 +1,30 @@
 /**
- * This is the third draft of the Game class. No changes were made between the first and third drafts. Current features include:
+ * This is the 4th draft of the Game class.
+ * <p>
+ * Changes include:
  * <ul>
- *     <li>Setting up and creating the JFrame
- *     <li>Allowing the user to quit at any point by hitting 'esc'
- *     <li>Running the scenes of the game in the desired sequence (logo splashscreen, warning splashscreen, main menu, stage 1-2-3, end)
+ *     <li>Reading from the highscores file.
+ *     <li>Sorting the scores from the highscores file.
+ *     <li>Writing the player's name and score in a sorted position in the highscores file.
  * </ul>
+ * </p>
  * <p>
- * Version date: 06/10/2022
- *
+ * Current features include:
+ * <ul>
+ *     <li>Setting up and creating the JFrame.
+ *     <li>Allowing the user to quit at any point by hitting 'esc'.
+ *     <li>Running the scenes of the game in the desired sequence.
+ * </ul>
+ * </p>
+ * <p>
+ * Version date: 06/14/2022
  * @author Alexandra Mitnik, Fatma Jadoon
- * @version 1.3.63
- * <p>
+ * @version ??
+ * </p>
+ *
+*/
+
+ /*
  * External Code Sources:
  * (1) https://stackoverflow.com/questions/10822787/binding-key-combination-to-jframe
  */
@@ -23,22 +37,27 @@ import java.util.ArrayList;
 import java.util.*;
 
 public class Game {
+  
     /**
      * graphics - Stores the graphics of the game
      */
     public static Graphics2D graphics;
+  
     /**
      * scene - Stores the current scene state
      */
     public static int scene;
+  
     /**
      * playerName - Stores the name of the player
      */
     private String playerName;
+  
     /**
      * playerScore - Stores the score of the player
      */
     private int playerScore;
+  
     /**
      * frame - Stores the JFrame of the game
      */
@@ -46,11 +65,7 @@ public class Game {
 
     /**
      * The Game class constructor.
-     * Does the following:
-     * - Creates a JFrame and sets its values
-     * - Initializes the scene number
-     * - Initializes the player's score
-     * - Assigns a keystroke (esc) to close it.
+     * Creates a JFrame and sets its values, initializes the scene number, initializes the player's score, and assigns a keystroke (esc) to close it.
      */
     public Game() {
         frame = new JFrame("Iradia");
@@ -140,7 +155,7 @@ public class Game {
     /**
      * The increasePlayerScore method.
      * Increases player score.
-     * @param n     Indicates how much the player score should increase by.
+     * @param n     Amount the player score should increase by.
      */
     public void increasePlayerScore(int n) {
         playerScore += n;
@@ -148,7 +163,7 @@ public class Game {
 
     /**
      * The addNameLetter method.
-     * Allows the player to set their name.
+     * Adds a letter to the name
      * @param letter    The letter which the user would like to add to their name.
      */
     public void addNameLetter(char letter) {
@@ -172,13 +187,21 @@ public class Game {
         return playerName;
     }
 
-  
+    /**
+     * The recordScore method.
+     * Records the player's score in the highscores file.
+     */
     public void recordScore() {
       write(sort(read()));
     }
 
+    /**
+     * The read method.
+     * Read's the highscore file and stores it as an ArrayList.
+     * @return The data from the highscores file
+     */
     private ArrayList read()
-  {
+     {
         System.out.println ("reading commenced");
     ArrayList<String>fileData = new ArrayList<String>(); 
           try {
@@ -188,6 +211,7 @@ public class Game {
               {
                 fileData.add(temp);
                 temp = reader.readLine();
+                temp = temp.trim();
               }
           reader.close();
         } 
@@ -196,27 +220,38 @@ public class Game {
       return fileData;
   }
 
+    /**
+     * The sort method.
+     * Sorts the data from the highscore file 
+     * @param arr The array of data from the highscore file
+     * @return The sorted data from the highscores file
+     */
     private ArrayList sort(ArrayList arr)
-  {
+   {
     System.out.println ("sorting commenced");
     ArrayList<String>arr2 = arr;
     arr.add(playerName);
     arr.add(playerScore);
-   /* System.out.println (arr2.size());
+    System.out.println (arr2.size());
         for (int a = 1; a < arr2.size() - 2; a+= 2)
         {
          System.out.println ("The a for comparison is" + arr2.get(a));
           for (int b = a + 2; b < arr.size(); b += 2)
             {
               System.out.println ("We are looking at " + arr2.get(b));
-              // if (Integer.valueOf(arr2.get(b)) > Integer.valueOf(arr2.get(a)))
-               //  Collections.swap (arr2, a, b);
+               if (Integer.valueOf(arr2.get(b)) > Integer.valueOf(arr2.get(a)))
+                 Collections.swap (arr2, a, b);
             }
-        }*/
+        }
 
     return arr2;
   }
 
+    /**
+     * The write method.
+     * Writes the sorted (now including new playerscore) data to the highscore file
+     * @param arr The sorted data to write
+     */
     private void write(ArrayList arr)
   {
     System.out.println ("writing commenced");

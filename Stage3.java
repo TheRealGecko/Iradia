@@ -12,7 +12,8 @@
  * @author Alexandra Mitnik
  * @version: 1.3.63
  * </p>
- */import javax.swing.*;
+ */
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -77,6 +78,9 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener {
      */
     boolean nextScene;
 
+    boolean arrowPressed;
+
+  
     /**
      * The Stage3 class constructor.
      * Does the following:
@@ -99,6 +103,8 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener {
 
         cases = new ArrayList<Case>();
         int[] tempAnswers = {3, 2, 3, 3, 3, 2};
+
+        arrowPressed = false;
 
         for (int a = 1; a <= 6; a++) {
             String caseImgAddress = "res/stage3/files/" + a + ".png";
@@ -138,7 +144,7 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener {
             Game.graphics.drawImage(background, 0, 0, null);
             if (pos >= 7) {
                 for (int i = 0; i < cases.size(); i++) {
-                    Game.graphics.drawImage(cases.get(i).getCaseImg(), 40, 50, null);
+                    Game.graphics.drawImage(cases.get(i).getCaseImg(), 0, 0, null);
                 }
                 if (cases.size() > 0 && !caseOpen) {
                     for (int a = 0; a < cases.size(); a++) {
@@ -224,6 +230,7 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener {
             if (!caseOpen && cases.size() > 0) {
 
                 if (e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_DOWN) {
+                    arrowPressed = true;
                     if (e.getKeyCode() == KeyEvent.VK_LEFT) {
                         if (sprite.getXPos() >= 50 && !(sprite.getXPos() == 624 && sprite.getYPos() < 118)) {
                             sprite.setXPos(-2);
@@ -250,17 +257,6 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener {
                 }
             }
         }
-              if (caseNum < cases.size() && cases.get(caseNum).getDialogueLength() == 0) {
-            caseOpen = false;
-            cases.remove(caseNum);
-            if (cases.size() == 0) {
-                pos = 0;
-            }
-            sprite.resetImgIndex();
-            repaint();
-        } else if (caseNum < cases.size() && cases.get(caseNum).getDialogueLength() > 1) {
-            repaint();
-        }
     }
 
     /**
@@ -271,6 +267,17 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener {
      */
     @Override
     public void keyTyped(KeyEvent e) {
+      if (caseNum < cases.size() && cases.get(caseNum).getDialogueLength() == 0) {
+            caseOpen = false;
+            cases.remove(caseNum);
+            if (cases.size() == 0) {
+                pos = 0;
+            }
+            sprite.resetImgIndex();
+            repaint();
+        } else if (caseNum < cases.size() && cases.get(caseNum).getDialogueLength() > 2) {
+            repaint();
+        }  
     }
 
     /**
@@ -280,6 +287,7 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener {
      * @param e     An action involving a key.
      */
     public void keyReleased(KeyEvent e) {
+      arrowPressed = false;
       sprite.resetImgIndex();
       repaint();
     }
@@ -349,7 +357,7 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener {
     private void paperScreen() {
         Game.graphics.drawImage(ImageReader.reader("res/Name_Screen_Background_1.png"), 0, 0, null);
         if (cases.get(caseNum).getDialogueLength() > 2)
-            Game.graphics.drawImage(dialogueBack, 40, 50, null);
+            Game.graphics.drawImage(dialogueBack, 0, 0, null);
         Game.graphics.drawImage(cases.get(caseNum).getCaseDialogue(), 0, 0, null);
     }
 
@@ -645,7 +653,9 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener {
             if (!Stage3.getCaseOpen()) {
                 try {
                     graphics.drawImage(sprite.getSprite(), sprite.getXPos(), sprite.getYPos(), null);
-                    sprite.incrementImgIndex();
+                    if(arrowPressed) {
+                      sprite.incrementImgIndex();
+                    }
                     Thread.sleep(110);
                 } catch (Exception e) {}
             }

@@ -1,12 +1,16 @@
 /**
- * This is the first draft of the credits class. It displays the credits page when the option is chosen by the user.
+ * This is the second draft of the Credits class. No changes have been made since the previous version.
+ * <p>Current features include:
+ * <ul>
+ *   <li>Credits display
+ *   <li>Going back to main screen when key is pressed
  * </ul>
+ * </p>
  * <p>
- * Version date:
- *
+ * Version date: 06/14/2022
  * @author @Fatma Jadoon
- * @version 1.3.63
- * <p>
+ * @version ???
+ * </p>
  */
 
 import javax.swing.*;
@@ -15,6 +19,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class Credits extends JPanel implements KeyListener {
+  
     /**
      * IsPressed - Stores whether a key has been pressed in the Credits scene
      */
@@ -22,9 +27,7 @@ public class Credits extends JPanel implements KeyListener {
 
     /**
      * The Credits class constructor.
-     * Does the following:
-     * - Assigns values to instance variables
-     * - Creates a key listener
+     * Assigns values to instance variables and creates a key listener
      */
     public Credits() {
         isPressed = false;
@@ -33,6 +36,7 @@ public class Credits extends JPanel implements KeyListener {
     }
 
     /**
+     * The painComponent method.
      * Displays the graphics necessary for the credits page.
      * @param g     Used to draw graphics.
      */
@@ -43,6 +47,11 @@ public class Credits extends JPanel implements KeyListener {
         Game.graphics.drawImage(ImageReader.reader("res/credits.png"), 0, 0, null);
     }
 
+    /**
+     * The isPressed method.
+     * Gets the status of isPressed.
+     * @return if a key has been pressed.
+     */
     public boolean isPressed()
   {
     return isPressed;
@@ -59,6 +68,18 @@ public class Credits extends JPanel implements KeyListener {
     }
 
     /**
+     * The keyPressed method.
+     * Changes isPressed to true if a key is pressed.
+     * @param e     An action involving a key.
+     */
+    @Override
+    public void keyPressed(KeyEvent e) {
+        Game.frame.remove(this);
+        isPressed = true;
+    }
+  
+    /**
+     * The keyTyped method.
      * Check for typing action on the keyboard (method not used but is necessary
      to implement KeyListener).
      * @param e     An action involving a key.
@@ -67,17 +88,9 @@ public class Credits extends JPanel implements KeyListener {
     public void keyTyped(KeyEvent e) {
     }
 
-    /**
-     * Check for key pressing action on the keyboard. If a key is pressed, then it returns to the main menu.
-     * @param e     An action involving a key.
-     */
-    @Override
-    public void keyPressed(KeyEvent e) {
-        Game.frame.remove(this);
-        isPressed = true;
-    }
 
     /**
+     * The keyReleased method.
      * Check for key releasing action on the keyboard (method not used but is necessary
      to implement KeyListener).
      * @param e     An action involving a key.

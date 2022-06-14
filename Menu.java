@@ -1,16 +1,18 @@
 /**
- * This is the third draft of the Menu class. No changes were made between the first and third drafts. Current features include:
+ * This is the fifth draft of the Menu class. No changes have been made since the previous version.
+ * <p>
+ * Current features include:
  * <ul>
  *    <li> Setting up the mouse input
  *    <li> Painting the background for the menu
  *    <li> Painting the options for the menu
  *    <li> Creating an operational play button
  * </ul>
+ * </p>
  * <p>
- * Version date: 06/03/2022
- *
+ * Version date: 06/14/2022
  * @author Fatma Jadoon
- * @version: 1.3.63
+ * @version: ??
  * </p>
  */
 
@@ -28,13 +30,10 @@ public class Menu extends JPanel implements MouseListener {
 
     /**
      * The Menu class constructor.
-     * Does the following:
-     * - Initializes the menu image
-     * - Creates a mouseListener.
+     * Initializes the menu image and ceates a mouseListener.
      */
     public Menu() {
         menu = ImageReader.reader("res/menu.png");
-
         addMouseListener(this);
     }
 
@@ -46,15 +45,13 @@ public class Menu extends JPanel implements MouseListener {
     @Override
     public void paintComponent(Graphics g) {
         Game.graphics = (Graphics2D) g;
-
         Game.graphics.drawImage(menu, 0, 0, null);
     }
 
     /**
      * The mousePressed method.
      * Clicking/releasing the mouse on the play button.
-     * @param e     A click while the Iradia menu is
-     *              onscreen.
+     * @param e     A press while Iradia is onscreen.
      */
     public void mousePressed(MouseEvent e) {
         if (e.getX() >= 193 && e.getX() <= 453 && e.getY() >= 180 && e.getY() <= 261)
@@ -69,8 +66,7 @@ public class Menu extends JPanel implements MouseListener {
      * The mouseClicked method
      * Clicking mouse (method not used but is necessary
      to implement MouseListener).
-     * @param e     A click while the Iradia menu is
-     *              onscreen.
+     * @param e     A click while Iradia is onscreen.
      */
     public void mouseClicked(MouseEvent e) {
     }
@@ -79,8 +75,7 @@ public class Menu extends JPanel implements MouseListener {
      * The mouseReleased method.
      * Releasing mouse (method not used but is
      necessary to implement MouseListener).
-     * @param e     A release while the Iradia menu is
-     *              onscreen.
+     * @param e     A release while Iradia is onscreen.
      */
     public void mouseReleased(MouseEvent e) {
     }
@@ -93,9 +88,6 @@ public class Menu extends JPanel implements MouseListener {
      * @param e     Entering the bounds of a component.
      */
     public void mouseEntered(MouseEvent e) {
-        if (e.getX() >= 193 && e.getX() <= 453 && e.getY() >= 180 && e.getY() <= 261) {
-
-        }
     }
 
     /**

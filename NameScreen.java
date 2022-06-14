@@ -1,22 +1,21 @@
 /**
- * This is the first draft of the NameScreen class. This class was added as of version 1.2.0.
+ * This is the second draft of the NameScreen class. No changes have been made since the previous version.
  * <p>
  * Current features include:
  * <ul>
- * <li>On-screen keyboard
- * <li>Interaction w. the on-screen keyboard using arrow keys + enter key
- * <li>Setting player name w. the on-screen keyboard
- * <li>Name letter delete button
- * <li>Name enter button
- * <li>Name confirm screen
- * <li>Error trapping for names with no characters or > 16 characters
+ *   <li>On-screen keyboard
+ *   <li>Interaction w. the on-screen keyboard using arrow keys + enter key
+ *   <li>Setting player name w. the on-screen keyboard
+ *   <li>Name letter delete button
+ *   <li>Name enter button
+ *   <li>Name confirm screen
+ *   <li>Error trapping for names with no characters or > 16 characters
  * </ul>
  * </p>
  * <p>
  * Version date: 06/14/2022
- *
  * @author Alexandra Mitnik
- * @version: 1.3.63
+ * @version: ???
  * </p>
  */
 
@@ -32,35 +31,71 @@ import java.awt.event.*;
 import java.util.ArrayList;
 
 public class NameScreen extends JPanel implements KeyListener, MouseListener, MouseMotionListener {
-    /** The game whose JFrame the NameScreen should be drawn in*/
+  
+
+    /**
+     * game - The game this screen will be displayed in.
+     */
     private Game game;
-    /** The background for the name screen */
+  
+    /** 
+     * background - The background for the name screen.
+     */
     private Image background;
-    /** The keyboard for the name screen */
+  
+    /**
+     * text - The keyboard for the name screen.
+     */
     private Image text;
-    /** The last key selected */
+  
+    /** 
+     * key - The last key selected
+     */
     private char key;
-    /** The x coordinates for the last key selected (used to highlight the key onscreen)*/
+  
+    /**
+     * selectedKeyX - The x coordinates for the last key selected (used to highlight the key onscreen)
+     */
     private int selectedKeyX;
-    /** The y coordinates for the last key selected (used to highlight the key onscreen)*/
+  
+    /**
+     * selectedKeyY - The y coordinates for the last key selected (used to highlight the key onscreen)
+     */
     private int selectedKeyY;
-    /** The font to write the player's name in*/
+  
+    /**
+     * consolas - The font to write the player's name in
+     */
     private Font consolas;
-    /** The font to write the errortraps + name confirm pop-up text in*/
+  
+    /**
+     * consolas2 - The font to write the errortraps + name confirm pop-up text in
+     */
     private Font consolas2;
-    /** Evaluates if the name has been verified or not*/
+  
+    /**
+     * verify - Evaluates if the name has been verified or not
+     */
     private boolean verify;
-    /** Evaluates if the name exceeds 16 characters*/
+  
+    /**
+     * Evaluates if the name exceeds 16 characters
+     */
     private boolean nameTooLong;
-    /** Colour of the no button (changes if the mouse is/isn't hovering over it)*/
+  
+    /**
+     * Colour of the no button (changes if the mouse is/isn't hovering over it)
+     */
     private Color noColor;
-    /** Colour of the no button (changes if the mouse is/isn't hovering over it)*/
+  
+    /**
+     *Colour of the yes button (changes if the mouse is/isn't hovering over it)
+     */
     private Color yesColor;
 
     /**
      * NameScreen class's constructor. Initializes the images, fonts, and colours, gives the instance variables their default values, and adds the necessary listeners.
-     *
-     * @param g The game that the NameScreen should be added in.
+     * @param g The game to add the scene to.
      */
     public NameScreen(Game g) {
         key = 'A';
@@ -79,6 +114,7 @@ public class NameScreen extends JPanel implements KeyListener, MouseListener, Mo
     }
 
     /**
+     * The selectedKeyCoords method.
      * Updates the coordinates of the key highlight box to match those of the most recently selected key.
      */
     private void selectedKeyCoords() {
@@ -92,10 +128,10 @@ public class NameScreen extends JPanel implements KeyListener, MouseListener, Mo
     }
 
   
-    /**
-     * Displays the graphics necessary for NameScreen.
-     *
-     * @param g Used to draw graphics.
+      /**
+     * The paintComponent method.
+     * Displays the graphics necessary for the credits page.
+     * @param g     Used to draw graphics.
      */
     @Override
     public void paintComponent(Graphics g) {
@@ -128,49 +164,52 @@ public class NameScreen extends JPanel implements KeyListener, MouseListener, Mo
     }
 
     /**
+     * The verify method.
      * Displays the graphics for the name verification pop-up.
      */
     private void verify()
     {
      Game.graphics.setColor(noColor);
-                    Game.graphics.fillRect(225, 495, 80, 40);
-                    Game.graphics.setColor(yesColor);
-                    Game.graphics.fillRect(693, 495, 80, 40);
-                    Game.graphics.setColor(Color.BLACK);
-                    Game.graphics.drawString("Is this name correct?", 365, 395);
-                    Game.graphics.drawString("No", 250, 522);
-                    Game.graphics.drawString("Yes", 711, 522);
-                    Game.graphics.setFont(consolas);
+     Game.graphics.fillRect(225, 495, 80, 40);
+     Game.graphics.setColor(yesColor);
+     Game.graphics.fillRect(693, 495, 80, 40);
+     Game.graphics.setColor(Color.BLACK);
+     Game.graphics.drawString("Is this name correct?", 365, 395);
+     Game.graphics.drawString("No", 250, 522);
+     Game.graphics.drawString("Yes", 711, 522);
+     Game.graphics.setFont(consolas);
     }
 
     /**
-    * Displays the graphics for the null name error pop-up.
-    */
+     * The tooShortError method
+     * Displays the graphics for the null name error pop-up.
+     */
     private void tooShortError()
     {
-                    Game.graphics.setColor(yesColor);
-                    Game.graphics.fillRect(225, 495, 548, 40);
-                    Game.graphics.setColor(Color.BLACK);
-                    Game.graphics.drawString("Names must have at least 1 character", 270, 395);
-                    Game.graphics.drawString("OK", 490, 522);
+     Game.graphics.setColor(yesColor);
+     Game.graphics.fillRect(225, 495, 548, 40);
+     Game.graphics.setColor(Color.BLACK);
+     Game.graphics.drawString("Names must have at least 1 character", 270, 395);
+     Game.graphics.drawString("OK", 490, 522);
     }
 
     /**
-    * Displays the graphics for the too long name error pop-up.
-    */
+     * The tooLongError method
+     * Displays the graphics for the too long name error pop-up.
+     */
     private void tooLongError()
     {
-                    Game.graphics.setColor(yesColor);
-                    Game.graphics.fillRect(225, 495, 548, 40);
-                    Game.graphics.setColor(Color.BLACK);
-                    Game.graphics.drawString("Names can't exceed 16 characters", 300, 395);
-                    Game.graphics.drawString("OK", 490, 522);
+     Game.graphics.setColor(yesColor);
+     Game.graphics.fillRect(225, 495, 548, 40);
+     Game.graphics.setColor(Color.BLACK);
+     Game.graphics.drawString("Names can't exceed 16 characters", 300, 395);
+     Game.graphics.drawString("OK", 490, 522);
     }
 
     /**
-     * KeyListener being added
-     *
-     * @param l KeyListener
+     * The addKeyListener method.
+     * Ads KeyListener.
+     * @param l KeyListener being added.
      */
     @Override
     public synchronized void addKeyListener(KeyListener l) {
@@ -178,8 +217,8 @@ public class NameScreen extends JPanel implements KeyListener, MouseListener, Mo
     }
 
     /**
+     * The keyPressed method.
      * When any arrow key is pressed, switches through letters. When enter is pressed, selects the letter. Also allows for deleting letters and selecting name in the same manner.
-     *
      * @param e Pressing a key
      */
     @Override
@@ -208,9 +247,9 @@ public class NameScreen extends JPanel implements KeyListener, MouseListener, Mo
     }
 
     /**
+     * The keyTyped method.
      * Key being typed (method not used but is necessary to implement
      * KeyListener)
-     *
      * @param e Typing a key
      */
     @Override
@@ -218,10 +257,9 @@ public class NameScreen extends JPanel implements KeyListener, MouseListener, Mo
     }
 
     /**
-     * Key being released
+     * The keyReleased method.
      * (method not used but is necessary to implement
      * KeyListener)
-     *
      * @param e Releasing a key
      */
     @Override
@@ -229,9 +267,9 @@ public class NameScreen extends JPanel implements KeyListener, MouseListener, Mo
     }
 
     /**
-     * Checks if the user's name is correct based on if they click in the area of the "yes" or "no" button.
-     *
-     * @param e A click while the name verification is onscreen
+     * The mousePressed method.
+     * Checks if the user has selected the "yes" or "no" button for name verification and/or error messages.
+     * @param e A press while the name verification is onscreen
      */
     @Override
     public void mousePressed(MouseEvent e) {
@@ -259,9 +297,9 @@ public class NameScreen extends JPanel implements KeyListener, MouseListener, Mo
     }
 
     /**
+     * The mouseClicked method.
      * Clicking mouse (method not used but is necessary
      * to implement MouseListener)
-     *
      * @param e A click while the Iradia menu is
      *          onscreen
      */
@@ -270,9 +308,9 @@ public class NameScreen extends JPanel implements KeyListener, MouseListener, Mo
     }
 
     /**
+     * The mouseReleased method.
      * Releasing mouse (method not used but is necessary
      * to implement MouseListener)
-     *
      * @param e A release while the Iradia menu is
      *          onscreen
      */
@@ -281,10 +319,10 @@ public class NameScreen extends JPanel implements KeyListener, MouseListener, Mo
     }
 
     /**
+     * The mouseEntered method.
      * Mouse entering the bounds of a component (method
      * not used but is necessary to implement
      * MouseListener)
-     *
      * @param e Entering the bounds of a component
      */
     @Override
@@ -293,10 +331,10 @@ public class NameScreen extends JPanel implements KeyListener, MouseListener, Mo
     }
 
     /**
+     * The mouseExited method.
      * Mouse exiting the bounds of a component (method
      * not used but is necessary to implement
      * MouseListener)
-     *
      * @param e Exiting the bounds of a component
      */
     @Override
@@ -304,9 +342,9 @@ public class NameScreen extends JPanel implements KeyListener, MouseListener, Mo
     }
 
     /**
-     * Moving mouse changes the colours of the buttons it hovers over.
-     *
-     * @param e Mouse movement while Iradia is onscreen
+     * The mouseMoved method.
+     * Moving mouse changes the colours of the yes/no button if it is hovering over hitbox.
+     * @param e Mouse movement
      */
     @Override
     public void mouseMoved(MouseEvent e) {
@@ -337,8 +375,8 @@ public class NameScreen extends JPanel implements KeyListener, MouseListener, Mo
     }
 
     /**
+     * The mouseDragged method
      * Dragging mouse (method not used but is necessary to implement MouseMotionListener).
-     *
      * @param e A drag while the Iradia menu is
      *          onscreen
      */

@@ -3,13 +3,14 @@ This is the first draft of the EndScreen class.
 <p>
 Current features include:
 * <ul>
-     <li> stuff
+     <li>Recording the player's score
+     <li>Displaying the player's score
 * </ul>
 </p>
 * <p>
-* Version date: 06/13/2022
+* Version date: 06/14/2022
 * @author Alexandra Mitnik
-* @version: idk
+* @version: ???
 * </p>
 */
 import javax.swing.*;
@@ -21,18 +22,37 @@ import java.io.*;
 
 public class EndScreen extends JPanel
   {
+
+    /**
+     * game - The game this screen will be displayed in.
+     */
     Game game;
+
+    /**
+     * consolas - The font to draw Strings with.
+     */
     private Font consolas;
-    
+
+    /**
+     * The EndScreen class constructor.
+     * Assigns values to instance variables.
+     * @param g The game to add the scene to.
+     */
     public EndScreen (Game g)
     {
       game = g;
       consolas = new Font ("res/Consolas.ttf", Font.PLAIN, 86);
     }
 
+    /**
+     * The painComponent method.
+     * Displays the graphics necessary for the end screen.
+     * @param g     Used to draw graphics.
+     */
     public void paintComponent (Graphics2D g)
     {
       System.out.println ("this runs");
+      game.recordScore();
       Game.graphics = (Graphics2D) g;
       this.requestFocus();
       Game.graphics.drawImage(ImageReader.reader("res/transition/finalScore"), 0, 0, null);

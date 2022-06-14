@@ -1,11 +1,28 @@
 /**
- * This is the first draft of the Leaderboard class.
+ * This is the second draft of the Leaderboard class.
+ <p>
+ * Changes include:
+ * <ul>
+ *     <li>Reading from the highscores file.
+ *     <li>Storing the top scores + scorers data in arrays
+ *     <li>Displaying the top scorers + their scores.
+ * </ul>
+ * </p>
+ * <p>
+ * Current features include:
+ * <ul>
+ *     <li>Drawing the highscores podium.
+ *     <li>Reading from the highscores file.
+ *     <li>Storing the top scores + scorers data.
+ *     <li>Displaying the top scorers + their scores.
+ *     <li>Going back to main screen when key is pressed
+ * </ul>
+ * </p>
  * <p>
  * Version date: 06/08/2022
- *
- * @author Fatma Jadoon, Bethany Lum
- * @version 1.3.63
- * <p>
+ * @author Alexandra Mitnik, Bethany Lum, Fatma Jadoon
+ * @version ???
+ * </p>
  */
 
 import javax.swing.*;
@@ -16,6 +33,7 @@ import java.io.*;
 import java.util.*;
 
 public class Leaderboard extends JPanel implements KeyListener {
+  
     /**
      * background - Stores the background of the Leaderboard
      */
@@ -24,20 +42,30 @@ public class Leaderboard extends JPanel implements KeyListener {
     /**
      * IsPressed - Stores whether a key has been pressed in the Leaderboard scene
      */
+     boolean isPressed;
 
-  boolean scoresGot;
+     boolean scoresGot;
 
+    
+    /**
+     * scores - The top three scores
+     */
     int[] scores;
+
+    /**
+     * scorers - The top three scorers
+     */
     String[] scorers;
-  
-    boolean isPressed;
+
+    /**
+     * game - The game this screen will be displayed in.
+     */
     Game game;
+  
     /**
      * The Leaderboard class constructor.
-     * Does the following:
-     * - Initializes the background image.
-     * - Initializes instance variables.
-     * - Creates a keyListener
+     * Initializes the background image, initializes instance variables, and creates a KeyListener.
+     * @param g The game to add the scene to.
      */
     public Leaderboard(Game g) {
         game = g;
@@ -134,6 +162,11 @@ public class Leaderboard extends JPanel implements KeyListener {
         {}
     }
 
+    /**
+     * The isPressed method.
+     * Gets the status of isPressed.
+     * @return if a key has been pressed.
+     */
     public boolean isPressed()
   {
     return isPressed;
@@ -151,11 +184,12 @@ public class Leaderboard extends JPanel implements KeyListener {
 
     /**
      * The keyPressed method.
-     * Check for key pressing action on the keyboard. If a key is pressed, then it returns to the main menu.
-     * @param e     An action involving a key
+     * Changes isPressed to true if a key is pressed.
+     * @param e     An action involving a key.
      */
     @Override
     public void keyPressed(KeyEvent e) {
+        Game.frame.remove(this);
         isPressed = true;
     }
 

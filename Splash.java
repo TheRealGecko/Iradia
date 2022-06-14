@@ -1,19 +1,17 @@
 /**
- * This is the third draft of the Splash class. No changes were made between the first and third drafts. Current features include:
+ * This is the fourth draft of the Splash class. No changes have been made since the previous version.
+ * Current features include:
  * <ul>
  *     <li>Fading in/out an image
+ *     <li>Logo image
+ *     <li>Content advisory image
  * </ul>
+ * /p>
  * <p>
- * Currently, it is used for the following screens:
- * <ul>
- *     <li>Logo splashscreen
- *     <li>Warning splashscreen
- * </ul>
- * <p>
- * Version date: 06/03/2022
+ * Version date: 06/14/2022
  *
  * @author Fatma Jadoon
- * @version 1.3.63
+ * @version ???
  */
 
 import javax.swing.*;
@@ -21,14 +19,17 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 
 public class Splash extends JPanel {
+  
     /**
      * logo - Stores Antlion Studios' logo image
      */
     Image logo;
+  
     /**
      * alpha - Stores the alpha/opacity value of the logo
      */
     double alpha;
+  
     /**
      * fadeStage - Stores whether the logo is in the fade-in/fade-out stage
      */

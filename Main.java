@@ -1,12 +1,12 @@
 /**
- * This is the third draft of the Main class.
+ * This is the fifth draft of the Main class.
  * It creates an instance of and runs the game.
- * Version date: 06/10/2022
+ * Version date: 06/14/2022
  *
  * @author Fatma Jadoon
- * @version 1.3.63
+ * @version ???
  * <p>
- * Fourth version submission of Iradia.
+ * Final submission of Iradia.
  * <p>
  * Task distribution:
  * <ul>
@@ -61,7 +61,6 @@ public class Main {
     /**
      * The main method.
      * Starts up the game.
-     *
      * @param args
      */
     public static void main(String[] args) {
