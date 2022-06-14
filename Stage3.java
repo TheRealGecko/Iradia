@@ -1,4 +1,18 @@
-import javax.swing.*;
+/**
+ * This is the _____ draft of the Stage3 class. This class was added as of version 1.3.63.
+ * <p>
+ * Changes include:
+ * <ul>
+ * <li>- writeup for each piece of advice explaining why it is or isn't ideal + graphics required
+ * </ul>
+ * </p>
+ * <p>
+ * Version date: 06/13/2022
+ *
+ * @author Alexandra Mitnik
+ * @version: 1.3.63
+ * </p>
+ */import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;

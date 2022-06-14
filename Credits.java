@@ -4,7 +4,7 @@
  * <p>
  * Version date:
  *
- * @author
+ * @author @Fatma Jadoon
  * @version 1.3.63
  * <p>
  */
@@ -18,7 +18,7 @@ public class Credits extends JPanel implements KeyListener {
     /**
      * IsPressed - Stores whether a key has been pressed in the Credits scene
      */
-    boolean isPressed;
+    private boolean isPressed;
 
     /**
      * The Credits class constructor.
@@ -42,6 +42,11 @@ public class Credits extends JPanel implements KeyListener {
         this.requestFocus();
         Game.graphics.drawImage(ImageReader.reader("res/credits.png"), 0, 0, null);
     }
+
+    public boolean isPressed()
+  {
+    return isPressed;
+  }
 
     /**
      * The addKeyListener method.

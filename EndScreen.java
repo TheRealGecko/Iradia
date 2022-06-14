@@ -1,5 +1,5 @@
 /**
-This is the first draft of the EndScreen class. This class was added as of version <idk dude srry>
+This is the first draft of the EndScreen class. 
 <p>
 Current features include:
 * <ul>
@@ -22,18 +22,20 @@ import java.io.*;
 public class EndScreen extends JPanel
   {
     Game game;
+    private Font consolas;
     
     public EndScreen (Game g)
     {
       game = g;
+      consolas = new Font ("res/Consolas.ttf", Font.PLAIN, 86);
     }
 
     public void paintComponent (Graphics2D g)
     {
+      System.out.println ("this runs");
       Game.graphics = (Graphics2D) g;
       this.requestFocus();
-      Game.graphics.drawImage(ImageReader.reader("res/transition/finalScore"));
-      Game.graphics.drawString();
+      Game.graphics.drawImage(ImageReader.reader("res/transition/finalScore"), 0, 0, null);
       Game.graphics.setFont (consolas);
       Game.graphics.setColor (new Color(92, 23, 40));
      // Game.graphics.drawString("" + game.getPlayerScore(), 800, 

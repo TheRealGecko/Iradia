@@ -20,35 +20,18 @@ public class Leaderboard extends JPanel implements KeyListener {
      * background - Stores the background of the Leaderboard
      */
     Image background;
-    /**
-     * sgold - Stores the score of the player whose rank is gold
-     */
-    int sgold;
-    /**
-     * ssilver - Stores the score of the player whose rank is silver
-     */
-    int ssilver;
-    /**
-     * sbronze - Stores the score of the player whose rank is bronze
-     */
-    int sbronze;
-    /**
-     * ugold - Stores the name of the player whose rank is gold
-     */
-    String ugold;
-    /**
-     * usilver - Stores the name of the player whose rank is silver
-     */
-    String usilver;
-    /**
-     * ubronze - Stores the name of the player who's rank is bronze
-     */
-    String ubronze;
+
     /**
      * IsPressed - Stores whether a key has been pressed in the Leaderboard scene
      */
-    boolean isPressed;
 
+  boolean scoresGot;
+
+    int[] scores;
+    String[] scorers;
+  
+    boolean isPressed;
+    Game game;
     /**
      * The Leaderboard class constructor.
      * Does the following:
@@ -56,15 +39,13 @@ public class Leaderboard extends JPanel implements KeyListener {
      * - Initializes instance variables.
      * - Creates a keyListener
      */
-    public Leaderboard() {
-        background = ImageReader.reader("res/Leaderboard-bg1.png");
+    public Leaderboard(Game g) {
+        game = g;
+        scoresGot = false;
+        background = ImageReader.reader("res/leaderboard-bg1.png");
         isPressed = false;
-        sgold = 0;
-        ssilver = 0;
-        sbronze = 0;
-        ugold = "";
-        usilver = "";
-        ubronze = "";
+        scores = new int[3];
+        scorers = new String[3];
         this.setFocusable(true);
         this.addKeyListener(this);
     }
@@ -86,7 +67,6 @@ public class Leaderboard extends JPanel implements KeyListener {
      */
     @Override
     public void paintComponent(Graphics g) {
-        this.getScores();
         Game.graphics = (Graphics2D) g;
         this.requestFocus();
         Game.graphics.drawImage(background, 0, 0, null);
@@ -95,74 +75,72 @@ public class Leaderboard extends JPanel implements KeyListener {
         g.drawString("Leaderboard", 350, 100);
         Font smallerMono = new Font("Monospaced", Font.PLAIN, 30);
         g.setFont(smallerMono);
-        int[] lengths = {ubronze.length(), usilver.length(), ugold.length()};
-        for (int i = 0; i <= 2; i++) {
-            if (lengths[i] > 5) {
-                lengths[i] += 3;
-            }
+      if (scoresGot == false)
+        getScores();
+      int[] widths = new int[3];
+      for (int i = 0; i <= 2; i++) {
+         widths[i] = g.getFontMetrics().stringWidth(scorers[i]);
         }
-        g.drawString(ubronze, 730 - lengths[0] * 6, 400);
-        g.drawString(usilver, 250 - lengths[1] * 6, 380);
-        g.drawString(ugold, 495 - lengths[2] * 6, 300);
+        g.drawString(scorers[2], 733 - widths[0]/2, 400);
+        g.drawString(scorers[1], 265 - widths[1]/2, 380);
+        g.drawString(scorers[0], 510 - widths[2]/2, 300);
         g.setFont(largeMono);
-        g.drawString(sbronze + "", 730, 470);
-        g.drawString(ssilver + "", 250, 450);
-        g.drawString(sgold + "", 490, 400);
+        g.drawString(scores[2] + "", 733, 470);
+        g.drawString(scores[1] + "", 250, 450);
+        g.drawString(scores[0] + "", 475, 400);
     }
 
     /**
      * The getScores method.
      * Retrieves the scores of the players and stores them in parallel ArrayLists.
      */
-    public void getScores() {
-        ArrayList<String> names = new ArrayList<String>();
-        ArrayList<Integer> scores = new ArrayList<Integer>();
-        BufferedReader input;
-        try {
-            String username = " ";
-            input = new BufferedReader(new FileReader("names.txt"));
-            while (username != null) {
-                username = input.readLine();
-                if (username == null) {
-                    break;
-                }
-                names.add(username);
-                String placeholder = input.readLine();
-                int score = Integer.parseInt(placeholder);
-                scores.add(score);
-            }
-            sort(names, scores);
-        } catch (IOException e) {
+    private void getScores() {
+      try
+        {
+        BufferedReader reader = new BufferedReader (new FileReader ("highscores.txt"));
+          String tempName = reader.readLine();
+          int tempScore = Integer.parseInt(reader.readLine());
+      while (tempName != null)
+        {
+          if (tempName != null)
+          {
+           if (scores [0] <= tempScore)
+          {
+            scores [2] = scores[1];
+            scorers[2] = scorers[1];
+            scores[1] = scores[0];
+            scorers[1] = scorers[0];
+            scores [0] = tempScore;
+            scorers[0] = tempName;
+          }
+          else if (scores[1] <= tempScore)
+          {
+            scores[2] = scores[1];
+            scorers[2] = scorers[1];
+            scores[1] = tempScore;
+            scorers[1] = tempName;
+          }
+          else if (scores[2] <= tempScore)
+          {
+            scores[2] = tempScore;
+            scorers[2] = tempName;
+          }
+          tempName = reader.readLine();
+            if (tempName != null)
+          tempScore = Integer.parseInt(reader.readLine());
+          }
         }
+          reader.close();
+          scoresGot = true;
+        }
+      catch (IOException e)
+        {}
     }
 
-    /**
-     * The sort method
-     * Sorts the scores of all the players based on who scored the highest amount of points.
-     * @param names     Contains the names of all the players.
-     * @param scores    Contains the scores of all the players.
-     */
-    private void sort(ArrayList<String> names, ArrayList<Integer> scores) {
-        for (int j = 0; j < names.size(); j++) {
-            String temp1 = names.get(j);
-            Integer temp2 = scores.get(j);
-            int i = j - 1;
-            while ((i > -1) && ((scores.get(i).compareTo(temp2)) == 1)) {
-                scores.set(i + 1, scores.get(i));
-                names.set(i + 1, names.get(i));
-                i--;
-            }
-            scores.set(i + 1, temp2);
-            names.set(i + 1, temp1);
-        }
-        //assign ranks
-        sbronze = scores.get(scores.size() - 3);
-        ssilver = scores.get(scores.size() - 2);
-        sgold = scores.get(scores.size() - 1);
-        ubronze = names.get(names.size() - 3);
-        usilver = names.get(names.size() - 2);
-        ugold = names.get(names.size() - 1);
-    }
+    public boolean isPressed()
+  {
+    return isPressed;
+  }
 
     /**
      * The keyTyped method.
@@ -192,5 +170,18 @@ public class Leaderboard extends JPanel implements KeyListener {
      */
     @Override
     public void keyReleased(KeyEvent e) {
+    }
+
+    //this.recordScore();
+    public void recordScore() {
+        PrintWriter output; //declares object of the PrintWriter class
+        String fileName = "names.txt";
+        try {
+            output = new PrintWriter(new FileWriter(fileName, true));
+            output.println(game.getPlayerName());
+            output.println(game.getPlayerScore());
+            output.close();
+        } catch (IOException e) {
+        }
     }
 }

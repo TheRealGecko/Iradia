@@ -3,10 +3,10 @@
  * <ul>
  *     <li>Setting up and creating the JFrame
  *     <li>Allowing the user to quit at any point by hitting 'esc'
- *     <li>Running the scenes of the game in the desired sequence (logo splashscreen, warning splashscreen, main menu, stage 1)
+ *     <li>Running the scenes of the game in the desired sequence (logo splashscreen, warning splashscreen, main menu, stage 1-2-3, end)
  * </ul>
  * <p>
- * Version date: 06/03/2022
+ * Version date: 06/10/2022
  *
  * @author Alexandra Mitnik, Fatma Jadoon
  * @version 1.3.63
@@ -107,19 +107,22 @@ public class Game {
                     NameScreen n = new NameScreen(this);
                     frame.add(n);
                     frame.pack();
+                    EndScreen e = new EndScreen (this);
+                    frame.add(n);
+                    frame.pack();
                     break;
                 case 2:
-                    Leaderboard l = new Leaderboard();
+                    Leaderboard l = new Leaderboard(this);
                     frame.add(l);
                     frame.pack();
-                    while (!l.isPressed) Thread.onSpinWait();
+                    while (!l.isPressed()) Thread.onSpinWait();
                     scene = 0;
                     break;
                 case 3:
                     Credits credit = new Credits();
                     frame.add(credit);
                     frame.pack();
-                    while (!credit.isPressed) Thread.onSpinWait();
+                    while (!credit.isPressed()) Thread.onSpinWait();
                     scene = 0;
                     break;
             }

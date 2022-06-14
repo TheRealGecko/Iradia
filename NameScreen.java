@@ -1,3 +1,25 @@
+/**
+ * This is the first draft of the NameScreen class. This class was added as of version 1.2.0.
+ * <p>
+ * Current features include:
+ * <ul>
+ * <li>On-screen keyboard
+ * <li>Interaction w. the on-screen keyboard using arrow keys + enter key
+ * <li>Setting player name w. the on-screen keyboard
+ * <li>Name letter delete button
+ * <li>Name enter button
+ * <li>Name confirm screen
+ * <li>Error trapping for names with no characters or > 16 characters
+ * </ul>
+ * </p>
+ * <p>
+ * Version date: 06/14/2022
+ *
+ * @author Alexandra Mitnik
+ * @version: 1.3.63
+ * </p>
+ */
+
 /*
 External code sources: 
 (1) https://stackoverflow.com/questions/13731710/allowing-the-enter-key-to-press-the-submit-button-as-opposed-to-only-using-mo - used for enter key 
@@ -10,19 +32,36 @@ import java.awt.event.*;
 import java.util.ArrayList;
 
 public class NameScreen extends JPanel implements KeyListener, MouseListener, MouseMotionListener {
-    Image background;
-    Image text;
-    char key;
-    int selectedKeyX;
-    int selectedKeyY;
-    Font consolas;
-    Font consolas2;
-    boolean verify;
-    Color noColor;
-    Color yesColor;
-    boolean nameTooLong; // should i make these private?
-    Game game;
+    /** The game whose JFrame the NameScreen should be drawn in*/
+    private Game game;
+    /** The background for the name screen */
+    private Image background;
+    /** The keyboard for the name screen */
+    private Image text;
+    /** The last key selected */
+    private char key;
+    /** The x coordinates for the last key selected (used to highlight the key onscreen)*/
+    private int selectedKeyX;
+    /** The y coordinates for the last key selected (used to highlight the key onscreen)*/
+    private int selectedKeyY;
+    /** The font to write the player's name in*/
+    private Font consolas;
+    /** The font to write the errortraps + name confirm pop-up text in*/
+    private Font consolas2;
+    /** Evaluates if the name has been verified or not*/
+    private boolean verify;
+    /** Evaluates if the name exceeds 16 characters*/
+    private boolean nameTooLong;
+    /** Colour of the no button (changes if the mouse is/isn't hovering over it)*/
+    private Color noColor;
+    /** Colour of the no button (changes if the mouse is/isn't hovering over it)*/
+    private Color yesColor;
 
+    /**
+     * NameScreen class's constructor. Initializes the images, fonts, and colours, gives the instance variables their default values, and adds the necessary listeners.
+     *
+     * @param g The game that the NameScreen should be added in.
+     */
     public NameScreen(Game g) {
         key = 'A';
         background = ImageReader.reader("res/Name_Screen_Background_1.png");
@@ -39,16 +78,20 @@ public class NameScreen extends JPanel implements KeyListener, MouseListener, Mo
         addMouseMotionListener(this);
     }
 
+    /**
+     * Updates the coordinates of the key highlight box to match those of the most recently selected key.
+     */
     private void selectedKeyCoords() {
-        if (Character.compare(key, 'A') < 0) {
+        if (Character.compare(key, 'A') < 0) { // Loops key to 'Z' if user tries to select key before 'A'.
             key = (char) 92;
-        } else if ((int) key > 92) {
+        } else if ((int) key > 92) { // Loops key to 'A' if user tries to select key before 'Z'.
             key = 'A';
         }
         selectedKeyX = 180 + 96 * (((int) key - 2) % 7);
         selectedKeyY = 262 + 97 * (((int) key - 65) / 7);
     }
 
+  
     /**
      * Displays the graphics necessary for NameScreen.
      *
@@ -73,7 +116,23 @@ public class NameScreen extends JPanel implements KeyListener, MouseListener, Mo
             Game.graphics.setFont(consolas2);
             if (verify == true) {
                 if (game.getPlayerName().length() > 0) {
-                    Game.graphics.setColor(noColor);
+                  verify();
+                } else {
+                  tooShortError();
+                }
+                Game.graphics.drawString(game.getPlayerName(), 500 - width / 2, 455);
+            } else {
+                  tooLongError();
+            }
+        }
+    }
+
+    /**
+     * Displays the graphics for the name verification pop-up.
+     */
+    private void verify()
+    {
+     Game.graphics.setColor(noColor);
                     Game.graphics.fillRect(225, 495, 80, 40);
                     Game.graphics.setColor(yesColor);
                     Game.graphics.fillRect(693, 495, 80, 40);
@@ -82,23 +141,30 @@ public class NameScreen extends JPanel implements KeyListener, MouseListener, Mo
                     Game.graphics.drawString("No", 250, 522);
                     Game.graphics.drawString("Yes", 711, 522);
                     Game.graphics.setFont(consolas);
+    }
 
-                } else {
+    /**
+    * Displays the graphics for the null name error pop-up.
+    */
+    private void tooShortError()
+    {
                     Game.graphics.setColor(yesColor);
                     Game.graphics.fillRect(225, 495, 548, 40);
                     Game.graphics.setColor(Color.BLACK);
                     Game.graphics.drawString("Names must have at least 1 character", 270, 395);
                     Game.graphics.drawString("OK", 490, 522);
-                }
-                Game.graphics.drawString(game.getPlayerName(), 500 - width / 2, 455);
-            } else {
-                Game.graphics.setColor(yesColor);
-                Game.graphics.fillRect(225, 495, 548, 40);
-                Game.graphics.setColor(Color.BLACK);
-                Game.graphics.drawString("Names can't exceed 16 characters", 300, 395);
-                Game.graphics.drawString("OK", 490, 522);
-            }
-        }
+    }
+
+    /**
+    * Displays the graphics for the too long name error pop-up.
+    */
+    private void tooLongError()
+    {
+                    Game.graphics.setColor(yesColor);
+                    Game.graphics.fillRect(225, 495, 548, 40);
+                    Game.graphics.setColor(Color.BLACK);
+                    Game.graphics.drawString("Names can't exceed 16 characters", 300, 395);
+                    Game.graphics.drawString("OK", 490, 522);
     }
 
     /**
@@ -112,7 +178,7 @@ public class NameScreen extends JPanel implements KeyListener, MouseListener, Mo
     }
 
     /**
-     * When any left arrow or right arrow is pressed, switches through letters.
+     * When any arrow key is pressed, switches through letters. When enter is pressed, selects the letter. Also allows for deleting letters and selecting name in the same manner.
      *
      * @param e Pressing a key
      */
@@ -163,7 +229,7 @@ public class NameScreen extends JPanel implements KeyListener, MouseListener, Mo
     }
 
     /**
-     * Checks if the user's name is correct based on if they click in the area of the "yes" or "no" button
+     * Checks if the user's name is correct based on if they click in the area of the "yes" or "no" button.
      *
      * @param e A click while the name verification is onscreen
      */
@@ -238,7 +304,7 @@ public class NameScreen extends JPanel implements KeyListener, MouseListener, Mo
     }
 
     /**
-     * Moving mouse changes the colours of the buttons it hovers over
+     * Moving mouse changes the colours of the buttons it hovers over.
      *
      * @param e Mouse movement while Iradia is onscreen
      */
@@ -271,8 +337,7 @@ public class NameScreen extends JPanel implements KeyListener, MouseListener, Mo
     }
 
     /**
-     * Dragging mosue (method not used but is necessary
-     * to implement MouseMotionListener)
+     * Dragging mouse (method not used but is necessary to implement MouseMotionListener).
      *
      * @param e A drag while the Iradia menu is
      *          onscreen

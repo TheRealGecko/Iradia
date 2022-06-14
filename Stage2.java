@@ -7,10 +7,11 @@
  * <li>Allowing user input
  * <li>Evaluating the user's answer
  * <li>Incrementing the user's score for correct answers
+ * <li>Fixed stage 2 formatting
  * </ul>
  * </p>
  * <p>
- * Version date: 06/03/2022
+ * Version date: 06/13/2022
  *
  * @author Alexandra Mitnik
  * @version: 1.3.63
@@ -25,77 +26,28 @@ import java.util.Arrays;
 import java.io.*;
 
 public class Stage2 extends JPanel implements KeyListener, MouseListener {
-    /**
-     * table - Stores the background image of stage 2
-     */
     private Image table;
-    /**
-     * buttons - Stores the yes/no button image
-     */
     private Image buttons;
-    /**
-     * tutorialCase - Stores the tutorial case image
-     */
     private Image tutorialCase;
-    /**
-     * dialogue - Stores stage 2's dialogue
-     */
     private Image[] dialogue;
-    /**
-     * dialogueBack - Stores the purple backing image of the dialogue
-     */
     private Image dialogueBack;
-    /**
-     * pos - Stores the position of where the dialogue is at
-     */
     private int pos;
-    /**
-     * game - Stores the game
-     */
     private Game game;
-    /**
-     * caseNUm - Stores the current case number
-     */
     private int caseNum;
-    /**
-     * s2Score - Stores the player's score for stage 2 specifically
-     */
     private int s2Score;
-    /**
-     * cases - Stores the cases' images
-     */
+
     private ArrayList<Image> cases;
-    /**
-     * isToxic - Stores the cases' answers
-     */
     private ArrayList<Boolean> isToxic;
-    /**
-     * reasons - Stores the cases' explanations
-     */
     private ArrayList<Image> reasons;
-    /**
-     * profiles - Stores the cases' profile images
-     */
     private ArrayList<Image> profiles;
-    /**
-     * answer - Stores whether the answer selected was correct
-     */
     private boolean answer;
-    /**
-     * nextStage - Stores whether to proceed to the next stage
-     */
     private boolean nextStage;
-    /**
-     * consolas - Stores the consolas font
-     */
+
     private Font consolas;
 
     /**
-     * The Stage2 class constructor.
-     * Does the following:
-     * - Initializes the instance variables
-     * - Creates a KeyListener
-     * - Creates a MouseListener
+     * Stage2 class's constructor. Initializes the table, button, case, and dialogue images, correct answers, and the value 
+     used to iterate through cases. Also prepares for user input.
      */
     public Stage2(Game g) {
         game = g;
@@ -113,7 +65,7 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener {
         }
 
         reasons = new ArrayList<Image>();
-        for (int i = 1; i <= 7; i++) {
+        for (int i = 0; i <= 7; i++) {
             for (int j = 0; j <= 1; j++) {
                 String dir = "res/stage2/reasons/c" + i;
 
@@ -155,7 +107,6 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener {
     }
 
     /**
-     * The tutorial method.
      * Displays the graphics for the tutorial dialogue.
      */
     private void tutorial() {
@@ -163,28 +114,26 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener {
         if (pos >= 5)
             Game.graphics.drawImage(tutorialCase, 0, 0, null);
         if (pos != 5) {
-            Game.graphics.drawImage(dialogueBack, 40, 50, null);
+            Game.graphics.drawImage(dialogueBack, 0, 0, null);
             Game.graphics.drawImage(dialogue[pos], 40, 50, null);
         }
     }
 
     /**
-     * The getCase method
      * Displays the graphics for a random case the player has not yet solved.
      */
     private void getCase() {
         if (pos % 2 == 0) {
             Game.graphics.drawImage(table, -9, 0, null);
-            caseNum = (int) (Math.random() * cases.size());
-            Game.graphics.drawImage(cases.remove(caseNum), 0, 0, null);
-            Game.graphics.drawImage(profiles.remove(caseNum), 350, 197, null);
-            answer = isToxic.remove(caseNum);
+          caseNum = (int) (Math.random() * cases.size());
+          Game.graphics.drawImage(cases.remove(caseNum), 0, 0, null);
+          Game.graphics.drawImage(profiles.remove(caseNum), 350, 197, null);
+          answer = isToxic.remove(caseNum);
         }
     }
 
 
     /**
-     * The prompt method.
      * Displays the graphics for the prompt asking the player if the case is toxic.
      */
     private void prompt() {
@@ -203,20 +152,20 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener {
     }
 
     /**
-     * The paintComponent method.
-     * Displays the graphics necessary for stage 2. Calls tutorial(), promp(), or getCase() depending on which screen the
+     * Displays the graphics necessary for stage 2. Calls tutorial (), prompt (), or getCase() depending on which screen the
      player is on.
      * @param g     Used to draw graphics.
      */
     @Override
     public void paintComponent(Graphics g) {
+        System.out.println (pos);
         Game.graphics = (Graphics2D) g;
         this.requestFocus();
         if (pos < 8) {
             tutorial();
         } else if (cases.size() != 0) {
-            getCase();
-            prompt();
+          getCase();
+          prompt();
         } else {
             Game.graphics.drawImage(ImageReader.reader("res/transition/end2.png"), 0, 0, null);
             Game.graphics.setFont(consolas);
@@ -226,9 +175,8 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener {
     }
 
     /**
-     * The addKeyListener method.
-     * Creates a keyListener.
-     * @param l     Listens for key input.
+     * KeyListener being added
+     * @param l    KeyListener
      */
     @Override
     public synchronized void addKeyListener(KeyListener l) {
@@ -236,9 +184,8 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener {
     }
 
     /**
-     * The keyPressed method.
-     * When any key is pressed, switches through dialogue in the tutorial + opens prompt for user input on cases.
-     * @param e     An action involving a key.
+     * When any key is pressed, switches through dialogue in the tutorial + opens prompt for user input on cases
+     * @param e     Pressing a key
      */
     @Override
     public void keyPressed(KeyEvent e) {
@@ -258,17 +205,20 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener {
     }
 
     /**
-     * The keyTyped method.
-     * Check for typing action on the keyboard (method not used but is necessary to implement KeyListener).
-     * @param e     An action involving a key.
+     * Key being typed (method not used but is necessary to implement
+     KeyListener)
+     * @param e     Typing a key
      */
     @Override
-    public void keyTyped(KeyEvent e) {}
+    public void keyTyped(KeyEvent e) {
+
+    }
 
     /**
-     * The keyReleased method.
-     * Check for key releasing action on the keyboard (method not used but is necessary to implement KeyListener).
-     * @param e     An action involving a key.
+     * Key being released
+     (method not used but is necessary to implement
+     KeyListener)
+     * @param e     Releasing a key
      */
     @Override
     public void keyReleased(KeyEvent e) {
@@ -276,7 +226,6 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener {
     }
 
     /**
-     * The mousePressed method.
      * Increases the user's score if they clicked the correct answer + switches to next case file.
      * @param e     A click while stage 2 is
      *              onscreen
@@ -284,9 +233,12 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener {
     @Override
     public void mousePressed(MouseEvent e) {
         if (pos >= 8 && pos % 2 == 0) {
-            if ((e.getX() <= 600 && answer) || (e.getX() > 500 && !answer)) {
-                answer = true;
+            if (((e.getX() >= 20 && e.getX() <= 265 && e.getY() >= 450 && e.getY() <= 617) && answer) || (e.getX() >= 740 && e.getX() <= 984 && e.getY() >= 450 && e.getY() <= 617) && !answer) {
+              answer = true;
+              if (pos != 8)
+              {
                 s2Score++;
+              }
             } else {
                 answer = false;
             }
@@ -296,56 +248,45 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener {
     }
 
     /**
-     * The mouseClicked method.
-     * Checks if a mouse was clicked (method not used but is necessary to implement MouseListener).
+     * Clicking mouse (method not used but is necessary
+     to implement MouseListener)
      * @param e     A click while the Iradia menu is
-     *              onscreen.
+     *              onscreen
      */
     @Override
-    public void mouseClicked(MouseEvent e) {}
+    public void mouseClicked(MouseEvent e) {
+    }
 
     /**
-     * The mouseReleased method.
-     * Checks if a mouse was released (method not used but is necessary to implement MouseListener).
+     * Releasing mouse (method not used but is necessary
+     to implement MouseListener)
      * @param e     A release while the Iradia menu is
-     *              onscreen.
+     *              onscreen
      */
     @Override
-    public void mouseReleased(MouseEvent e) {}
+    public void mouseReleased(MouseEvent e) {
+    }
 
     /**
-     * The mouseEntered method.
-     * Checks if the mouse has entered the bounds of a component (method
-     * not used but is necessary to implement
-     * MouseListener).
-     * @param e     An action involving a mouse.
+     * Mouse entering the bounds of a component (method
+     not used but is necessary to implement
+     MouseListener)
+     * @param e     Entering the bounds of a component
      */
     @Override
-    public void mouseEntered(MouseEvent e) {}
+    public void mouseEntered(MouseEvent e) {
+    }
 
     /**
-     * The mouseExited method.
-     * Checks if the mouse has exited the bounds of a component (method
-     * not used but is necessary to implement
-     * MouseListener).
-     * @param e     An action involving a mouse.
+     * Mouse exiting the bounds of a component (method
+     not used but is necessary to implement
+     MouseListener)
+     * @param e     Exiting the bounds of a component
      */
     @Override
     public void mouseExited(MouseEvent e) {
     }
-
-
-    //At the end of stage 3 when the user finishes the game, the current score and corresponding name is written down. Toggled by a boolean or smth?
-    //this.recordScore();
-    public void recordScore() {
-        PrintWriter output; //declares object of the PrintWriter class
-        String fileName = "names.txt";
-        try {
-            output = new PrintWriter(new FileWriter(fileName, true));
-            output.println(game.getPlayerName());
-            output.println(game.getPlayerScore());
-            output.close();
-        } catch (IOException e) {
-        }
-    }
 }
+
+
+  
