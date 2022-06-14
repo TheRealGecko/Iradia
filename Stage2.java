@@ -65,7 +65,7 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener {
         }
 
         reasons = new ArrayList<Image>();
-        for (int i = 0; i <= 7; i++) {
+        for (int i = 1; i <= 7; i++) {
             for (int j = 0; j <= 1; j++) {
                 String dir = "res/stage2/reasons/c" + i;
 
@@ -76,10 +76,11 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener {
                 }
 
                 dir += ".png";
-
-                reasons.add(ImageReader.reader(dir));
+              reasons.add(ImageReader.reader(dir));
             }
         }
+
+      reasons.add(ImageReader.reader("res/stage2/reasons/lastReason.png"));
 
         profiles = new ArrayList<Image>();
         Image[] temp = ImageReader.storeDir("res/stage2/profiles/");
@@ -141,13 +142,20 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener {
             Game.graphics.drawImage(buttons, -9, 0, null);
             Game.graphics.drawImage(dialogue[0], 0, 0, null);
         } else {
+          if (reasons.size() != 1)
+          {
             if (answer) {
                 Game.graphics.drawImage(reasons.remove(caseNum * 2), 0, 0, null);
                 reasons.remove(caseNum * 2);
             } else {
-                Game.graphics.drawImage(reasons.remove((caseNum * 2) + 1), 0, 0, null);
+                Game.graphics.drawImage(reasons.remove(caseNum * 2 + 1), 0, 0, null);
                 reasons.remove(caseNum * 2);
-            }
+            }            
+          }
+          else
+          {
+            reasons.remove (0);
+          }
         }
     }
 
@@ -158,7 +166,6 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener {
      */
     @Override
     public void paintComponent(Graphics g) {
-        System.out.println (pos);
         Game.graphics = (Graphics2D) g;
         this.requestFocus();
         if (pos < 8) {
@@ -167,10 +174,11 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener {
           getCase();
           prompt();
         } else {
-            Game.graphics.drawImage(ImageReader.reader("res/transition/end2.png"), 0, 0, null);
-            Game.graphics.setFont(consolas);
-            Game.graphics.setColor(new Color(92, 23, 40));
-            Game.graphics.drawString("" + (s2Score - 1), 800, 310);
+              prompt();
+              Game.graphics.drawImage(ImageReader.reader("res/transition/end2.png"), 0, 0, null);
+              Game.graphics.setFont(consolas);
+              Game.graphics.setColor(new Color(92, 23, 40));
+              Game.graphics.drawString("" + s2Score, 800, 310);
         }
     }
 
@@ -189,9 +197,20 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener {
      */
     @Override
     public void keyPressed(KeyEvent e) {
-        if (cases.size() == 0) {
+      
+    }
+
+    /**
+     * Key being typed (method not used but is necessary to implement
+     KeyListener)
+     * @param e     Typing a key
+     */
+    @Override
+    public void keyTyped(KeyEvent e) {
+  if (reasons.size() == 0) {
             nextStage = true;
             game.increasePlayerScore(s2Score);
+            System.out.println (game.getPlayerScore());
         } else if (pos < 8 || (pos != 8 && pos % 2 == 1)) {
             pos++;
             repaint();
@@ -202,16 +221,6 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener {
             Game.frame.pack();
             Game.frame.remove(this);
         }
-    }
-
-    /**
-     * Key being typed (method not used but is necessary to implement
-     KeyListener)
-     * @param e     Typing a key
-     */
-    @Override
-    public void keyTyped(KeyEvent e) {
-
     }
 
     /**

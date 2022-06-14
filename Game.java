@@ -69,7 +69,7 @@ public class Game {
         frame.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(escapeKeyStroke, "ESCAPE");
         frame.getRootPane().getActionMap().put("ESCAPE", escapeAction);
 
-        playerScore = -1;
+        playerScore = 0;
         playerName = "";
     }
 
