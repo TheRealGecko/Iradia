@@ -91,8 +91,11 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener {
     private Font consolas;
 
     /**
-     * Stage2 class's constructor. Initializes the table, button, case, and dialogue images, correct answers, and the value 
-     used to iterate through cases. Also prepares for user input.
+     * The Stage2 class constructor.
+     * Does the following:
+     * - Initializes the instance variables
+     * - Creates a KeyListener
+     * - Creates a MouseListener
      */
     public Stage2(Game g) {
         game = g;
@@ -152,6 +155,7 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener {
     }
 
     /**
+     * The tutorial method.
      * Displays the graphics for the tutorial dialogue.
      */
     private void tutorial() {
@@ -165,6 +169,7 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener {
     }
 
     /**
+     * The getCase method
      * Displays the graphics for a random case the player has not yet solved.
      */
     private void getCase() {
@@ -179,6 +184,7 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener {
 
 
     /**
+     * The prompt method.
      * Displays the graphics for the prompt asking the player if the case is toxic.
      */
     private void prompt() {
@@ -197,7 +203,8 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener {
     }
 
     /**
-     * Displays the graphics necessary for stage 2. Calls tutorial (), prompt (), or getCase() depending on which screen the
+     * The paintComponent method.
+     * Displays the graphics necessary for stage 2. Calls tutorial(), promp(), or getCase() depending on which screen the
      player is on.
      * @param g     Used to draw graphics.
      */
@@ -219,8 +226,9 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener {
     }
 
     /**
-     * KeyListener being added
-     * @param l    KeyListener
+     * The addKeyListener method.
+     * Creates a keyListener.
+     * @param l     Listens for key input.
      */
     @Override
     public synchronized void addKeyListener(KeyListener l) {
@@ -228,8 +236,9 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener {
     }
 
     /**
-     * When any key is pressed, switches through dialogue in the tutorial + opens prompt for user input on cases
-     * @param e     Pressing a key
+     * The keyPressed method.
+     * When any key is pressed, switches through dialogue in the tutorial + opens prompt for user input on cases.
+     * @param e     An action involving a key.
      */
     @Override
     public void keyPressed(KeyEvent e) {
@@ -249,20 +258,17 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener {
     }
 
     /**
-     * Key being typed (method not used but is necessary to implement
-     KeyListener)
-     * @param e     Typing a key
+     * The keyTyped method.
+     * Check for typing action on the keyboard (method not used but is necessary to implement KeyListener).
+     * @param e     An action involving a key.
      */
     @Override
-    public void keyTyped(KeyEvent e) {
-
-    }
+    public void keyTyped(KeyEvent e) {}
 
     /**
-     * Key being released
-     (method not used but is necessary to implement
-     KeyListener)
-     * @param e     Releasing a key
+     * The keyReleased method.
+     * Check for key releasing action on the keyboard (method not used but is necessary to implement KeyListener).
+     * @param e     An action involving a key.
      */
     @Override
     public void keyReleased(KeyEvent e) {
@@ -270,6 +276,7 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener {
     }
 
     /**
+     * The mousePressed method.
      * Increases the user's score if they clicked the correct answer + switches to next case file.
      * @param e     A click while stage 2 is
      *              onscreen
@@ -289,40 +296,39 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener {
     }
 
     /**
-     * Clicking mouse (method not used but is necessary
-     to implement MouseListener)
+     * The mouseClicked method.
+     * Checks if a mouse was clicked (method not used but is necessary to implement MouseListener).
      * @param e     A click while the Iradia menu is
-     *              onscreen
+     *              onscreen.
      */
     @Override
-    public void mouseClicked(MouseEvent e) {
-    }
+    public void mouseClicked(MouseEvent e) {}
 
     /**
-     * Releasing mouse (method not used but is necessary
-     to implement MouseListener)
+     * The mouseReleased method.
+     * Checks if a mouse was released (method not used but is necessary to implement MouseListener).
      * @param e     A release while the Iradia menu is
-     *              onscreen
+     *              onscreen.
      */
     @Override
-    public void mouseReleased(MouseEvent e) {
-    }
+    public void mouseReleased(MouseEvent e) {}
 
     /**
-     * Mouse entering the bounds of a component (method
-     not used but is necessary to implement
-     MouseListener)
-     * @param e     Entering the bounds of a component
+     * The mouseEntered method.
+     * Checks if the mouse has entered the bounds of a component (method
+     * not used but is necessary to implement
+     * MouseListener).
+     * @param e     An action involving a mouse.
      */
     @Override
-    public void mouseEntered(MouseEvent e) {
-    }
+    public void mouseEntered(MouseEvent e) {}
 
     /**
-     * Mouse exiting the bounds of a component (method
-     not used but is necessary to implement
-     MouseListener)
-     * @param e     Exiting the bounds of a component
+     * The mouseExited method.
+     * Checks if the mouse has exited the bounds of a component (method
+     * not used but is necessary to implement
+     * MouseListener).
+     * @param e     An action involving a mouse.
      */
     @Override
     public void mouseExited(MouseEvent e) {

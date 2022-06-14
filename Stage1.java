@@ -120,6 +120,11 @@ public class Stage1 extends JPanel implements KeyListener, MouseListener, MouseM
             Game.graphics.drawImage(ImageReader.reader("res/transition/end1.png"), 0, 0, null);
     }
 
+    /**
+     * The addKeyListener method.
+     * Creates a keyListener.
+     * @param l     Listens for key input.
+     */
     @Override
     public synchronized void addKeyListener(KeyListener l) {
         super.addKeyListener(l);

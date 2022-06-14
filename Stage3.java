@@ -6,33 +6,75 @@ import java.util.Collection;
 import java.io.*;
 
 public class Stage3 extends JPanel implements KeyListener, MouseListener {
+    /**
+     * game - Stores the game
+     */
     private Game game;
+    /**
+     * sprite - Stores the player/sprite
+     */
     private Sprite sprite;
+    /**
+     * dSprite - Stores the thread which the sprite runs on
+     */
     private Thread dSprite;
+    /**
+     * background - Stores the background image of stage 3
+     */
     private Image background;
+    /**
+     * dialogueBack - Stores the purple backing image of the dialogue
+     */
     private Image dialogueBack;
-
+    /**
+     * introDialogue - Stores the introductory dialogue
+     */
     private Image[] introDialogue;
+    /**
+     * endDialogue - Stores the closing dialogue
+     */
     private Image[] endDialogue;
+    /**
+     * pos - Stores the position of where the dialogue is at
+     */
     private int pos;
-    private int paperPos;
+    /**
+     * caseNum - Stores the current case's number
+     */
     private int caseNum;
+    /**
+     * s3Score - Stores the player's score for stage 3 specifically
+     */
     private int s3Score;
+    /**
+     * cases - Stores stage 3's cases
+     */
     private ArrayList<Case> cases;
+    /**
+     * caseOpen - Stores whether a case is open
+     */
     private static boolean caseOpen;
-    private boolean isTouched;
-    private boolean isPressed;
-
+    /**
+     * consolas - Stores the consolas font
+     */
     Font consolas;
-
+    /**
+     * nextScene - Stores whether to proceed to the next scene
+     */
     boolean nextScene;
 
+    /**
+     * The Stage3 class constructor.
+     * Does the following:
+     * - Initializes the instance variables
+     * - Creates a KeyListener
+     * - Creates a MouseListener
+     * @param g     Refers to the game.
+     */
     public Stage3(Game g) {
-        isPressed = false;
         game = g;
         sprite = new Sprite();
         pos = 0;
-        paperPos = 0;
         s3Score = 0;
         background = ImageReader.reader("res/stage3/background.png");
         introDialogue = ImageReader.storeDir("res/stage3/introText/");
@@ -68,9 +110,9 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener {
     }
 
     /**
+     * The paintComponent method.
      * Displays the graphics necessary for stage 3.
-     *
-     * @param g Used to draw graphics.
+     * @param g     Used to draw graphics.
      */
     @Override
     public void paintComponent(Graphics g) {
@@ -120,25 +162,36 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener {
         }
     }
 
+    /**
+     * The getCaseOpen method
+     * @return      Whether a case is open
+     */
     public static boolean getCaseOpen() {
         return caseOpen;
     }
 
+    /**
+     * The addKeyListener method.
+     * Creates a keyListener.
+     * @param l     Listens for key input.
+     */
     @Override
     public synchronized void addKeyListener(KeyListener l) {
         super.addKeyListener(l);
     }
 
     /**
-     * When any key is pressed, switches through dialogue in the tutorial + opens prompt for user input on cases
-     *
-     * @param e Pressing a key
+     * The keyPressed method
+     * Deals with the following:
+     * - Sprite movements
+     * - Moving through dialogue (outside of the case file dialogue)
+     * @param e     An action involving a key.
      */
     @Override
     public void keyPressed(KeyEvent e) {
         if (nextScene) {
             repaint();
-        } else if ((pos < 10 && cases.size() > 0) || (pos < 2 && cases.size() == 0) || (pos < 6 && nextScene)) {
+        } else if (pos < 10 && cases.size() > 0 || pos < 2) {
             pos++;
             repaint();
         } else {
@@ -174,10 +227,10 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener {
     }
 
     /**
+     * The keyTyped method
      * Toggles stage 3 case dialogue when any key is typed.
-     * This is used instead of keyPressed() to avoid accidental key presses from attempts to move the sprite
-     *
-     * @param e Typing a key
+     * This is used instead of keyPressed() to avoid accidental key presses from attempts to move the sprite.
+     * @param e     An action involving a key.
      */
     @Override
     public void keyTyped(KeyEvent e) {
@@ -195,21 +248,21 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener {
     }
 
     /**
-     * Key being released
-     * (method not used but is necessary to implement
-     * KeyListener)
-     *
-     * @param e Releasing a key
+     * The keyReleased method.
+     * Check for key releasing action on the keyboard (method not used but is necessary to implement KeyListener).
+     * @param e     An action involving a key.
      */
-    public void keyReleased(KeyEvent e) {
-        // sprite.resetImgIndex();
-        //repaint();
-    }
+    public void keyReleased(KeyEvent e) {}
 
+    /**
+     * The mousePressed method.
+     * Checks if the user has selected the correct answer in case file scenes.
+     * @param e     An action involving a mouse.
+     */
     @Override
     public void mousePressed(MouseEvent e) {
         if ((e.getX() >= 35 && e.getX() <= 473 && e.getY() >= 372 && e.getY() <= 473) || (e.getX() >= 35 && e.getX() <= 473 && e.getY() >= 506 && e.getY() <= 607) || (e.getX() >= 527 && e.getX() <= 965 && e.getY() >= 372 && e.getY() <= 473) || (e.getX() >= 527 && e.getX() <= 965 && e.getY() >= 506 && e.getY() <= 607)) {
-            if (caseOpen == true && cases.get(caseNum).getDialogueLength() == 1) {
+            if (caseOpen && cases.get(caseNum).getDialogueLength() == 1) {
                 if (cases.get(caseNum).isCorrect(e)) {
                     s3Score++;
                     game.increasePlayerScore(1);
@@ -222,49 +275,47 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener {
     }
 
     /**
-     * Clicking mouse (method not used but is necessary
-     * to implement MouseListener)
-     *
-     * @param e A click while the Iradia menu is
-     *          onscreen
+     * The mouseClicked method.
+     * Checks if a mouse was clicked (method not used but is necessary to implement MouseListener).
+     * @param e     An action involving a mouse.
      */
     @Override
     public void mouseClicked(MouseEvent e) {
     }
 
     /**
-     * Releasing mouse (method not used but is necessary
-     * to implement MouseListener)
-     *
-     * @param e A release while the Iradia menu is
-     *          onscreen
+     * The mouseReleased method.
+     * Checks if a mouse was released (method not used but is necessary to implement MouseListener).
+     * @param e     An action involving a mouse
      */
     @Override
     public void mouseReleased(MouseEvent e) {
     }
 
     /**
-     * Mouse entering the bounds of a component (method
+     * The mouseEntered method.
+     * Checks if the mouse has entered the bounds of a component (method
      * not used but is necessary to implement
-     * MouseListener)
-     *
-     * @param e Entering the bounds of a component
+     * MouseListener).
+     * @param e     An action involving a mouse.
      */
     @Override
-    public void mouseEntered(MouseEvent e) {
-    }
+    public void mouseEntered(MouseEvent e) {}
 
     /**
-     * Mouse exiting the bounds of a component (method
+     * The mouseExited method.
+     * Checks if the mouse has exited the bounds of a component (method
      * not used but is necessary to implement
-     * MouseListener)
-     *
-     * @param e Exiting the bounds of a component
+     * MouseListener).
+     * @param e     An action involving a mouse.
      */
     @Override
-    public void mouseExited(MouseEvent e) {
-    }
+    public void mouseExited(MouseEvent e) {}
 
+    /**
+     * The paperScreen method.
+     * Draw the case file scenes.
+     */
     private void paperScreen() {
         Game.graphics.drawImage(ImageReader.reader("res/Name_Screen_Background_1.png"), 0, 0, null);
         if (cases.get(caseNum).getDialogueLength() > 2)
@@ -272,21 +323,48 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener {
         Game.graphics.drawImage(cases.get(caseNum).getCaseDialogue(), 0, 0, null);
     }
 
-    public void setCaseOpen(boolean open) {
-        caseOpen = open;
-    }
-
+    /**
+     * The Case class.
+     */
     private class Case {
+        /**
+         * caseImg - Stores the paper image of the case
+         */
         Image caseImg;
+        /**
+         * options - Stores the image of the case's advice options
+         */
         Image optionsImg;
+        /**
+         * options - Stores the image of the case's advice answers
+         */
         Image answerImg;
+        /**
+         * answer - Stores the case's correct answer
+         */
         int answer;
-        boolean open;
+        /**
+         * finished - Stores whether the case is complete
+         */
         boolean finished;
-
+        /**
+         * imgCoords - Stores the hit-box coordinates of the case
+         */
         int[] imgCoords;
+        /**
+         * dialogue - Stores the case's dialogue
+         */
         ArrayList<Image> caseDialogue;
 
+        /**
+         * The Case class constructor.
+         * Initialized instance variables.
+         * @param cImg      Refers to the paper image of the case.
+         * @param optImg    Refers to the image of the case's options.
+         * @param ansImg    Refers to the image of the case's answers.
+         * @param diaDir    Refers to the directory of the case's dialogue.
+         * @param ans       Stores the answer of the case.
+         */
         private Case(String cImg, String optImg, String ansImg, String diaDir, int ans) {
             caseImg = ImageReader.reader(cImg);
             optionsImg = ImageReader.reader(optImg);
@@ -310,34 +388,35 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener {
             imgCoords = new int[4];
         }
 
-        public void setAnswer(int a) {
-            answer = a;
-        }
-
-        public void showCase() {
-            Game.graphics.drawImage(caseImg, 0, 0, null);
-        }
-
+        /**
+         * The getDialogueLength method.
+         * @return      The remaining length of the dialogue.
+         */
         public int getDialogueLength() {
             return caseDialogue.size();
         }
 
+        /**
+         * The getCaseDialogue method.
+         * @return      The case dialogue to be spoken.
+         */
         public Image getCaseDialogue() {
             return (caseDialogue.remove(0));
         }
 
+        /**
+         * The finished method.
+         * Marks the current case file as complete.
+         */
         public void finished() {
             finished = true;
         }
 
-        public boolean getFinished() {
-            return finished;
-        }
-
-        public void showOptions() {
-            Game.graphics.drawImage(optionsImg, 0, 0, null);
-        }
-
+        /**
+         * The isCorrect method.
+         * @param e     An action involving a mouse.
+         * @return      Whether the selected advice option was the correct answer.
+         */
         public boolean isCorrect(MouseEvent e) {
             if (e.getX() >= 35 && e.getX() <= 473 && e.getY() >= 372 && e.getY() <= 473) {
                 if (answer == 1) {
@@ -366,6 +445,14 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener {
             }
         }
 
+        /**
+         * The setImgCoords method
+         * Sets the case's hit-box.
+         * @param xMin      The minimum X coordinate
+         * @param xMax      The maximum X coordinate
+         * @param yMin      The minimum Y coordinate
+         * @param yMax      The maximum Y coordinate
+         */
         public void setImgCoords(int xMin, int xMax, int yMin, int yMax) {
             imgCoords[0] = xMin;
             imgCoords[1] = xMax;
@@ -373,26 +460,54 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener {
             imgCoords[3] = yMax;
         }
 
+        /**
+         * The isTouched method.
+         * @param spriteX       The sprite's X coordinate.
+         * @param spriteY       The sprite's Y coordinate.
+         * @return              Whether the hit-box was "touched" by the sprite.
+         */
         public boolean isTouched(int spriteX, int spriteY) {
             if (spriteX >= imgCoords[0] && spriteX <= imgCoords[1]) {
-                if (spriteY >= imgCoords[2] && spriteY <= imgCoords[3])
-                    return true;
+                return spriteY >= imgCoords[2] && spriteY <= imgCoords[3];
             }
             return false;
         }
 
+        /**
+         * The getCaseImg method.
+         * @return      The paper image of the case.
+         */
         public Image getCaseImg() {
             return caseImg;
         }
 
     }
 
+    /**
+     * The Sprite class
+     */
     private class Sprite {
+        /**
+         * xPos - Stores the X coordinate of the sprite
+         */
         private int xPos;
+        /**
+         * yPos - Stores the Y coordinate of the sprite
+         */
         private int yPos;
+        /**
+         * imgIndex - Stores the state index of the sprite's walk cycle
+         */
         private int imgIndex;
+        /**
+         * dir - Stores the direction in which the sprite is facing
+         */
         private char dir;
 
+        /**
+         * The Sprite constructor.
+         * Initializes the instance variables.
+         */
         private Sprite() {
             xPos = 450;
             yPos = 150;
@@ -400,66 +515,109 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener {
             dir = 'f';
         }
 
+        /**
+         * The getXPos method.
+         * @return      The sprite's X coordinate.
+         */
         public int getXPos() {
             return xPos;
         }
 
+        /**
+         * The getYPos method.
+         * @return      The sprite's Y coordinate.
+         */
         public int getYPos() {
             return yPos;
         }
 
+        /**
+         * The setXPos method.
+         * @param num       The amount in which the sprite's X coordinate is to increase by.
+         */
         public void setXPos(int num) {
             xPos += num;
         }
 
+        /**
+         * The setYPos method.
+         * @param num       The amount in which the sprite's Y coordinate is to increase by.
+         */
         public void setYPos(int num) {
             yPos += num;
         }
 
-        public void resetPos() {
-            xPos = 450;
-            yPos = 150;
-        }
-
+        /**
+         * The getSprite method.
+         * @return      The sprite image.
+         */
         public Image getSprite() {
             String directory = "res/stage3/sprite/" + dir + imgIndex + ".png";
             Image i = ImageReader.reader(directory);
             return i;
         }
 
+        /**
+         * The incrementImgIndex method.
+         * Changes the state of the sprite's walk cycle.
+         */
         public void incrementImgIndex() {
             imgIndex++;
             if (imgIndex > 3)
                 imgIndex = 1;
         }
 
+        /**
+         * The resetImgIndex method.
+         * Sets the state of the sprite to a standing/idle position.
+         */
         public void resetImgIndex() {
             imgIndex = 1;
         }
 
+        /**
+         * The setDir method.
+         * @param s     The new direction of where the sprite should be facing
+         */
         public void setDir(char s) {
             dir = s;
         }
     }
 
+    /**
+     * The DrawSprite class.
+     */
     private class DrawSprite implements Runnable {
+        /**
+         * graphics - Stores the sprite thread's graphics
+         */
         Graphics2D graphics;
+        /**
+         * sprite - Stores the sprite.
+         */
         Sprite sprite;
 
+        /**
+         * The DrawSprite class constructor.
+         * @param g     Refers to the graphics which will be used in DrawSprite.
+         * @param s     Refers to the sprite which will be used in DrawSprite.
+         */
         public DrawSprite(Graphics2D g, Sprite s) {
             graphics = g;
             sprite = s;
         }
 
+        /**
+         * The run method.
+         * Loops through the sprite's walk cycle.
+         */
         public void run() {
             if (!Stage3.getCaseOpen()) {
                 try {
                     graphics.drawImage(sprite.getSprite(), sprite.getXPos(), sprite.getYPos(), null);
                     sprite.incrementImgIndex();
                     Thread.sleep(110);
-                } catch (Exception e) {
-
-                }
+                } catch (Exception e) {}
             }
         }
     }
