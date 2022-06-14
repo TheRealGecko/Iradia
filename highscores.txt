@@ -1,6 +1,8 @@
-Beth
-8
-Fatma
-7
-Human
+Worst
+5
+Even Worse
 2
+Best
+10
+Second
+7

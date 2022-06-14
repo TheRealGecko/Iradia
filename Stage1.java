@@ -89,7 +89,7 @@ public class Stage1 extends JPanel implements KeyListener, MouseListener, MouseM
      */
     @Override
     public void keyPressed(KeyEvent e) {
-        if (pos == 25) {
+                    if (pos == 25) {
             Game.frame.remove(this);
             Game.frame.add(new Stage2(game));
             Game.frame.pack();

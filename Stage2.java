@@ -41,6 +41,7 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener {
     private ArrayList<Image> reasons;
     private ArrayList<Image> profiles;
     private boolean answer;
+    private boolean nextStage;
 
     private Font consolas;
 
@@ -97,6 +98,8 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener {
 
         s2Score = 0;
 
+        nextStage = false;
+
         consolas = new Font("res/Consolas.ttf", Font.PLAIN, 86);
 
         this.setFocusable(true); // Allows the class to receive user input
@@ -108,7 +111,7 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener {
      * Displays the graphics for the tutorial dialogue.
      */
     private void tutorial() {
-        Game.graphics.drawImage(table, -9, 0, null);
+        Game.graphics.drawImage(table, 0, 0, null);
         if (pos >= 5)
             Game.graphics.drawImage(tutorialCase, 0, 0, null);
         if (pos != 5) {
@@ -121,13 +124,17 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener {
      * Displays the graphics for a random case the player has not yet solved.
      */
     private void getCase() {
-        if (pos % 2 == 0) {
-            Game.graphics.drawImage(table, -9, 0, null);
+      if (reasons.size () >= 2)
+      {
+          if (pos % 2 == 0) {
+          Game.graphics.drawImage(table, 0, 0, null);
           caseNum = (int) (Math.random() * cases.size());
           Game.graphics.drawImage(cases.remove(caseNum), 0, 0, null);
           Game.graphics.drawImage(profiles.remove(caseNum), 350, 197, null);
           answer = isToxic.remove(caseNum);
         }
+      }
+
     }
 
 
@@ -135,26 +142,32 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener {
      * Displays the graphics for the prompt asking the player if the case is toxic.
      */
     private void prompt() {
-        if (pos % 2 == 0) {
-            Game.graphics.drawImage(buttons, -9, 0, null);
+      System.out.println ("prompting");
+        if (reasons.size() == 1)
+        {
+          System.out.println ("this happens");
+          Game.graphics.drawImage(ImageReader.reader("res/transition/end2.png"), 0, 0, null);
+          Game.graphics.setFont(consolas);
+          Game.graphics.setColor(new Color(92, 23, 40));
+          Game.graphics.drawString("" + s2Score, 800, 310);
+          reasons.remove(0);
+        }
+        else{      
+          if (pos % 2 == 0) {
+            Game.graphics.drawImage(buttons, 0, 0, null);
             Game.graphics.drawImage(dialogue[0], 0, 0, null);
         } else {
-          if (reasons.size() != 1)
-          {
-            if (answer) {
+        if (answer) {
                 Game.graphics.drawImage(reasons.remove(caseNum * 2), 0, 0, null);
                 reasons.remove(caseNum * 2);
             } else {
                 Game.graphics.drawImage(reasons.remove(caseNum * 2 + 1), 0, 0, null);
                 reasons.remove(caseNum * 2);
             }            
-          }
-          else
-          {
-            reasons.remove (0);
-          }
+          }}
+
         }
-    }
+    
 
     /**
      * Displays the graphics necessary for stage 2. Calls tutorial (), prompt (), or getCase() depending on which screen the
@@ -167,17 +180,18 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener {
         this.requestFocus();
         if (pos < 8) {
             tutorial();
-        } else if (cases.size() != 0) {
+        } else if (reasons.size() != 0) {
           getCase();
           prompt();
         } else {
-              prompt();
-              Game.graphics.drawImage(ImageReader.reader("res/transition/end2.png"), 0, 0, null);
-              Game.graphics.setFont(consolas);
-              Game.graphics.setColor(new Color(92, 23, 40));
-              Game.graphics.drawString("" + s2Score, 800, 310);
+          System.out.println ("lesgo");
+           Game.frame.remove(this);
+           Stage3 stage3 = new Stage3(game);
+           Game.frame.add(stage3);
+           Game.frame.pack();
+           }
+             
         }
-    }
 
     /**
      * KeyListener being added
@@ -204,15 +218,14 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener {
      */
     @Override
     public void keyTyped(KeyEvent e) {
-  if (reasons.size() == 0) {
-            game.increasePlayerScore(s2Score);
-            Game.frame.remove(this);
-            Game.frame.add(new Stage3(game));
-            Game.frame.pack();
-        } else if (pos < 8 || (pos != 8 && pos % 2 == 1)) {
+if (pos < 8 || (pos != 8 && pos % 2 == 1)) {
             pos++;
             repaint();
         }
+      if (reasons.size() == 0)
+      {
+        repaint();
+      }
     }
 
     /**
@@ -223,7 +236,6 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener {
      */
     @Override
     public void keyReleased(KeyEvent e) {
-
     }
 
     /**
