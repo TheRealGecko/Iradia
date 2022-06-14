@@ -41,7 +41,6 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener {
     private ArrayList<Image> reasons;
     private ArrayList<Image> profiles;
     private boolean answer;
-    private boolean nextStage;
 
     private Font consolas;
 
@@ -97,8 +96,6 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener {
         pos = 1; // Dialogue position
 
         s2Score = 0;
-
-        nextStage = false;
 
         consolas = new Font("res/Consolas.ttf", Font.PLAIN, 86);
 
@@ -208,18 +205,13 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener {
     @Override
     public void keyTyped(KeyEvent e) {
   if (reasons.size() == 0) {
-            nextStage = true;
             game.increasePlayerScore(s2Score);
-            System.out.println (game.getPlayerScore());
+            Game.frame.remove(this);
+            Game.frame.add(new Stage3(game));
+            Game.frame.pack();
         } else if (pos < 8 || (pos != 8 && pos % 2 == 1)) {
             pos++;
             repaint();
-        }
-
-        if (nextStage) {
-            Game.frame.add(new Stage3(game));
-            Game.frame.pack();
-            Game.frame.remove(this);
         }
     }
 

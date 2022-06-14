@@ -18,6 +18,9 @@
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.*;
 
 public class Game {
     /**
@@ -78,7 +81,7 @@ public class Game {
      * Runs the game and controls the sequence of scenes.
      */
     public void run() {
-        /*Splash splash = new Splash("res/logoSplash.png");
+        Splash splash = new Splash("res/logoSplash.png");
         frame.add(splash);
         frame.pack();
         splash.run();
@@ -87,7 +90,7 @@ public class Game {
         frame.add(splash);
         frame.pack();
         splash.run();
-        frame.remove(splash);*/
+        frame.remove(splash);
         menu();
     }
 
@@ -105,9 +108,6 @@ public class Game {
             switch (scene) {
                 case 1:
                     NameScreen n = new NameScreen(this);
-                    frame.add(n);
-                    frame.pack();
-                    EndScreen e = new EndScreen (this);
                     frame.add(n);
                     frame.pack();
                     break;
@@ -171,4 +171,66 @@ public class Game {
     public String getPlayerName() {
         return playerName;
     }
+
+  
+    public void recordScore() {
+      write(sort(read()));
+    }
+
+    private ArrayList read()
+  {
+        System.out.println ("reading commenced");
+    ArrayList<String>fileData = new ArrayList<String>(); 
+          try {
+          BufferedReader reader = new BufferedReader (new FileReader("highscores.txt"));
+            String temp = reader.readLine();
+            while (temp != null)
+              {
+                fileData.add(temp);
+                temp = reader.readLine();
+              }
+          reader.close();
+        } 
+        catch (IOException e) {
+        }
+      return fileData;
+  }
+
+    private ArrayList sort(ArrayList arr)
+  {
+    System.out.println ("sorting commenced");
+    ArrayList<String>arr2 = arr;
+    arr.add(playerName);
+    arr.add(playerScore);
+    System.out.println (arr2.size());
+        for (int a = 1; a < arr2.size() - 2; a+= 2)
+        {
+          System.out.println ("The a for comparison is" + arr2.get(a));
+          for (int b = a + 2; b < arr.size(); b += 2)
+            {
+              System.out.println ("We are looking at " + arr2.get(b).toString());
+               if (Integer.valueOf(arr2.get(b)) > Integer.valueOf(arr2.get(a)))
+                 Collections.swap (arr2, a, b);
+            }
+        }
+
+    return arr2;
+  }
+
+    private void write(ArrayList arr)
+  {
+    System.out.println ("writing commenced");
+    try
+      {
+         PrintWriter output = new PrintWriter(new FileWriter("highscores.txt"));
+          for (int a = 0; a < arr.size(); a++)
+            {
+              output.println(arr.get(a));
+              System.out.println (arr.get(a));
+            }
+          output.close();
+      }
+    catch (IOException e)
+      {}
+  }
 }

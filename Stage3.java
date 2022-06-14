@@ -130,7 +130,6 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener {
      */
     @Override
     public void paintComponent(Graphics g) {
-
         Game.graphics = (Graphics2D) g;
         this.requestFocus();
 
@@ -152,13 +151,13 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener {
                 }
             }
             if (pos < 10 && cases.size() > 0)
-                Game.graphics.drawImage(introDialogue[pos], 0, 0, null);
+                Game.graphics.drawImage(introDialogue[pos], 40, 20, null);
             else if (cases.size() > 0) {
                 dSprite = new Thread(new DrawSprite(Game.graphics, sprite));
                 dSprite.run();
             } else if (pos < 2 && !nextScene) {
                 Game.graphics.drawImage(dialogueBack, 40, 50, null);
-                Game.graphics.drawImage(endDialogue[pos], 0, 0, null);
+                Game.graphics.drawImage(endDialogue[pos], 40, 50, null);
             } else if (pos >= 2 && !nextScene) {
                 Game.graphics.drawImage(ImageReader.reader("res/transition/end3.png"), 0, 0, null);
                 Game.graphics.setFont(consolas);
@@ -167,9 +166,21 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener {
                 nextScene = true;
                 pos = 0;
                 endDialogue = ImageReader.storeDir("res/transition/endDialogue/");
-            } else if (pos < 7 && nextScene) {
+            } else if (nextScene) {
+              if (pos < 7)
+              { 
                 Game.graphics.drawImage(endDialogue[pos], 0, 0, null);
-                pos++;
+                pos++;  
+              }
+              else
+              {
+                game.recordScore();
+                EndScreen e = new EndScreen (game);
+                Game.frame.remove (this);
+                Game.frame.add(e);
+                Game.frame.pack();
+                while (!e.isPressed()) Thread.onSpinWait();
+              }
             }
         } else if (cases.size() > 0 && cases.get(caseNum).getDialogueLength() > 0) {
             paperScreen();
@@ -334,7 +345,7 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener {
         Game.graphics.drawImage(ImageReader.reader("res/Name_Screen_Background_1.png"), 0, 0, null);
         if (cases.get(caseNum).getDialogueLength() > 2)
             Game.graphics.drawImage(dialogueBack, 40, 50, null);
-        Game.graphics.drawImage(cases.get(caseNum).getCaseDialogue(), 0, 0, null);
+        Game.graphics.drawImage(cases.get(caseNum).getCaseDialogue(), 40, 50, null);
     }
 
     /**

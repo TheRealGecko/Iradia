@@ -102,8 +102,6 @@ public class Leaderboard extends JPanel implements KeyListener {
           int tempScore = Integer.parseInt(reader.readLine());
       while (tempName != null)
         {
-          if (tempName != null)
-          {
            if (scores [0] <= tempScore)
           {
             scores [2] = scores[1];
@@ -128,7 +126,6 @@ public class Leaderboard extends JPanel implements KeyListener {
           tempName = reader.readLine();
             if (tempName != null)
           tempScore = Integer.parseInt(reader.readLine());
-          }
         }
           reader.close();
           scoresGot = true;
@@ -170,18 +167,5 @@ public class Leaderboard extends JPanel implements KeyListener {
      */
     @Override
     public void keyReleased(KeyEvent e) {
-    }
-
-    //this.recordScore();
-    public void recordScore() {
-        PrintWriter output; //declares object of the PrintWriter class
-        String fileName = "names.txt";
-        try {
-            output = new PrintWriter(new FileWriter(fileName, true));
-            output.println(game.getPlayerName());
-            output.println(game.getPlayerScore());
-            output.close();
-        } catch (IOException e) {
-        }
     }
 }
