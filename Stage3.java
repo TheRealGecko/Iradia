@@ -167,9 +167,21 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener {
                 nextScene = true;
                 pos = 0;
                 endDialogue = ImageReader.storeDir("res/transition/endDialogue/");
-            } else if (pos < 7 && nextScene) {
+            }else if (nextScene) {
+              if (pos < 7)
+              { 
                 Game.graphics.drawImage(endDialogue[pos], 0, 0, null);
-                pos++;
+                pos++;  
+              }
+              else
+              {
+                game.recordScore();
+                EndScreen e = new EndScreen (game);
+                Game.frame.remove (this);
+                Game.frame.add(e);
+                Game.frame.pack();
+               // while (!e.isPressed()) Thread.onSpinWait();
+              }
             }
         } else if (cases.size() > 0 && cases.get(caseNum).getDialogueLength() > 0) {
             paperScreen();
@@ -263,10 +275,14 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener {
 
     /**
      * The keyReleased method.
-     * Check for key releasing action on the keyboard (method not used but is necessary to implement KeyListener).
+     * Check for key releasing action on the keyboard. If a key is released, then reset the sprite
+     * to standing position.
      * @param e     An action involving a key.
      */
-    public void keyReleased(KeyEvent e) {}
+    public void keyReleased(KeyEvent e) {
+      sprite.resetImgIndex();
+      repaint();
+    }
 
     /**
      * The mousePressed method.

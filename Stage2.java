@@ -142,10 +142,8 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener {
      * Displays the graphics for the prompt asking the player if the case is toxic.
      */
     private void prompt() {
-      System.out.println ("prompting");
         if (reasons.size() == 1)
         {
-          System.out.println ("this happens");
           Game.graphics.drawImage(ImageReader.reader("res/transition/end2.png"), 0, 0, null);
           Game.graphics.setFont(consolas);
           Game.graphics.setColor(new Color(92, 23, 40));
@@ -184,7 +182,6 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener {
           getCase();
           prompt();
         } else {
-          System.out.println ("lesgo");
            Game.frame.remove(this);
            Stage3 stage3 = new Stage3(game);
            Game.frame.add(stage3);
