@@ -80,7 +80,8 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener {
 
     boolean arrowPressed;
 
-  
+    private Image [] explanations; 
+
     /**
      * The Stage3 class constructor.
      * Does the following:
@@ -120,7 +121,8 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener {
         cases.get(3).setImgCoords(252, 330, 118, 122);
         cases.get(4).setImgCoords(0, 98, 0, 52);
         cases.get(5).setImgCoords(0, 48, 420, 650);
-
+        
+      explanations = ImageReader.storeDir("res/stage3/explanations/");
 
         consolas = new Font("res/Consolas.ttf", Font.PLAIN, 86);
 
@@ -160,6 +162,7 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener {
             if (pos < 10 && cases.size() > 0)
                 Game.graphics.drawImage(introDialogue[pos], 0, 0, null);
             else if (cases.size() > 0) {
+              
                 dSprite = new Thread(new DrawSprite(Game.graphics, sprite));
                 dSprite.run();
             } else if (pos < 2 && !nextScene) {
@@ -181,17 +184,26 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener {
               }
               else
               {
-                game.recordScore();
-                EndScreen e = new EndScreen (game);
+               // dSprite.stop();
+                System.out.println ("we are getting here");
+                game.recordScore();/*
                 Game.frame.remove (this);
-                Game.frame.add(e);
-                Game.frame.pack();
-               // while (!e.isPressed()) Thread.onSpinWait();
+                Game.frame.add(new EndScreen (game));
+                Game.frame.pack();*/
+      game.recordScore();
+      this.requestFocus();
+      Game.graphics.drawImage(ImageReader.reader("res/transition/finalScore.png"), 0, 0, null);
+      Game.graphics.setFont (consolas);
+      Game.graphics.setColor (new Color(92, 23, 40));
+      Game.graphics.drawString("Pls is this doing something", 100, 100);
+
               }
             }
         } else if (cases.size() > 0 && cases.get(caseNum).getDialogueLength() > 0) {
             paperScreen();
         }
+      if (dSprite != null)
+      dSprite.stop();
     }
 
     /**
@@ -223,7 +235,7 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener {
     public void keyPressed(KeyEvent e) {
         if (nextScene) {
             repaint();
-        } else if (pos < 10 && cases.size() > 0 || pos < 2) {
+        } else if ((pos < 10 && cases.size() > 0 || pos < 2) && !caseOpen) {
             pos++;
             repaint();
         } else {
@@ -275,7 +287,7 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener {
             }
             sprite.resetImgIndex();
             repaint();
-        } else if (caseNum < cases.size() && cases.get(caseNum).getDialogueLength() > 2) {
+        } else if (caseNum < cases.size() && cases.get(caseNum).getDialogueLength() > 1) {
             repaint();
         }  
     }
@@ -287,9 +299,11 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener {
      * @param e     An action involving a key.
      */
     public void keyReleased(KeyEvent e) {
-      arrowPressed = false;
-      sprite.resetImgIndex();
-      repaint();
+      if(!caseOpen && !nextScene) {
+        arrowPressed = false;
+        sprite.resetImgIndex();
+        repaint();
+      }
     }
 
     /**
@@ -300,7 +314,6 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener {
     @Override
     public void mousePressed(MouseEvent e) {
         if ((e.getX() >= 35 && e.getX() <= 473 && e.getY() >= 372 && e.getY() <= 473) || (e.getX() >= 35 && e.getX() <= 473 && e.getY() >= 506 && e.getY() <= 607) || (e.getX() >= 527 && e.getX() <= 965 && e.getY() >= 372 && e.getY() <= 473) || (e.getX() >= 527 && e.getX() <= 965 && e.getY() >= 506 && e.getY() <= 607)) {
-            if (caseOpen && cases.get(caseNum).getDialogueLength() == 1) {
                 if (cases.get(caseNum).isCorrect(e)) {
                     s3Score++;
                     game.increasePlayerScore(1);
@@ -308,8 +321,6 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener {
                 cases.get(caseNum).finished();
                 repaint();
             }
-        }
-
     }
 
     /**
@@ -318,8 +329,7 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener {
      * @param e     An action involving a mouse.
      */
     @Override
-    public void mouseClicked(MouseEvent e) {
-    }
+    public void mouseClicked(MouseEvent e) {}
 
     /**
      * The mouseReleased method.
@@ -327,8 +337,7 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener {
      * @param e     An action involving a mouse
      */
     @Override
-    public void mouseReleased(MouseEvent e) {
-    }
+    public void mouseReleased(MouseEvent e) {}
 
     /**
      * The mouseEntered method.
@@ -358,6 +367,10 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener {
         Game.graphics.drawImage(ImageReader.reader("res/Name_Screen_Background_1.png"), 0, 0, null);
         if (cases.get(caseNum).getDialogueLength() > 2)
             Game.graphics.drawImage(dialogueBack, 0, 0, null);
+        else if (cases.get(caseNum).getDialogueLength() == 2)
+            Game.graphics.drawImage(ImageReader.reader("res/stage3/prompt.png"), 0, 0, null);
+        else if (caseOpen && cases.get(caseNum).getDialogueLength() == 1)
+              Game.graphics.drawImage(explanations[caseNum], 0, 0, null);
         Game.graphics.drawImage(cases.get(caseNum).getCaseDialogue(), 0, 0, null);
     }
 

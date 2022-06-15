@@ -42,6 +42,7 @@ public class EndScreen extends JPanel
     {
       game = g;
       consolas = new Font ("res/Consolas.ttf", Font.PLAIN, 86);
+      System.out.println ("new constructor was made");
     }
 
     /**
@@ -49,15 +50,16 @@ public class EndScreen extends JPanel
      * Displays the graphics necessary for the end screen.
      * @param g     Used to draw graphics.
      */
-    public void paintComponent (Graphics2D g)
+    public void paintComponent (Graphics g)
     {
+      Game.graphics = (Graphics2D) g;
       System.out.println ("this runs");
       game.recordScore();
-      Game.graphics = (Graphics2D) g;
       this.requestFocus();
-      Game.graphics.drawImage(ImageReader.reader("res/transition/finalScore"), 0, 0, null);
+      Game.graphics.drawImage(ImageReader.reader("res/transition/finalScore.png"), 0, 0, null);
       Game.graphics.setFont (consolas);
       Game.graphics.setColor (new Color(92, 23, 40));
+      Game.graphics.drawString("Pls is this doing something", 100, 100);
      // Game.graphics.drawString("" + game.getPlayerScore(), 800, 
     }
   }

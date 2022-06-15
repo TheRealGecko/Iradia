@@ -62,7 +62,7 @@ public class Game {
      * frame - Stores the JFrame of the game
      */
     public static JFrame frame;
-
+  
     /**
      * The Game class constructor.
      * Creates a JFrame and sets its values, initializes the scene number, initializes the player's score, and assigns a keystroke (esc) to close it.
@@ -192,80 +192,57 @@ public class Game {
      * Records the player's score in the highscores file.
      */
     public void recordScore() {
-      write(sort(read()));
-    }
-
-    /**
-     * The read method.
-     * Read's the highscore file and stores it as an ArrayList.
-     * @return The data from the highscores file
-     */
-    private ArrayList read()
-     {
-        System.out.println ("reading commenced");
-    ArrayList<String>fileData = new ArrayList<String>(); 
+ArrayList<String>names = new ArrayList<String>(); 
+    ArrayList<Integer>scores = new ArrayList<Integer>();
           try {
           BufferedReader reader = new BufferedReader (new FileReader("highscores.txt"));
             String temp = reader.readLine();
             while (temp != null)
               {
-                fileData.add(temp);
+                if (!temp.equals(""))
+                {
+                names.add(temp);
                 temp = reader.readLine();
-                temp = temp.trim();
+                scores.add(Integer.parseInt(temp));
+                temp = reader.readLine();
+                }
               }
           reader.close();
         } 
         catch (IOException e) {
         }
-      return fileData;
-  }
 
-    /**
-     * The sort method.
-     * Sorts the data from the highscore file 
-     * @param arr The array of data from the highscore file
-     * @return The sorted data from the highscores file
-     */
-    private ArrayList sort(ArrayList arr)
-   {
-    System.out.println ("sorting commenced");
-    ArrayList<String>arr2 = arr;
-    arr.add(playerName);
-    arr.add(playerScore);
-    System.out.println (arr2.size());
-        for (int a = 1; a < arr2.size() - 2; a+= 2)
+      if (!names.contains(playerName))
+      {
+        names.add(playerName);
+        scores.add(playerScore);
+      }
+      else
+      {
+        if (scores.get(names.indexOf(playerName)) < playerScore)
         {
-         System.out.println ("The a for comparison is" + arr2.get(a));
-          for (int b = a + 2; b < arr.size(); b += 2)
-            {
-              System.out.println ("We are looking at " + arr2.get(b));
-               if (Integer.valueOf(arr2.get(b)) > Integer.valueOf(arr2.get(a)))
-                 Collections.swap (arr2, a, b);
-            }
+          scores.set(names.indexOf(playerName), playerScore);
         }
+      }
 
-    return arr2;
-  }
-
-    /**
-     * The write method.
-     * Writes the sorted (now including new playerscore) data to the highscore file
-     * @param arr The sorted data to write
-     */
-    private void write(ArrayList arr)
-  {
-    System.out.println ("writing commenced");
+      
+        for (int a = 0; a < scores.size() - 1; a++)
+            for (int b = 0; b < scores.size() - a - 1; b++)
+                if (scores.get(b) < scores.get(b+1)) {
+                     Collections.swap (scores, b, b+1);
+                     Collections.swap (names, b, b+1);
+                }
     try
       {
          PrintWriter output = new PrintWriter(new FileWriter("highscores.txt"));
-          for (int a = 0; a < arr.size(); a++)
+          for (int a = 0; a < names.size(); a++)
             {
-              output.println(arr.get(a));
-              System.out.println (arr.get(a));
+              output.println(names.get(a));
+              output.println (scores.get(a));
             }
           output.close();
       }
     catch (IOException e)
       {}
-  }
+    }
 }
