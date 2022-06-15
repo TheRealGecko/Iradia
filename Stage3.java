@@ -1,18 +1,34 @@
 /**
- * This is the _____ draft of the Stage3 class. This class was added as of version 1.3.63.
+ * This is the fourth draft of the Stage3 class.
  * <p>
  * Changes include:
  * <ul>
- * <li>- writeup for each piece of advice explaining why it is or isn't ideal + graphics required
+ *   <li>Writeup for each piece of advice explaining why it is or isn't ideal + graphics required
+ *   <li>Fixed sprite movement
+ *   <li>Game ending screen
+ *   <li>Case dialogue
+ *   <li>Case user input
+ *   <li>Stage outro dialogue
+ * </ul>
+ * </p>
+ * <p>
+ * Current features include:
+ * <ul>
+ *   <li>Moving sprite with walk cycle
+ *   <li>Stage intro and outro dialogue
+ *   <li>Case dialogue
+ *   <li>Case user input
+ *   <li>Answer evaluation (score increasing for correct answers)
+ *   <li>Game ending screen
  * </ul>
  * </p>
  * <p>
  * Version date: 06/13/2022
- *
- * @author Alexandra Mitnik
- * @version: 1.3.63
+ * @author Alexandra Mitnik, Fatma Jadoon, Bethany Lum
+ * @version: ????
  * </p>
  */
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -25,69 +41,89 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener {
      * game - Stores the game
      */
     private Game game;
+  
     /**
      * sprite - Stores the player/sprite
      */
     private Sprite sprite;
+  
     /**
      * dSprite - Stores the thread which the sprite runs on
      */
     private Thread dSprite;
+  
     /**
      * background - Stores the background image of stage 3
      */
     private Image background;
+  
     /**
      * dialogueBack - Stores the purple backing image of the dialogue
      */
     private Image dialogueBack;
+  
     /**
      * introDialogue - Stores the introductory dialogue
      */
     private Image[] introDialogue;
+  
     /**
      * endDialogue - Stores the closing dialogue
      */
     private Image[] endDialogue;
+  
     /**
      * pos - Stores the position of where the dialogue is at
      */
     private int pos;
+  
     /**
      * caseNum - Stores the current case's number
      */
     private int caseNum;
+  
     /**
      * s3Score - Stores the player's score for stage 3 specifically
      */
     private int s3Score;
+  
     /**
      * cases - Stores stage 3's cases
      */
     private ArrayList<Case> cases;
+  
     /**
      * caseOpen - Stores whether a case is open
      */
     private static boolean caseOpen;
+  
     /**
-     * consolas - Stores the consolas font
+     * consolas - Stores the consolas font for stage 3 score
      */
     Font consolas;
+
+    /**
+     * consolas2 - Stores the consolas font for final score
+     */
+    Font consolas2;
+  
     /**
      * nextScene - Stores whether to proceed to the next scene
      */
     boolean nextScene;
 
+    /**
+     * arrowPressed - Evaluates if an arrow key has been pressed
+     */
     boolean arrowPressed;
 
+    /**
+     * explanations - Explanations for the answers of all the cases in stage 3
+     */
     private Image [] explanations; 
 
     /**
-     * The Stage3 class constructor.
-     * Does the following:
-     * - Initializes the instance variables
-     * - Creates a KeyListener
-     * - Creates a MouseListener
+     * The Stage3 class constructor. Initializes the instance variables and creates a KeyListener and MouseListener.
      * @param g     Refers to the game.
      */
     public Stage3(Game g) {
@@ -125,6 +161,7 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener {
       explanations = ImageReader.storeDir("res/stage3/explanations/");
 
         consolas = new Font("res/Consolas.ttf", Font.PLAIN, 86);
+        consolas2 = new Font("res/Consolas.ttf", Font.PLAIN, 186);
 
         this.setFocusable(true); // Allows the class to receive user input
         this.addKeyListener(this);
@@ -182,22 +219,22 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener {
                 Game.graphics.drawImage(endDialogue[pos], 0, 0, null);
                 pos++;  
               }
-              else
+              else if(pos == 7)
               {
-               // dSprite.stop();
                 System.out.println ("we are getting here");
-                game.recordScore();/*
-                Game.frame.remove (this);
-                Game.frame.add(new EndScreen (game));
-                Game.frame.pack();*/
+                game.recordScore();
       game.recordScore();
-      this.requestFocus();
       Game.graphics.drawImage(ImageReader.reader("res/transition/finalScore.png"), 0, 0, null);
-      Game.graphics.setFont (consolas);
+      Game.graphics.setFont (consolas2);
       Game.graphics.setColor (new Color(92, 23, 40));
-      Game.graphics.drawString("Pls is this doing something", 100, 100);
-
-              }
+      Game.graphics.drawString("" + game.getPlayerScore(), 400, 500);
+                pos++;
+              } else if(pos == 8) {
+         Game.graphics.drawImage(ImageReader.reader("res/transition/ty.png"), 0, 0, null);
+                pos++;
+              } else if(pos == 9) {
+                System.exit(0);
+              } 
             }
         } else if (cases.size() > 0 && cases.get(caseNum).getDialogueLength() > 0) {
             paperScreen();
@@ -207,8 +244,8 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener {
     }
 
     /**
-     * The getCaseOpen method
-     * @return      Whether a case is open
+     * The getCaseOpen method.
+     * @return      Whether a case is open.
      */
     public static boolean getCaseOpen() {
         return caseOpen;
@@ -225,11 +262,9 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener {
     }
 
     /**
-     * The keyPressed method
-     * Deals with the following:
-     * - Sprite movements
-     * - Moving through dialogue (outside of the case file dialogue)
-     * @param e     An action involving a key.
+     * The keyPressed method.
+     * Regulates sprite movement (arrow keys).
+     * @param e     An key press.
      */
     @Override
     public void keyPressed(KeyEvent e) {
@@ -275,7 +310,7 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener {
      * The keyTyped method
      * Toggles stage 3 case dialogue when any key is typed.
      * This is used instead of keyPressed() to avoid accidental key presses from attempts to move the sprite.
-     * @param e     An action involving a key.
+     * @param e     An key type.
      */
     @Override
     public void keyTyped(KeyEvent e) {
@@ -296,7 +331,7 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener {
      * The keyReleased method.
      * Check for key releasing action on the keyboard. If a key is released, then reset the sprite
      * to standing position.
-     * @param e     An action involving a key.
+     * @param e     An key release.
      */
     public void keyReleased(KeyEvent e) {
       if(!caseOpen && !nextScene) {
@@ -309,7 +344,7 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener {
     /**
      * The mousePressed method.
      * Checks if the user has selected the correct answer in case file scenes.
-     * @param e     An action involving a mouse.
+     * @param e     A mousepress.
      */
     @Override
     public void mousePressed(MouseEvent e) {
@@ -326,7 +361,7 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener {
     /**
      * The mouseClicked method.
      * Checks if a mouse was clicked (method not used but is necessary to implement MouseListener).
-     * @param e     An action involving a mouse.
+     * @param e     A mouseclick.
      */
     @Override
     public void mouseClicked(MouseEvent e) {}
@@ -334,7 +369,7 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener {
     /**
      * The mouseReleased method.
      * Checks if a mouse was released (method not used but is necessary to implement MouseListener).
-     * @param e     An action involving a mouse
+     * @param e     A mouse release.
      */
     @Override
     public void mouseReleased(MouseEvent e) {}
@@ -344,7 +379,7 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener {
      * Checks if the mouse has entered the bounds of a component (method
      * not used but is necessary to implement
      * MouseListener).
-     * @param e     An action involving a mouse.
+     * @param e     The mouse entering the screen.
      */
     @Override
     public void mouseEntered(MouseEvent e) {}
@@ -354,14 +389,14 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener {
      * Checks if the mouse has exited the bounds of a component (method
      * not used but is necessary to implement
      * MouseListener).
-     * @param e     An action involving a mouse.
+     * @param e    The mouse exiting the screen.
      */
     @Override
     public void mouseExited(MouseEvent e) {}
 
     /**
      * The paperScreen method.
-     * Draw the case file scenes.
+     * Draws the case file scenes.
      */
     private void paperScreen() {
         Game.graphics.drawImage(ImageReader.reader("res/Name_Screen_Background_1.png"), 0, 0, null);
@@ -369,8 +404,10 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener {
             Game.graphics.drawImage(dialogueBack, 0, 0, null);
         else if (cases.get(caseNum).getDialogueLength() == 2)
             Game.graphics.drawImage(ImageReader.reader("res/stage3/prompt.png"), 0, 0, null);
-        else if (caseOpen && cases.get(caseNum).getDialogueLength() == 1)
-              Game.graphics.drawImage(explanations[caseNum], 0, 0, null);
+        else if (caseOpen && cases.get(caseNum).getDialogueLength() == 1) {
+              Game.graphics.drawImage(dialogueBack, 0, 0, null);
+              Game.graphics.drawImage(explanations[caseNum], 40, 20, null);
+        }
         Game.graphics.drawImage(cases.get(caseNum).getCaseDialogue(), 0, 0, null);
     }
 

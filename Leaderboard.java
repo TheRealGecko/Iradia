@@ -20,7 +20,7 @@
  * </p>
  * <p>
  * Version date: 06/08/2022
- * @author Alexandra Mitnik, Bethany Lum, Fatma Jadoon
+ * @author Bethany Lum, Alexandra Mitnik, Fatma Jadoon
  * @version ???
  * </p>
  */
