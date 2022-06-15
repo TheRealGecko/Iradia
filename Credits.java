@@ -8,8 +8,9 @@
  * </p>
  * <p>
  * Version date: 06/14/2022
+ *
  * @author @Fatma Jadoon
- * @version ???
+ * @version 1.5.132
  * </p>
  */
 
@@ -19,7 +20,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class Credits extends JPanel implements KeyListener {
-  
+
     /**
      * IsPressed - Stores whether a key has been pressed in the Credits scene
      */
@@ -52,10 +53,9 @@ public class Credits extends JPanel implements KeyListener {
      * Gets the status of isPressed.
      * @return if a key has been pressed.
      */
-    public boolean isPressed()
-  {
-    return isPressed;
-  }
+    public boolean isPressed() {
+        return isPressed;
+    }
 
     /**
      * The addKeyListener method.
@@ -77,7 +77,7 @@ public class Credits extends JPanel implements KeyListener {
         Game.frame.remove(this);
         isPressed = true;
     }
-  
+
     /**
      * The keyTyped method.
      * Check for typing action on the keyboard (method not used but is necessary

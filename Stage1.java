@@ -11,8 +11,9 @@
  * </p>
  * <p>
  * Version date: 06/14/2022
+ *
  * @author Fatma Jadoon
- * @version: ???
+ * @version: 1.5.132
  * </p>
  */
 
@@ -23,68 +24,68 @@ import java.awt.event.*;
 public class Stage1 extends JPanel implements KeyListener, MouseListener, MouseMotionListener {
 
     /**
-    * game - The game this screen will be displayed in.
-    */
+     * game - The game this screen will be displayed in.
+     */
     Game game;
 
     /**
-    * train - The background for stage 1.
-    */
+     * train - The background for stage 1.
+     */
     Image train;
 
     /**
-    * dialogueBack - The background for dialogue.
-    */
+     * dialogueBack - The background for dialogue.
+     */
     Image dialogueBack = ImageReader.reader("res/header_base.png");
 
     /**
-    * group1 - The first group on the train.
-    */
+     * group1 - The first group on the train.
+     */
     Image group1 = ImageReader.reader("res/stage1/group1.png");
 
     /**
-    * group2 - The second group on the train.
-    */
+     * group2 - The second group on the train.
+     */
     Image group2 = ImageReader.reader("res/stage1/group2.png");
 
     /**
-    * group3 - The third group on the train.
-    */
+     * group3 - The third group on the train.
+     */
     Image group3 = ImageReader.reader("res/stage1/group3.png");
 
     /**
-    * dialogue - All of the dialogue for stage 1.
-    */
+     * dialogue - All of the dialogue for stage 1.
+     */
     Image[] dialogue = ImageReader.storeDir("res/stage1/text/");
 
     /**
-    * The current position (array index) of dialogue.
-    */
+     * The current position (array index) of dialogue.
+     */
     int pos;
 
     /**
-    * The current train group to show dialogue about.
-    */
+     * The current train group to show dialogue about.
+     */
     int traingroup;
 
     /**
-    * pause - Evaluates if dialogue toggling has been paused (for the interactive tutorial).
-    */
+     * pause - Evaluates if dialogue toggling has been paused (for the interactive tutorial).
+     */
     boolean pause = false;
 
     /**
-    * Evaluates if the first group has been clicked on.
-    */
+     * Evaluates if the first group has been clicked on.
+     */
     boolean done1 = false;
 
-   /**
-    * Evaluates if the second group has been clicked on.
-    */
+    /**
+     * Evaluates if the second group has been clicked on.
+     */
     boolean done2 = false;
 
     /**
-    * Evaluates if the third group has been clicked on.
-    */
+     * Evaluates if the third group has been clicked on.
+     */
     boolean done3 = false;
 
     /**
@@ -147,7 +148,7 @@ public class Stage1 extends JPanel implements KeyListener, MouseListener, MouseM
      */
     @Override
     public void keyPressed(KeyEvent e) {
-                    if (pos == 25) {
+        if (pos == 25) {
             Game.frame.remove(this);
             Game.frame.add(new Stage2(game));
             Game.frame.pack();
@@ -276,7 +277,7 @@ public class Stage1 extends JPanel implements KeyListener, MouseListener, MouseM
 
     /**
      * The mouseDragged method.
-     * Dragging mosue (method not used but is necessary
+     * Dragging mouse (method not used but is necessary
      to implement MouseMotionListener)
      * @param e     A drag while Iradia is onscreen.
      */

@@ -4,7 +4,7 @@
  * Version date: 06/14/2022
  *
  * @author Fatma Jadoon
- * @version 1.3.63
+ * @version 1.5.132
  * <p>
  * Final version submission of Iradia.
  * <p>
@@ -16,8 +16,8 @@
  *          <li> Tasks:
  *              <ul>
  *                  <li>Coding/fixing stage2, stage3, and leaderboard
-                    <li>Commenting all classes
-                    <li>Implementing high score system
+ * <li>Commenting all classes
+ * <li>Implementing high score system
  *              </ul>
  *      </ul>
  *   <li> Bethany Lum

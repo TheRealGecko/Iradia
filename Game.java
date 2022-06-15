@@ -18,13 +18,13 @@
  * </p>
  * <p>
  * Version date: 06/14/2022
- * @author Alexandra Mitnik, Fatma Jadoon
- * @version ??
- * </p>
  *
-*/
+ * @author Alexandra Mitnik, Fatma Jadoon
+ * @version 1.5.132
+ * </p>
+ */
 
- /*
+/*
  * External Code Sources:
  * (1) https://stackoverflow.com/questions/10822787/binding-key-combination-to-jframe
  */
@@ -37,32 +37,32 @@ import java.util.ArrayList;
 import java.util.*;
 
 public class Game {
-  
+
     /**
      * graphics - Stores the graphics of the game
      */
     public static Graphics2D graphics;
-  
+
     /**
      * scene - Stores the current scene state
      */
     public static int scene;
-  
+
     /**
      * playerName - Stores the name of the player
      */
     private String playerName;
-  
+
     /**
      * playerScore - Stores the score of the player
      */
     private int playerScore;
-  
+
     /**
      * frame - Stores the JFrame of the game
      */
     public static JFrame frame;
-  
+
     /**
      * The Game class constructor.
      * Creates a JFrame and sets its values, initializes the scene number, initializes the player's score, and assigns a keystroke (esc) to close it.
@@ -192,57 +192,47 @@ public class Game {
      * Records the player's score in the highscores file.
      */
     public void recordScore() {
-ArrayList<String>names = new ArrayList<String>(); 
-    ArrayList<Integer>scores = new ArrayList<Integer>();
-          try {
-          BufferedReader reader = new BufferedReader (new FileReader("highscores.txt"));
+        ArrayList<String> names = new ArrayList<String>();
+        ArrayList<Integer> scores = new ArrayList<Integer>();
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader("highscores.txt"));
             String temp = reader.readLine();
-            while (temp != null)
-              {
-                if (!temp.equals(""))
-                {
-                names.add(temp);
-                temp = reader.readLine();
-                scores.add(Integer.parseInt(temp));
-                temp = reader.readLine();
+            while (temp != null) {
+                if (!temp.equals("")) {
+                    names.add(temp);
+                    temp = reader.readLine();
+                    scores.add(Integer.parseInt(temp));
+                    temp = reader.readLine();
                 }
-              }
-          reader.close();
-        } 
-        catch (IOException e) {
+            }
+            reader.close();
+        } catch (IOException e) {
         }
 
-      if (!names.contains(playerName))
-      {
-        names.add(playerName);
-        scores.add(playerScore);
-      }
-      else
-      {
-        if (scores.get(names.indexOf(playerName)) < playerScore)
-        {
-          scores.set(names.indexOf(playerName), playerScore);
+        if (!names.contains(playerName)) {
+            names.add(playerName);
+            scores.add(playerScore);
+        } else {
+            if (scores.get(names.indexOf(playerName)) < playerScore) {
+                scores.set(names.indexOf(playerName), playerScore);
+            }
         }
-      }
 
-      
+
         for (int a = 0; a < scores.size() - 1; a++)
             for (int b = 0; b < scores.size() - a - 1; b++)
-                if (scores.get(b) < scores.get(b+1)) {
-                     Collections.swap (scores, b, b+1);
-                     Collections.swap (names, b, b+1);
+                if (scores.get(b) < scores.get(b + 1)) {
+                    Collections.swap(scores, b, b + 1);
+                    Collections.swap(names, b, b + 1);
                 }
-    try
-      {
-         PrintWriter output = new PrintWriter(new FileWriter("highscores.txt"));
-          for (int a = 0; a < names.size(); a++)
-            {
-              output.println(names.get(a));
-              output.println (scores.get(a));
+        try {
+            PrintWriter output = new PrintWriter(new FileWriter("highscores.txt"));
+            for (int a = 0; a < names.size(); a++) {
+                output.println(names.get(a));
+                output.println(scores.get(a));
             }
-          output.close();
-      }
-    catch (IOException e)
-      {}
+            output.close();
+        } catch (IOException e) {
+        }
     }
 }

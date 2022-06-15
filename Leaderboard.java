@@ -1,6 +1,6 @@
 /**
  * This is the second draft of the Leaderboard class.
- <p>
+ * <p>
  * Changes include:
  * <ul>
  *     <li>Reading from the highscores file.
@@ -20,8 +20,9 @@
  * </p>
  * <p>
  * Version date: 06/08/2022
+ *
  * @author Bethany Lum, Alexandra Mitnik, Fatma Jadoon
- * @version ???
+ * @version 1.5.132
  * </p>
  */
 
@@ -33,7 +34,7 @@ import java.io.*;
 import java.util.*;
 
 public class Leaderboard extends JPanel implements KeyListener {
-  
+
     /**
      * background - Stores the background of the Leaderboard
      */
@@ -42,11 +43,11 @@ public class Leaderboard extends JPanel implements KeyListener {
     /**
      * IsPressed - Stores whether a key has been pressed in the Leaderboard scene
      */
-     boolean isPressed;
+    boolean isPressed;
 
-     boolean scoresGot;
+    boolean scoresGot;
 
-    
+
     /**
      * scores - The top three scores
      */
@@ -61,7 +62,7 @@ public class Leaderboard extends JPanel implements KeyListener {
      * game - The game this screen will be displayed in.
      */
     Game game;
-  
+
     /**
      * The Leaderboard class constructor.
      * Initializes the background image, initializes instance variables, and creates a KeyListener.
@@ -103,15 +104,15 @@ public class Leaderboard extends JPanel implements KeyListener {
         g.drawString("Leaderboard", 350, 100);
         Font smallerMono = new Font("Monospaced", Font.PLAIN, 30);
         g.setFont(smallerMono);
-      if (scoresGot == false)
-        getScores();
-      int[] widths = new int[3];
-      for (int i = 0; i <= 2; i++) {
-         widths[i] = g.getFontMetrics().stringWidth(scorers[i]);
+        if (scoresGot == false)
+            getScores();
+        int[] widths = new int[3];
+        for (int i = 0; i <= 2; i++) {
+            widths[i] = g.getFontMetrics().stringWidth(scorers[i]);
         }
-        g.drawString(scorers[2], 733 - widths[0]/2, 400);
-        g.drawString(scorers[1], 265 - widths[1]/2, 380);
-        g.drawString(scorers[0], 510 - widths[2]/2, 300);
+        g.drawString(scorers[2], 733 - widths[0] / 2, 400);
+        g.drawString(scorers[1], 265 - widths[1] / 2, 380);
+        g.drawString(scorers[0], 510 - widths[2] / 2, 300);
         g.setFont(largeMono);
         g.drawString(scores[2] + "", 733, 470);
         g.drawString(scores[1] + "", 250, 450);
@@ -123,43 +124,35 @@ public class Leaderboard extends JPanel implements KeyListener {
      * Retrieves the scores of the players and stores them in parallel ArrayLists.
      */
     private void getScores() {
-      try
-        {
-        BufferedReader reader = new BufferedReader (new FileReader ("highscores.txt"));
-          String tempName = reader.readLine();
-          int tempScore = Integer.parseInt(reader.readLine());
-      while (tempName != null)
-        {
-           if (scores [0] <= tempScore)
-          {
-            scores [2] = scores[1];
-            scorers[2] = scorers[1];
-            scores[1] = scores[0];
-            scorers[1] = scorers[0];
-            scores [0] = tempScore;
-            scorers[0] = tempName;
-          }
-          else if (scores[1] <= tempScore)
-          {
-            scores[2] = scores[1];
-            scorers[2] = scorers[1];
-            scores[1] = tempScore;
-            scorers[1] = tempName;
-          }
-          else if (scores[2] <= tempScore)
-          {
-            scores[2] = tempScore;
-            scorers[2] = tempName;
-          }
-          tempName = reader.readLine();
-            if (tempName != null)
-          tempScore = Integer.parseInt(reader.readLine());
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader("highscores.txt"));
+            String tempName = reader.readLine();
+            int tempScore = Integer.parseInt(reader.readLine());
+            while (tempName != null) {
+                if (scores[0] <= tempScore) {
+                    scores[2] = scores[1];
+                    scorers[2] = scorers[1];
+                    scores[1] = scores[0];
+                    scorers[1] = scorers[0];
+                    scores[0] = tempScore;
+                    scorers[0] = tempName;
+                } else if (scores[1] <= tempScore) {
+                    scores[2] = scores[1];
+                    scorers[2] = scorers[1];
+                    scores[1] = tempScore;
+                    scorers[1] = tempName;
+                } else if (scores[2] <= tempScore) {
+                    scores[2] = tempScore;
+                    scorers[2] = tempName;
+                }
+                tempName = reader.readLine();
+                if (tempName != null)
+                    tempScore = Integer.parseInt(reader.readLine());
+            }
+            reader.close();
+            scoresGot = true;
+        } catch (IOException e) {
         }
-          reader.close();
-          scoresGot = true;
-        }
-      catch (IOException e)
-        {}
     }
 
     /**
@@ -167,10 +160,9 @@ public class Leaderboard extends JPanel implements KeyListener {
      * Gets the status of isPressed.
      * @return if a key has been pressed.
      */
-    public boolean isPressed()
-  {
-    return isPressed;
-  }
+    public boolean isPressed() {
+        return isPressed;
+    }
 
     /**
      * The keyTyped method.

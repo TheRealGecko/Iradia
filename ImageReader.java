@@ -3,14 +3,15 @@
  * <p>
  * Current features include:
  * <ul>
-       <li>Method to read images given their path
+ * <li>Method to read images given their path
  *     <li>Method to store the answer (toxic/not-toxic) of cases in an ArrayList
  * </ul>
  * </p>
  * <p>
  * Version date: 06/14/2022
+ *
  * @author Fatma Jadoon, Alexandra Mitnik
- * @version ??
+ * @version 1.5.132
  * </p>
  */
 
@@ -21,7 +22,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class ImageReader {
-  
+
     /**
      * The reader method.
      * Reads an image using ImageIO.read();
@@ -43,7 +44,7 @@ public class ImageReader {
      * The storeDir method.
      * Stores a directory of assets into an array of images.
      * @param dirPath       The path to the directory.
-     * @return              An image array of assets.
+     * @return An image array of assets.
      */
     public static Image[] storeDir(String dirPath) {
         File dir = new File(dirPath);
@@ -61,7 +62,7 @@ public class ImageReader {
      * The isToxic method.
      * Stores the correct answer for a series of cases in an array.
      * @param imgs       The ArrayList of cases to store the answers for.
-     * @return           ArrayList of the answers for the cases.
+     * @return ArrayList of the answers for the cases.
      */
     public static ArrayList<Boolean> isToxic(ArrayList<Image> imgs) {
         ArrayList<Boolean> isToxic = new ArrayList<Boolean>();

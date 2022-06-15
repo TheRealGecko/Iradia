@@ -14,8 +14,9 @@
  * </p>
  * <p>
  * Version date: 06/14/2022
+ *
  * @author Alexandra Mitnik
- * @version: ???
+ * @version: 1.5.132
  * </p>
  */
 
@@ -31,63 +32,63 @@ import java.awt.event.*;
 import java.util.ArrayList;
 
 public class NameScreen extends JPanel implements KeyListener, MouseListener, MouseMotionListener {
-  
+
 
     /**
      * game - The game this screen will be displayed in.
      */
     private Game game;
-  
-    /** 
+
+    /**
      * background - The background for the name screen.
      */
     private Image background;
-  
+
     /**
      * text - The keyboard for the name screen.
      */
     private Image text;
-  
-    /** 
+
+    /**
      * key - The last key selected
      */
     private char key;
-  
+
     /**
      * selectedKeyX - The x coordinates for the last key selected (used to highlight the key onscreen)
      */
     private int selectedKeyX;
-  
+
     /**
      * selectedKeyY - The y coordinates for the last key selected (used to highlight the key onscreen)
      */
     private int selectedKeyY;
-  
+
     /**
      * consolas - The font to write the player's name in
      */
     private Font consolas;
-  
+
     /**
      * consolas2 - The font to write the errortraps + name confirm pop-up text in
      */
     private Font consolas2;
-  
+
     /**
      * verify - Evaluates if the name has been verified or not
      */
     private boolean verify;
-  
+
     /**
      * Evaluates if the name exceeds 16 characters
      */
     private boolean nameTooLong;
-  
+
     /**
      * Colour of the no button (changes if the mouse is/isn't hovering over it)
      */
     private Color noColor;
-  
+
     /**
      *Colour of the yes button (changes if the mouse is/isn't hovering over it)
      */
@@ -127,8 +128,8 @@ public class NameScreen extends JPanel implements KeyListener, MouseListener, Mo
         selectedKeyY = 262 + 97 * (((int) key - 65) / 7);
     }
 
-  
-      /**
+
+    /**
      * The paintComponent method.
      * Displays the graphics necessary for the credits page.
      * @param g     Used to draw graphics.
@@ -152,13 +153,13 @@ public class NameScreen extends JPanel implements KeyListener, MouseListener, Mo
             Game.graphics.setFont(consolas2);
             if (verify == true) {
                 if (game.getPlayerName().length() > 0) {
-                  verify();
+                    verify();
                 } else {
-                  tooShortError();
+                    tooShortError();
                 }
                 Game.graphics.drawString(game.getPlayerName(), 500 - width / 2, 455);
             } else {
-                  tooLongError();
+                tooLongError();
             }
         }
     }
@@ -167,43 +168,40 @@ public class NameScreen extends JPanel implements KeyListener, MouseListener, Mo
      * The verify method.
      * Displays the graphics for the name verification pop-up.
      */
-    private void verify()
-    {
-     Game.graphics.setColor(noColor);
-     Game.graphics.fillRect(225, 495, 80, 40);
-     Game.graphics.setColor(yesColor);
-     Game.graphics.fillRect(693, 495, 80, 40);
-     Game.graphics.setColor(Color.BLACK);
-     Game.graphics.drawString("Is this name correct?", 365, 395);
-     Game.graphics.drawString("No", 250, 522);
-     Game.graphics.drawString("Yes", 711, 522);
-     Game.graphics.setFont(consolas);
+    private void verify() {
+        Game.graphics.setColor(noColor);
+        Game.graphics.fillRect(225, 495, 80, 40);
+        Game.graphics.setColor(yesColor);
+        Game.graphics.fillRect(693, 495, 80, 40);
+        Game.graphics.setColor(Color.BLACK);
+        Game.graphics.drawString("Is this name correct?", 365, 395);
+        Game.graphics.drawString("No", 250, 522);
+        Game.graphics.drawString("Yes", 711, 522);
+        Game.graphics.setFont(consolas);
     }
 
     /**
      * The tooShortError method
      * Displays the graphics for the null name error pop-up.
      */
-    private void tooShortError()
-    {
-     Game.graphics.setColor(yesColor);
-     Game.graphics.fillRect(225, 495, 548, 40);
-     Game.graphics.setColor(Color.BLACK);
-     Game.graphics.drawString("Names must have at least 1 character", 270, 395);
-     Game.graphics.drawString("OK", 490, 522);
+    private void tooShortError() {
+        Game.graphics.setColor(yesColor);
+        Game.graphics.fillRect(225, 495, 548, 40);
+        Game.graphics.setColor(Color.BLACK);
+        Game.graphics.drawString("Names must have at least 1 character", 270, 395);
+        Game.graphics.drawString("OK", 490, 522);
     }
 
     /**
      * The tooLongError method
      * Displays the graphics for the too long name error pop-up.
      */
-    private void tooLongError()
-    {
-     Game.graphics.setColor(yesColor);
-     Game.graphics.fillRect(225, 495, 548, 40);
-     Game.graphics.setColor(Color.BLACK);
-     Game.graphics.drawString("Names can't exceed 16 characters", 300, 395);
-     Game.graphics.drawString("OK", 490, 522);
+    private void tooLongError() {
+        Game.graphics.setColor(yesColor);
+        Game.graphics.fillRect(225, 495, 548, 40);
+        Game.graphics.setColor(Color.BLACK);
+        Game.graphics.drawString("Names can't exceed 16 characters", 300, 395);
+        Game.graphics.drawString("OK", 490, 522);
     }
 
     /**
