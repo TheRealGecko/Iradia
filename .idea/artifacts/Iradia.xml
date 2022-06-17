@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" build-on-make="true" name="Iradia">
-    <output-path>$PROJECT_DIR$/../..</output-path>
-    <root id="archive" name="Iradia.jar">
-      <element id="module-output" name="Iradia" />
-    </root>
-  </artifact>
-</component>
