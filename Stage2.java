@@ -245,6 +245,7 @@ public class Stage2 extends JPanel implements KeyListener, MouseListener {
             getCase();
             prompt();
         } else {
+            game.increasePlayerScore(s2Score);
             Game.frame.remove(this);
             Stage3 stage3 = new Stage3(game);
             Game.frame.add(stage3);
