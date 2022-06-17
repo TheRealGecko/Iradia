@@ -219,7 +219,6 @@ public class Stage3 extends JPanel implements KeyListener, MouseListener {
                     Game.graphics.drawImage(endDialogue[pos], 0, 0, null);
                     pos++;
                 } else if (pos == 7) {
-                    System.out.println("we are getting here");
                     game.recordScore();
                     game.recordScore();
                     Game.graphics.drawImage(ImageReader.reader("res/transition/finalScore.png"), 0, 0, null);
